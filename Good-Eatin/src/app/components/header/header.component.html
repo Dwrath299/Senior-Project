@@ -1,3 +1,13 @@
-<p>
-  header works!
-</p>
+<div class="header">
+  <a href="#default" class="logo">CompanyLogo</a>
+  <p class="header-title">{{title}}</p>
+  <div ng-if="loggedIn" class="header-right">
+    <a href="#login">Login / SignUp</a>
+  </div>
+  <div ng-if="loggedIn == false" class="header-right">
+    <a href="#calendar">Calendar</a> 
+    <a href="#explore">Explore</a> 
+    <a href="#profile">Profile</a> 
+    <a href="#home">Logout</a> 
+  </div>
+</div>
