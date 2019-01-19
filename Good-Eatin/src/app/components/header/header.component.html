@@ -1,13 +1,16 @@
-<div class="header">
-  <a href="/landing" class="logo">CompanyLogo</a>
-  <div *ngIf="loggedIn == false" class="header-right">
-    <a href="/login" >Login / SignUp</a>
+<div *ngIf="authService.isLoggedIn()" class="header">
+  <a href="/calendar" class="logo">CompanyLogo</a>
+  <div  class="header-right">
+    <a href="/calendar">Calendar</a> 
+    <a href="/explore">Explore</a> 
+    <a href="/profile">Profile</a> 
+    <a href="" (click)="authService.logout()">Logout</a> 
   </div>
-  <div *ngIf="loggedIn" class="header-right">
-    <a href="#calendar">Calendar</a> 
-    <a href="#explore">Explore</a> 
-    <a href="#profile">Profile</a> 
-    <a href="#home">Logout</a> 
+</div>
+<div *ngIf="authService.isLoggedIn() == false"  class="header">
+  <a href="/landing" class="logo">CompanyLogo</a>  
+  <div class="header-right">
+    <a href="/login">Login / SignUp</a>
   </div>
 </div>
 <router-outlet></router-outlet>
