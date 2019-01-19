@@ -1,2 +1,6 @@
 /.metadata/
+src/enviroments/
 
+
+Good-Eatin/src/environments/environment.prod.ts
+Good-Eatin/src/environments/environment.ts
