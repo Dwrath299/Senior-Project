@@ -1,7 +1,7 @@
 <div class="header">
-  <a href="#default" class="logo">CompanyLogo</a>
+  <a href="/landing" class="logo">CompanyLogo</a>
   <div *ngIf="loggedIn == false" class="header-right">
-    <a href="#login">Login / SignUp</a>
+    <a href="/login" >Login / SignUp</a>
   </div>
   <div *ngIf="loggedIn" class="header-right">
     <a href="#calendar">Calendar</a> 
@@ -10,3 +10,4 @@
     <a href="#home">Logout</a> 
   </div>
 </div>
+<router-outlet></router-outlet>

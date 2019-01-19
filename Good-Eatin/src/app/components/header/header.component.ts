@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
     @Input() title: string;
-    loggedIn = true;
+    loggedIn = false;
   constructor() { }
 
   ngOnInit() {

@@ -17,7 +17,12 @@ import { FooterComponent } from './components/footer/footer.component';
 // Firebase Modules
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { LandingComponent } from './pages/landing/landing.component';
 
 
 @NgModule({
@@ -33,13 +38,18 @@ import { environment } from '../environments/environment';
     EditMealsComponent,
     ExploreRecipesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PageNotFoundComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase), // Main Angular fire module
-    AngularFireDatabaseModule  // Firebase database module
+    AngularFireDatabaseModule,  // Firebase database module
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFireStorageModule // imports firebase/storage only needed for storage features
   ],
   providers: [],
   bootstrap: [AppComponent]
