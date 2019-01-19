@@ -1,20 +1,25 @@
 /* Style the header with a grey background and some padding */
 .header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-block-end: 10px;
+  align-items: flex-center;
   overflow: hidden;
   background-color: #f1f1f1;
-  padding: 20px 10px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Style the header links */
 .header a {
-  float: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
-  text-align: center;
-  padding: 12px;
+  padding-right: 12px;
+  padding-left: 12px;
   text-decoration: none;
   font-size: 18px; 
-  line-height: 25px;
   border-radius: 4px;
 }
 
@@ -38,11 +43,11 @@
 
 /* Float the link section to the right */
 .header-right {
-  float: right;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header-title {
-  text-align: center;
   font-size: 25px;
 }
 

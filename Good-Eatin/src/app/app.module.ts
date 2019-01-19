@@ -14,6 +14,11 @@ import { EditMealsComponent } from './pages/edit-meals/edit-meals.component';
 import { ExploreRecipesComponent } from './pages/explore-recipes/explore-recipes.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+// Firebase Modules
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -32,9 +37,12 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase), // Main Angular fire module
+    AngularFireDatabaseModule  // Firebase database module
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
