@@ -24,6 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { LandingComponent } from './pages/landing/landing.component';
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
-    LandingComponent
+    LandingComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
