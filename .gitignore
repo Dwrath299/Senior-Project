@@ -4,3 +4,5 @@ src/enviroments/
 
 Good-Eatin/src/environments/environment.prod.ts
 Good-Eatin/src/environments/environment.ts
+Good-Eatin/src/enviroments/environment.ts
+Good-Eatin/src/enviroments/environment.prod.ts
