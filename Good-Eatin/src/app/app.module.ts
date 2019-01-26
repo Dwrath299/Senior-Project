@@ -25,6 +25,7 @@ import { environment } from '../environments/environment';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -54,8 +55,9 @@ import { RegisterComponent } from './pages/register/register.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule // imports firebase/storage only needed for storage features
+    // AuthGuard
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 
