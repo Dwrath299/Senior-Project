@@ -1,17 +1,21 @@
-import { Friend } from './friend';
-import { Recipe } from './recipe';
-import { Week } from './week';
 
 export class User {
     id: string;
     name: string;
     picture: string;
-    friends: Array<Friend>;
-    recipes: Array<Recipe>;
-    weeks: Array<Week>;
+    friends: Array<string>;
+    recipes: Array<string>;
+    weeks: Array<string>;
 
     constructor() {
         console.log('user Created');
+        this.id = '';
+        this.name = '';
+        this.picture = '';
+        this.friends = [];
+        this.recipes = [];
+        this.weeks = [];
+
     }
 
     getId() {

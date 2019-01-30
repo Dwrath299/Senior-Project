@@ -6,30 +6,27 @@ export class Recipe {
     id: number;
     title: string;
     picture: string;
-    ingredients: Array<Ingredient>;
+    ingredients: Map<string, string>;
     instructions: Array<string>;
-    publicReviews: Array<Review>;
-    privateReviews: Array<Review>;
+    publicReviews: Array<string>;
+    privateReviews: Array<string>;
     type: string;
     tags: Array<string>;
-    creator: User;
+    creator: string;
     isPublic: boolean;
 
-    constructor(id: number, title: string, picture: string,
-                ingredients: Array<Ingredient>, instructions: Array<string>,
-                publicReviews: Array<Review>, privateReviews: Array<Review>,
-                type: string, tags: Array<string>, creator: User, isPublic: boolean) {
-                    this.id = id;
-                    this.title = title;
-                    this.picture = picture;
-                    this.ingredients = ingredients;
-                    this.instructions = instructions;
-                    this.publicReviews = publicReviews;
-                    this.privateReviews = privateReviews;
-                    this.type = type;
-                    this.tags = tags;
-                    this.creator = creator;
-                    this.isPublic = isPublic;
+    constructor() {
+                    this.id = 0;
+                    this.title = '';
+                    this.picture = '';
+                    this.ingredients = new Map;
+                    this.instructions = [];
+                    this.publicReviews = [];
+                    this.privateReviews = [];
+                    this.type = '';
+                    this.tags = [];
+                    this.creator = '';
+                    this.isPublic = false;
 
                 }
 
