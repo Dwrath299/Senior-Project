@@ -5,17 +5,26 @@
             <label for="recipe-title">Name</label>
             <input type="text" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
         </div>
+        <div class="picture">
+            Add a picture
+        </div>
         <div class="ingredients" id="ingredient-container">
             <h5>Ingredients</h5>
-            <input type="text" name="ingredient[]" placeholder="Sugar" (change)="addIngredient()" required>
+            <button (click)="addIngredient()">Add Ingredient</button> 
+            <br> <br>
+            <input type="text" name="ingredient[]" placeholder="Sugar"  required>
             <input type="text" name="amount[]" placeholder="1 Cup" required>
             <br>
         </div>
         <div class="instructions" id ="instruction-container">
             <h5>Instructions</h5>
-            <input type="text" name="instruction[]" placeholder="Eat chocolate" (change)="addInstruction()" required>
+            <button (click)="addInstruction()">Add Instruction</button> 
+            <br> <br>
+            <input type="text" name="instruction[]" placeholder="Eat chocolate"  required>
             <br>
         </div>
+        <div class="submit">
         <button type="submit" (click)="createRecipe()">submit</button>
+        </div>
     </form>
 </div>
