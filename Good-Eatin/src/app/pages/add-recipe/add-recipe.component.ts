@@ -13,21 +13,34 @@ export class AddRecipeComponent implements OnInit {
   ngOnInit() {
   }
 
-  add_ingredient_field() {
-      let tempString = '';
-      tempString = '<input type="string" class="form-input-ingredient-name" ' +
-      ' [(ngModel)]="recipe.ingredients" name="name[]" placeholder="Sugar" required> \n';
-      tempString += '<input type="string" class="form-input-ingredient-amount" ' +
-      ' [(ngModel)]="recipe.ingredients" name="amount[]" placeholder="1 Cup" required> \n';
+  addIngredient() {
+      console.log('Im here');
+    const container = document.getElementById('ingredient-container');
+    const input1 = document.createElement('input');
+    input1.type = 'text';
+    input1.name = 'ingredient[]';
+    input1.addEventListener('change', this.addIngredient);
+    container.appendChild(input1);
+    const input2 = document.createElement('input');
+    input2.type = 'text';
+    input2.name = 'amount[]';
+    container.appendChild(input2);
+                // Append a line break
+    container.appendChild(document.createElement('br'));
+  }
 
+  addInstruction() {
+    const container = document.getElementById('instruction-container');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'instruction[]';
+    input.addEventListener('change', this.addInstruction);
+    container.appendChild(input);
 
   }
 
-  add_instruction_field() {
-      let tempString = '';
-      tempString = '<input type="string" class="form-input-instruction" ' +
-      '[(ngModel)]="recipe.instructions" name="instruction[]" placeholder="Eat chocolate" required>';
-      document.getElementById('ingredients').appendChild(tempString);
+  createRecipe() {
+      this.recipe.title = 'cool';
 
   }
 

@@ -1,18 +1,21 @@
 <div class="add-recipe">
-    <form name="recipe-form", method="post" #formCtrl="ngForm">
+    <form name="recipe-form" method="post" #formCtrl="ngForm">
         <h3>Recipe</h3>
         <div class="title">
             <label for="recipe-title">Name</label>
-            <input type="string" class="form-input-title" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
+            <input type="text" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
         </div>
-        <div class="ingredients">
+        <div class="ingredients" id="ingredient-container">
             <h5>Ingredients</h5>
-            <input type="string" class="form-input-ingredient-name" [(ngModel)]="recipe.ingredients" name="name[]" placeholder="Sugar" onchange="add_ingredient_field()" required>
-            <input type="string" class="form-input-ingredient-amount" [(ngModel)]="recipe.ingredients" name="amount[]" placeholder="1 Cup" required>
+            <input type="text" name="ingredient[]" placeholder="Sugar" (change)="addIngredient()" required>
+            <input type="text" name="amount[]" placeholder="1 Cup" required>
+            <br>
         </div>
-        <div class="instructions">
+        <div class="instructions" id ="instruction-container">
             <h5>Instructions</h5>
-            <input type="string" class="form-input-instruction" [(ngModel)]="recipe.instructions" name="instruction[]" placeholder="Eat chocolate" required>
+            <input type="text" name="instruction[]" placeholder="Eat chocolate" (change)="addInstruction()" required>
+            <br>
         </div>
+        <button type="submit" (click)="createRecipe()">submit</button>
     </form>
 </div>

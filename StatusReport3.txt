@@ -1,0 +1,21 @@
+Name: Dallin Wrathall
+Project Title: Meal Plan Generator
+
+
+Overall Status: Research/ Proposal Submitted 
+
+Number of hours worked since last update: 10 hours
+Number of hours worked on the project thus far: 15 hours
+Total number of hours anticipated for completion: 125 hours
+
+Accomplishments: Setup firebase, enabled login. Designed Webpages and backend. Intial requirements list.
+
+
+Challenges: I'm having challenges with Asychronous queries from firebase. Isn't pulling in time.
+
+
+Plans / Goals for next week: Get user class setup and cloud firestore working.
+
+
+Accountability plan: (What is your plan to keep yourself honest and follow through with the goals that you have outlined?)
+Tell my wife what I need to get done, and she will remind me if I don't get them done.
