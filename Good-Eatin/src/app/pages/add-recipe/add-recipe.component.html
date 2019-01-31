@@ -3,13 +3,16 @@
         <h3>Recipe</h3>
         <div class="title">
             <label for="recipe-title">Name</label>
-            <input type="string" class="form-input" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
+            <input type="string" class="form-input-title" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
         </div>
         <div class="ingredients">
-
+            <h5>Ingredients</h5>
+            <input type="string" class="form-input-ingredient-name" [(ngModel)]="recipe.ingredients" name="name[]" placeholder="Sugar" onchange="add_ingredient_field()" required>
+            <input type="string" class="form-input-ingredient-amount" [(ngModel)]="recipe.ingredients" name="amount[]" placeholder="1 Cup" required>
         </div>
         <div class="instructions">
-            
+            <h5>Instructions</h5>
+            <input type="string" class="form-input-instruction" [(ngModel)]="recipe.instructions" name="instruction[]" placeholder="Eat chocolate" required>
         </div>
     </form>
 </div>

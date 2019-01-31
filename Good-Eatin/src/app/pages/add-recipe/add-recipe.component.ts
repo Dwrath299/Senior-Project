@@ -13,4 +13,22 @@ export class AddRecipeComponent implements OnInit {
   ngOnInit() {
   }
 
+  add_ingredient_field() {
+      let tempString = '';
+      tempString = '<input type="string" class="form-input-ingredient-name" ' +
+      ' [(ngModel)]="recipe.ingredients" name="name[]" placeholder="Sugar" required> \n';
+      tempString += '<input type="string" class="form-input-ingredient-amount" ' +
+      ' [(ngModel)]="recipe.ingredients" name="amount[]" placeholder="1 Cup" required> \n';
+
+
+  }
+
+  add_instruction_field() {
+      let tempString = '';
+      tempString = '<input type="string" class="form-input-instruction" ' +
+      '[(ngModel)]="recipe.instructions" name="instruction[]" placeholder="Eat chocolate" required>';
+      document.getElementById('ingredients').appendChild(tempString);
+
+  }
+
 }
