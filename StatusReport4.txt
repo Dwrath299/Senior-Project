@@ -1,0 +1,21 @@
+Name: Dallin Wrathall
+Project Title: Meal Plan Generator
+
+
+Overall Status: Research/ Proposal Submitted 
+
+Number of hours worked since last update: 12 hours
+Number of hours worked on the project thus far: 37 hours
+Total number of hours anticipated for completion: 98 hours
+
+Accomplishments: Fixed Authenication problem, storing user data successfully, 50% of webpages setup and navigatable.
+
+
+Challenges: Uploading pictures to firebase storage. Dynamic webpages.
+
+
+Plans / Goals for next week: Store some recipes using the webpage form. Create a weekly display view for meal plan.
+
+
+Accountability plan: (What is your plan to keep yourself honest and follow through with the goals that you have outlined?)
+Tell my wife what I need to get done, and she will remind me if I don't get them done.
