@@ -36,6 +36,11 @@ export class UploadService {
 
     pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }, type: string, data: any) {
         const storageRef = firebase.storage().ref();
+        if (type = 'user') {
+            this.basePath = '/userPics';
+        } else  if (type = 'recipe') {
+            this.basePath = '/recipePics';
+        }
         const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,

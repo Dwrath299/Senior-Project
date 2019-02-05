@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../../classes/recipe';
+import { NgForm } from '@angular/forms';
+import { FileUpload, UploadService } from '../../services/upload.service';
 
 
 @Component({
@@ -9,11 +11,14 @@ import { Recipe } from '../../classes/recipe';
 })
 export class AddRecipeComponent implements OnInit {
   recipe: Recipe;
+  file: FileUpload;
+  progress: {percentage: number};
   ingredientCount: number;
   instructionCount: number;
 
-  constructor() {
+  constructor(private upload: UploadService) {
       this.recipe = new Recipe();
+      this.file = new FileUpload(null);
       this.ingredientCount = 2;
       this.instructionCount = 2;
     }
@@ -27,12 +32,12 @@ export class AddRecipeComponent implements OnInit {
         const container = document.getElementById('ingredient-container');
         const ingredientInput = document.createElement('input');
         ingredientInput.type = 'text';
-        ingredientInput.name = 'ingredient[]';
+        ingredientInput.setAttribute('ng-model', 'recipe.ingredient[$index]');
         ingredientInput.title = '1';
 
         const amountInput = document.createElement('input');
         amountInput.type = 'text';
-        amountInput.name = 'amount[]';
+        amountInput.setAttribute('ng-model', 'recipe.amount[$index]');
         container.appendChild(ingredientInput);
         container.appendChild(amountInput);
                     // Append a line break
@@ -48,7 +53,7 @@ export class AddRecipeComponent implements OnInit {
         const container = document.getElementById('instruction-container');
         const instructionInput = document.createElement('input');
         instructionInput.type = 'text';
-        instructionInput.name = 'instruction[]';
+        instructionInput.setAttribute('ng-model', 'recipe.instruction[$index]');
         container.appendChild(instructionInput);
         container.appendChild(document.createElement('br'));
         this.instructionCount++;
@@ -58,8 +63,10 @@ export class AddRecipeComponent implements OnInit {
 
   }
 
-  createRecipe() {
-      this.recipe.title = 'cool';
+  createRecipe(form: NgForm) {
+    this.file.name = this.recipe.title;
+    this.recipe.creator = localStorage.getItem('userId');
+    this.upload.pushFileToStorage(this.file, this.progress, 'recipe', this.recipe);
 
   }
 
