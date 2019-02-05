@@ -11,29 +11,34 @@
             Add a picture <br>
             <input type="file" ng-model="file.file">
         </div>
-        <div class="ingredients" id="ingredient-container" ng-repeat="n in vm.getNumber(vm.nkeys) track by $index">
-            <h5>Ingredients</h5>
-            <button (click)="addIngredient()">Add Ingredient</button> 
+        <h5>Ingredients</h5>
+            <button (click)="addIngredient()" id="add-ingredient">Add Ingredient</button> 
             <br> <br>
-            <input type="text" ng-model="recipe.ingredient[$index]" placeholder="Sugar"  required>
-            <input type="text" ng-model="recipe.amount[$index]" placeholder="1 Cup" required>
+        <div class="ingredients" id="ingredient-container" *ngFor="let ingredient of ingredients; let i = index">
+            <input type="text" [(ngModel)]="ingredient.name" name="name" placeholder="Sugar"  required>
+            <input type="text" [(ngModel)]="ingredient.amount" name="amount" placeholder="1 Cup" required>
             <br>
         </div>
-        <div class="instructions" id ="instruction-container" ng-repeat="n in vm.getNumber(vm.nkeys) track by $index" >
-            <h5>Instructions</h5>
-            <button (click)="addInstruction()">Add Instruction</button> 
+        <h5>Instructions</h5>
+            <button (click)="addInstruction()" id="add-instruction">Add Instruction</button> 
             <br> <br>
-            <input type="text" ng-model="recipe.instruction[$index]" placeholder="Eat chocolate"  required>
+        <div class="instructions" id ="instruction-container"  *ngFor="let instruction of instructions">
+            <input type="text" ng-model="instruction.instruction" name="instruction" placeholder="Preheat oven to ..."  required>
             <br>
+        </div>
+        <div class="type" id="recipe-type">
+            <input type="radio" name="type" [(ngModel)]="recipe.type" value="Entree" checked="checked"> Entree <br>
+            <input type="radio" name="type" [(ngModel)]="recipe.type" value="Side"> Side <br>
         </div>
         <div class="tags" id="recipe-tags"> 
-            <tag-input ng-model="recipe.tags"></tag-input>
+            <tag-input [(ngModel)]="recipe.tags" name="tags" [editable]="true"></tag-input>
         </div>
         <div class="private" id="recipe-private">
-            <input type="radio">
+            <input type="radio" name="isPublic" [(ngModel)]="recipe.isPublic" value="true" checked="checked"> Public <br>
+            <input type="radio" name="isPublic"[(ngModel)]="recipe.isPublic" value="false"> Private <br>
         </div>
         <div class="submit">
-        <button type="submit">Submit</button>
+        <button id="submit" (click)="createRecipe()">Submit</button>
         </div>
     </form>
 </div>

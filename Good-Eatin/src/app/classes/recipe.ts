@@ -6,7 +6,8 @@ export class Recipe {
     id: number;
     title: string;
     picture: string;
-    ingredients: Map<string, string>;
+    ingredients: Array<string>;
+    amounts: Array<string>;
     instructions: Array<string>;
     publicReviews: Array<string>;
     privateReviews: Array<string>;
@@ -19,7 +20,8 @@ export class Recipe {
                     this.id = 0;
                     this.title = '';
                     this.picture = '';
-                    this.ingredients = new Map;
+                    this.ingredients = [];
+                    this.amounts = [];
                     this.instructions = [];
                     this.publicReviews = [];
                     this.privateReviews = [];
