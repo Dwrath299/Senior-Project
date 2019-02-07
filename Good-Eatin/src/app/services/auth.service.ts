@@ -28,6 +28,7 @@ export class AuthService {
                     this.isNewUser();
                 } else {
                     this.userDetails = null;
+                    localStorage.removeItem('userId');
                 }
                 }
             );

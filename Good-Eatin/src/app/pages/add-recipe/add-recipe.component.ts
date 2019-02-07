@@ -29,6 +29,23 @@ export class AddRecipeComponent implements OnInit {
 
   constructor(private upload: UploadService, private db: AngularFirestore, private router: Router) {
       this.recipe = new Recipe();
+      // Check if we are editing an item.
+      if (localStorage.getItem('recipeId') != null) {
+        // We are editing an item, we need to get the recipe.
+        this.recipeRef.doc(localStorage.getItem('recipeId')).ref.get().then(doc2 => {
+                const item = new Recipe();
+                item.id = doc2.data().id;
+                item.picture = doc2.data().picture;
+                item.title = doc2.data().title;
+                item.ingredients = doc2.data().ingredients;
+                item.instructions = doc2.data().instructions;
+                item.amounts = doc2.data().amounts;
+                item.isPublic = doc2.data().isPublic;
+                item.type = doc2.data().type;
+                item.tags = doc2.data().tags;
+                this.recipe = item;
+            });
+      }
       this.file = new FileUpload(null);
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes');

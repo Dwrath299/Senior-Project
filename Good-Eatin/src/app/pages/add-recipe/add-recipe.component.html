@@ -10,6 +10,7 @@
         <div class="picture">
             Add a picture <br>
             <input type="file" (change)="addFile($event)">
+            <img src="recipe.picture" alt="Recipe Picture">
         </div>
         <h5>Ingredients</h5>
             <button (click)="addIngredient($event)" id="add-ingredient">Add Ingredient</button> 
