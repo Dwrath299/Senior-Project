@@ -42,32 +42,31 @@ export class UploadService {
             this.basePath = '/recipePics';
         }
         const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
-
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        // in progress
-        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
-        progress.percentage = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-      },
-      (error) => {
-        // fail
-        console.log(error);
-      },
-      () => {
-        // success
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log('File available at', downloadURL);
-          fileUpload.url = downloadURL;
-          fileUpload.name = fileUpload.file.name;
-          data.picture = fileUpload.url;
-          if (type = 'user') {
-            this.savePicToUser(data);
-          } else if (type = 'recipe') {
-            this.saveRecipe(data);
-          }
-        });
-      }
-    );
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+            // in progress
+            const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+            // progress.percentage = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+        },
+        (error) => {
+            // fail
+            console.log(error);
+        },
+        () => {
+            // success
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+            fileUpload.url = downloadURL;
+            fileUpload.name = fileUpload.file.name;
+            data.picture = fileUpload.url;
+            if (type = 'user') {
+                this.savePicToUser(data);
+            } else if (type = 'recipe') {
+                this.saveRecipe(data);
+            }
+            });
+        }
+        );
   }
 
   private saveRecipe(data: Recipe) {
