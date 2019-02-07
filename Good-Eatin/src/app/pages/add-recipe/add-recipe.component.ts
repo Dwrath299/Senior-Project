@@ -45,6 +45,8 @@ export class AddRecipeComponent implements OnInit {
                 item.tags = doc2.data().tags;
                 this.recipe = item;
             });
+        // Remove the recipeId from storage
+        localStorage.removeItem('recipeId');
       }
       this.file = new FileUpload(null);
       this.userRef = db.collection('users');
