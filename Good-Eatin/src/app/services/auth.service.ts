@@ -26,7 +26,6 @@ export class AuthService {
                 if (user) {
                     this.userDetails = user;
                     this.isNewUser();
-                    console.log(this.userDetails);
                 } else {
                     this.userDetails = null;
                 }

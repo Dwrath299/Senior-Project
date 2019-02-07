@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { FileUpload, UploadService } from '../../services/upload.service';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { User } from '../../classes/user';
 
 
 @Component({
@@ -16,6 +17,8 @@ export class AddRecipeComponent implements OnInit {
   file: FileUpload;
   progress: {percentage: number};
 
+  private userRef: AngularFirestoreCollection<User>;
+
   ingredients = [{guid: 1, name: '', amount: ''}];
   instructions = [{guid: 1, text: ''}];
   ingredientCount: number;
@@ -27,6 +30,7 @@ export class AddRecipeComponent implements OnInit {
   constructor(private upload: UploadService, private db: AngularFirestore, private router: Router) {
       this.recipe = new Recipe();
       this.file = new FileUpload(null);
+      this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes');
       this.recipeCountRef = db.collection('recipeCount');
       this.ingredientCount = 2;
@@ -86,6 +90,7 @@ export class AddRecipeComponent implements OnInit {
         console.log('Picture detected');
         this.upload.pushFileToStorage(this.file, this.progress, 'recipe', this.recipe);
     } else { // No picture, can add it here
+        const userId = localStorage.getItem('UserId').toString();
         this.recipeRef.doc(this.recipe.id.toString()).ref.get()
                     .then(doc2 => {
                             // This recipe doesn't exist!
@@ -93,6 +98,19 @@ export class AddRecipeComponent implements OnInit {
                                 // Need to store the recipe
                                 // Store it in cloud firestore
                                 this.recipeRef.doc(this.recipe.id.toString()).set(Object.assign({}, this.recipe));
+                                 this.userRef.doc(userId).ref.get()
+                                        .then(docSnap => {
+                                            if (docSnap.exists) {
+                                                // tslint:disable-next-line:prefer-const
+                                                let userRecipes = docSnap.data().recipes;
+                                                userRecipes.push(this.recipe.id.toString());
+                                                this.userRef.doc(userId).update({
+                                                    recipes: userRecipes
+                                                });
+                                            } else {
+                                                console.error('Error updating user picture');
+                                            }
+                                        });
                                 return true;
                             } else {
                                 // This deletes the old recipe and adds it again.

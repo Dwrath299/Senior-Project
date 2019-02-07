@@ -8,7 +8,6 @@ export class User {
     weeks: Array<string>;
 
     constructor() {
-        console.log('user Created');
         this.id = '';
         this.name = '';
         this.picture = '';

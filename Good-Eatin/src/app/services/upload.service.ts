@@ -36,9 +36,9 @@ export class UploadService {
 
     pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }, type: string, data: any) {
         const storageRef = firebase.storage().ref();
-        if (type = 'user') {
+        if (type === 'user') {
             this.basePath = '/userPics';
-        } else  if (type = 'recipe') {
+        } else  if (type === 'recipe') {
             this.basePath = '/recipePics';
         }
         const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
@@ -59,9 +59,9 @@ export class UploadService {
             fileUpload.url = downloadURL;
             fileUpload.name = fileUpload.file.name;
             data.picture = fileUpload.url;
-            if (type = 'user') {
+            if (type === 'user') {
                 this.savePicToUser(data);
-            } else if (type = 'recipe') {
+            } else if (type === 'recipe') {
                 this.saveRecipe(data);
             }
             });
@@ -71,6 +71,7 @@ export class UploadService {
 
   private saveRecipe(data: Recipe) {
       const id = data.id;
+      const userId = localStorage.getItem('UserId').toString();
       this.recipeRef.doc(id.toString()).ref.get()
                         .then(doc => {
                                 // This recipe doesn't exist!
@@ -78,6 +79,19 @@ export class UploadService {
                                     // Need to store the recipe
                                     // Store it in cloud firestore
                                     this.recipeRef.doc(id.toString()).set(Object.assign({}, data));
+                                    this.userRef.doc(userId).ref.get()
+                                        .then(docSnap => {
+                                            if (docSnap.exists) {
+                                                // tslint:disable-next-line:prefer-const
+                                                let userRecipes = docSnap.data().recipes;
+                                                userRecipes.push(id.toString());
+                                                this.userRef.doc(userId).update({
+                                                    recipes: userRecipes
+                                                });
+                                            } else {
+                                                console.error('Error updating user picture');
+                                            }
+                                        });
                                     return true;
                                 } else {
                                     // This deletes the old recipe and adds it again.
