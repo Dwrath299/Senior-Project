@@ -1,0 +1,22 @@
+Name: Dallin Wrathall
+Project Title: Meal Plan Generator
+
+
+Overall Status: Research/ Proposal Submitted 
+
+Number of hours worked since last update: 13 hours
+Number of hours worked on the project thus far: 50 hours
+Total number of hours anticipated for completion: 85 hours
+
+Accomplishments: Users can upload recipes now. Stores the recipe to their collection and saves their picture to cloud storage.
+Page to display all their recipes in the engine now up. TED Talk
+
+
+Challenges: Dynamic webpages, CSS. It is hard to get it to look like you want. Properly getting all data from the form was difficult.
+
+
+Plans / Goals for next week: Get "Explore" page up and running to show all public recipes. Create recipe viewer page.
+
+
+Accountability plan: (What is your plan to keep yourself honest and follow through with the goals that you have outlined?)
+Tell my wife what I need to get done, and she will remind me if I don't get them done.

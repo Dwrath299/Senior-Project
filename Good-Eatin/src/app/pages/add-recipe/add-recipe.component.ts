@@ -19,8 +19,6 @@ export class AddRecipeComponent implements OnInit {
 
   private userRef: AngularFirestoreCollection<User>;
 
-  ingredients = [{guid: 1, name: '', amount: ''}];
-  instructions = [{guid: 1, text: ''}];
   ingredientCount: number;
   instructionCount: number;
 
@@ -29,17 +27,19 @@ export class AddRecipeComponent implements OnInit {
 
   constructor(private upload: UploadService, private db: AngularFirestore, private router: Router) {
       this.recipe = new Recipe();
+      this.recipeRef = db.collection('recipes');
       // Check if we are editing an item.
       if (localStorage.getItem('recipeId') != null) {
+        const recipeId = localStorage.getItem('recipeId');
+        console.log(recipeId);
         // We are editing an item, we need to get the recipe.
-        this.recipeRef.doc(localStorage.getItem('recipeId')).ref.get().then(doc2 => {
+        this.recipeRef.doc(recipeId).ref.get().then(doc2 => {
                 const item = new Recipe();
                 item.id = doc2.data().id;
                 item.picture = doc2.data().picture;
                 item.title = doc2.data().title;
                 item.ingredients = doc2.data().ingredients;
                 item.instructions = doc2.data().instructions;
-                item.amounts = doc2.data().amounts;
                 item.isPublic = doc2.data().isPublic;
                 item.type = doc2.data().type;
                 item.tags = doc2.data().tags;
@@ -50,7 +50,6 @@ export class AddRecipeComponent implements OnInit {
       }
       this.file = new FileUpload(null);
       this.userRef = db.collection('users');
-      this.recipeRef = db.collection('recipes');
       this.recipeCountRef = db.collection('recipeCount');
       this.ingredientCount = 2;
       this.instructionCount = 2;
@@ -69,7 +68,7 @@ export class AddRecipeComponent implements OnInit {
   addIngredient(e) {
       e.preventDefault();
     if (this.ingredientCount < 20) {
-        this.ingredients.push({guid: this.ingredientCount, name: '', amount: ''});
+        this.recipe.ingredients.push({ name: '', amount: ''});
         this.ingredientCount++;
     } else {
         // Message
@@ -79,7 +78,7 @@ export class AddRecipeComponent implements OnInit {
   addInstruction(e) {
       e.preventDefault();
       if (this.instructionCount < 20) {
-        this.instructions.push({guid: this.instructionCount, text: ''});
+        this.recipe.instructions.push({ step: this.instructionCount, text: ''});
         this.instructionCount++;
       } else {
           // Message
@@ -88,13 +87,6 @@ export class AddRecipeComponent implements OnInit {
   }
 
   createRecipe() {
-    for (let i = 0; i < this.ingredients.length; i++) {
-        this.recipe.ingredients.push(this.ingredients[i].name);
-        this.recipe.amounts.push(this.ingredients[i].amount);
-    }
-    for (let i = 0; i < this.instructions.length; i++) {
-        this.recipe.instructions.push(this.instructions[i].text);
-    }
     this.file.name = this.recipe.title;
     this.recipe.creator = localStorage.getItem('userId');
     console.log(this.recipe);
@@ -104,12 +96,11 @@ export class AddRecipeComponent implements OnInit {
     this.recipeCountRef.doc('count').update({
         recipeCount: doc.data().recipeCount + 1
     });
-    console.log(this.file.file);
     if (this.file.file != null) { // There is a picture, need to upload to cloud storage.
         console.log('Picture detected');
         this.upload.pushFileToStorage(this.file, this.progress, 'recipe', this.recipe);
     } else { // No picture, can add it here
-        const userId = localStorage.getItem('UserId').toString();
+        const userId = localStorage.getItem('userId').toString();
         this.recipeRef.doc(this.recipe.id.toString()).ref.get()
                     .then(doc2 => {
                             // This recipe doesn't exist!

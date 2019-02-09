@@ -71,7 +71,7 @@ export class UploadService {
 
   private saveRecipe(data: Recipe) {
       const id = data.id;
-      const userId = localStorage.getItem('UserId').toString();
+      const userId = localStorage.getItem('userId');
       this.recipeRef.doc(id.toString()).ref.get()
                         .then(doc => {
                                 // This recipe doesn't exist!
@@ -79,6 +79,7 @@ export class UploadService {
                                     // Need to store the recipe
                                     // Store it in cloud firestore
                                     this.recipeRef.doc(id.toString()).set(Object.assign({}, data));
+                                    // console.log(userId);
                                     this.userRef.doc(userId).ref.get()
                                         .then(docSnap => {
                                             if (docSnap.exists) {

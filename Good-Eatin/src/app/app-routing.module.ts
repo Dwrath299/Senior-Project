@@ -12,6 +12,7 @@ import {EditWeekComponent} from './pages/edit-week/edit-week.component';
 import {ExploreRecipesComponent} from './pages/explore-recipes/explore-recipes.component';
 import {ShoppingListComponent} from './pages/shopping-list/shopping-list.component';
 import {RegisterComponent} from './pages/register/register.component';
+import {RecipeComponent} from './pages/recipe/recipe.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
     { path: 'editWeek', canActivate: [AuthGuard], component: EditWeekComponent},
     { path: 'explore', canActivate: [AuthGuard], component: ExploreRecipesComponent},
     { path: 'shoppingList', canActivate: [AuthGuard], component: ShoppingListComponent},
+    { path: 'recipe', canActivate: [AuthGuard], component: RecipeComponent},
     { path: 'register', component: RegisterComponent},
     { path: '**', component: PageNotFoundComponent}
 ];

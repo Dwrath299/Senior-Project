@@ -31,6 +31,7 @@ import { UploadService } from './services/upload.service';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RecipeComponent } from './pages/recipe/recipe.component';
 
 
 
@@ -51,7 +52,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     PageNotFoundComponent,
     LandingComponent,
-    RegisterComponent
+    RegisterComponent,
+    RecipeComponent
   ],
   imports: [
     BrowserModule,

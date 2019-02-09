@@ -6,9 +6,12 @@ export class Recipe {
     id: number;
     title: string;
     picture: string;
-    ingredients: Array<string>;
-    amounts: Array<string>;
-    instructions: Array<string>;
+    ingredients: [
+        {name: string, amount: string}
+    ];
+    instructions: [
+        {step: number, text: string}
+    ];
     publicReviews: Array<string>;
     privateReviews: Array<string>;
     type: string;
@@ -20,15 +23,18 @@ export class Recipe {
                     this.id = 0;
                     this.title = '';
                     this.picture = '';
-                    this.ingredients = [];
-                    this.amounts = [];
-                    this.instructions = [];
+                    this.ingredients = [
+                        { name: '', amount: ''}
+                    ];
+                    this.instructions = [
+                        { step: 1, text: ''}
+                    ];
                     this.publicReviews = [];
                     this.privateReviews = [];
                     this.type = '';
                     this.tags = [];
                     this.creator = '';
-                    this.isPublic = false;
+                    this.isPublic = true;
 
                 }
 

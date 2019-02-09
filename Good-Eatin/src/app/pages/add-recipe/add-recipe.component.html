@@ -10,21 +10,24 @@
         <div class="picture">
             Add a picture <br>
             <input type="file" (change)="addFile($event)">
-            <img src="recipe.picture" alt="Recipe Picture">
+            <img src="{{recipe.picture}}" alt="Recipe Picture">
         </div>
-        <h5>Ingredients</h5>
+        
+        <div class="ingredient-amount-container">
+            <h5>Ingredients</h5>
             <button (click)="addIngredient($event)" id="add-ingredient">Add Ingredient</button> 
             <br> <br>
-        <div class="ingredients" id="ingredient-container" *ngFor="let ingredient of ingredients; let i = index">
-            <input type="text" [(ngModel)]="ingredient.name" name="name" placeholder="Sugar"  required>
-            <input type="text" [(ngModel)]="ingredient.amount" name="amount" placeholder="1 Cup" required>
-            <br>
+            <div class="ingredients" id="ingredient-container" *ngFor="let ingredient of recipe.ingredients; let i = index">
+                <input type="text" [(ngModel)]="ingredient.name" name="name" placeholder="Sugar" value="ingredient.name"  required>
+                <input type="text" [(ngModel)]="ingredient.amount" name="amount" placeholder="1 Cup" value="ingredient.amount" required>
+                <br>
+            </div>
         </div>
         <h5>Instructions</h5>
             <button (click)="addInstruction($event)" id="add-instruction">Add Instruction</button> 
             <br> <br>
-        <div class="instructions" id ="instruction-container"  *ngFor="let instruction of instructions; let i = index">
-            <input type="text" [(ngModel)]="instruction.text" name="instruction" placeholder="Preheat oven to ..."  required>
+        <div class="instructions" id ="instruction-container"  *ngFor="let instruction of recipe.instructions; let i = index">
+            <input type="text" [(ngModel)]="instruction.text" name="instruction" value="instruction.text" placeholder="Preheat oven to ..."  required>
             <br>
         </div>
         <div class="type" id="recipe-type">
