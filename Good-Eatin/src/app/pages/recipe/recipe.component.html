@@ -1,3 +1,14 @@
-<p>
-  recipe works!
-</p>
+<div class="recipe">
+    <h2 class="title">{{recipe.title}}</h2> 
+    <button *ngIf="isCreator === true">Edit</button> <br>
+    <img src="{{recipe.picture}}"> <br>
+    <div class="ingredients" *ngFor="let ingredient of recipe.ingredients">
+       {{ingredient.amount}} {{ingredient.name}} <br>
+    </div>
+    <div class="instructions" *ngFor="let instruction of recipe.instructions">
+        {{instruction.step}}. {{instruction.text}}
+    </div>
+    <div class="reviews" *ngFor="let review of recipe.publicReviews">
+        <p *ngIf="recipe.publicReviews.length < 1"> There are no reviews yet. Be the first!</p>
+    </div>
+</div>
