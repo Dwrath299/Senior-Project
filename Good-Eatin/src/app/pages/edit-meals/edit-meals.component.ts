@@ -22,6 +22,7 @@ export class EditMealsComponent implements OnInit {
       this.recipeList = [];
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes');
+      console.log(this.userId);
       this.userRef.doc(this.userId).ref.get().then(doc => {
         this.recipeReferenceList = doc.data().recipes;
         // tslint:disable-next-line:prefer-const
@@ -45,7 +46,7 @@ export class EditMealsComponent implements OnInit {
 
   recipeClick(id: string) {
       localStorage.setItem('recipeId', id);
-      this.router.navigate(['/addRecipe']);
+      this.router.navigate(['/recipe']);
   }
 
 }

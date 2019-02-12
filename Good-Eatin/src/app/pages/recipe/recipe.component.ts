@@ -42,7 +42,13 @@ export class RecipeComponent implements OnInit {
                     this.isCreator = true;
                 }
             });
+            localStorage.removeItem('recipeId');
      }
+  }
+
+  editButton() {
+      localStorage.setItem('recipeId', this.recipe.id.toString());
+      this.router.navigate(['/addRecipe']);
   }
 
 

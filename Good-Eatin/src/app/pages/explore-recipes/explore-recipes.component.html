@@ -1,3 +1,12 @@
-<p>
-  explore-recipes works!
-</p>
+<div class="recipes-container" *ngFor="let recipe of recipeList">
+    <div class="recipe-container" (click)="recipeClick(recipe.id)">
+        {{recipe.title}} <br>
+        <img src="{{recipe.picture}}" alt="recipe pic">
+        <br>
+        <div class="tags" *ngFor="let tag of recipe.tags">
+            <div class="tag">{{tag.display}}</div>
+        </div>
+    </div>
+
+
+</div>

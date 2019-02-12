@@ -1,10 +1,15 @@
 <div class="recipe">
     <h2 class="title">{{recipe.title}}</h2> 
-    <button *ngIf="isCreator === true">Edit</button> <br>
+    <button *ngIf="isCreator === true" (click)="editButton()">Edit Recipe</button> <br>
     <img src="{{recipe.picture}}"> <br>
+    <h2> Ingredients </h2>
+    <hr>
     <div class="ingredients" *ngFor="let ingredient of recipe.ingredients">
        {{ingredient.amount}} {{ingredient.name}} <br>
     </div>
+    
+    <h2> Instructions </h2>
+    <hr>
     <div class="instructions" *ngFor="let instruction of recipe.instructions">
         {{instruction.step}}. {{instruction.text}}
     </div>

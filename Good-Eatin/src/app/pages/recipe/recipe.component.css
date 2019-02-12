@@ -1,0 +1,15 @@
+.recipe img{
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.recipe {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.recipe h2{
+    text-align: center;
+}

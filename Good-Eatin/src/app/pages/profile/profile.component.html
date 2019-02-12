@@ -1,3 +1,5 @@
-<p>
-  profile works!
-</p>
+<div class="profile">
+    <h2>{{targetUser.name}}</h2>
+    <img src="{{targetUser.picture}}">
+    <p *ngIf="isCurrentUser">Change Picture </p><input *ngIf="isCurrentUser" type="file" (change)="addPic($event)"> <br>
+</div>
