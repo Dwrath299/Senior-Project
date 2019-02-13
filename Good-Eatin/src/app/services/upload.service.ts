@@ -5,9 +5,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Recipe } from '../classes/recipe';
 import { User } from '../classes/user';
 
-@Injectable({
-  providedIn: 'root'
-})
+
 export class FileUpload {
 
     key: string;

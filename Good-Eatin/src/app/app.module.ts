@@ -26,6 +26,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { UploadService } from './services/upload.service';
+import 'zone.js';
+import 'zone.js/dist/long-stack-trace-zone.js';
 
 // Tags
 import { TagInputModule } from 'ngx-chips';
@@ -37,7 +39,7 @@ import { RecipeComponent } from './pages/recipe/recipe.component';
 
 
 @NgModule({
-  declarations: [
+   declarations: [
     AppComponent,
     LoginComponent,
     ProfileComponent,

@@ -1,8 +1,8 @@
 <div class="calendar">
     <div class="header">
-        <a href="/addRecipe">Add a Recipe to Generator</a> 
-        <a href="/editMeals">View Recipes in Generator</a> 
-        <a href="/editWeek">Edit Your Week of Meals</a> 
+        <a [routerLink]="['/addRecipe']" routerLinkActive="router-link-active" >Add a Recipe to Generator</a> 
+        <a [routerLink]="['/editMeals']" routerLinkActive="router-link-active" >View Recipes in Generator</a> 
+        <a [routerLink]="['/editWeek']" routerLinkActive="router-link-active" >Edit Your Week of Meals</a> 
     </div>
     <div class="week-view">
         <div class="day">

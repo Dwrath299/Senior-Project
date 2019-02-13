@@ -1,16 +1,16 @@
 <div *ngIf="authService.isLoggedIn()" class="header">
-  <a href="/calendar" class="logo">CompanyLogo</a>
+  <a [routerLink]="['/calendar']" routerLinkActive="router-link-active"  class="logo">CompanyLogo</a>
   <div  class="header-right">
-    <a href="/calendar">Calendar</a> 
-    <a href="/explore">Explore</a> 
-    <a href="/profile">Profile</a> 
+    <a [routerLink]="['/calendar']" routerLinkActive="router-link-active" >Calendar</a> 
+    <a [routerLink]="['/explore']" routerLinkActive="router-link-active" >Explore</a> 
+    <a [routerLink]="['/profile']" routerLinkActive="router-link-active" >Profile</a> 
     <a href="" (click)="authService.logout()">Logout</a> 
   </div>
 </div>
 <div *ngIf="authService.isLoggedIn() == false"  class="header">
-  <a href="/landing" class="logo">CompanyLogo</a>  
+  <a [routerLink]="['']" routerLinkActive="router-link-active"  class="logo">CompanyLogo</a>  
   <div class="header-right">
-    <a href="/login">Login / SignUp</a>
+    <a [routerLink]="['/login']" routerLinkActive="router-link-active">Login / SignUp</a>
   </div>
 </div>
 <router-outlet></router-outlet>

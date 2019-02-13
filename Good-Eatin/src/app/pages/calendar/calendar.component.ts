@@ -17,6 +17,7 @@ export class CalendarComponent implements OnInit {
     recipeRef: AngularFirestoreCollection<Recipe>;
   constructor(private db: AngularFirestore, private router: Router) {
       this.userRef = db.collection('users');
+      this.user = new User();
       this.user.id = localStorage.getItem('userId');
       this.userRef.doc(this.user.id).ref.get().then( doc => {
         this.user.friends = doc.data().friends;
