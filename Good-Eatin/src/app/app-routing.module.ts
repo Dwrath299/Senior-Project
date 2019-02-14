@@ -15,6 +15,7 @@ import {RegisterComponent} from './pages/register/register.component';
 import {RecipeComponent} from './pages/recipe/recipe.component';
 import { AuthGuard } from './services/auth-guard.service';
 
+
 const routes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: '', component: LandingComponent},

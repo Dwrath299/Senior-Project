@@ -29,6 +29,9 @@ import { UploadService } from './services/upload.service';
 import 'zone.js';
 import 'zone.js/dist/long-stack-trace-zone.js';
 
+// SLidehsow
+import {SlideshowModule} from 'ng-simple-slideshow';
+
 // Tags
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -68,7 +71,8 @@ import { RecipeComponent } from './pages/recipe/recipe.component';
     TagInputModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SlideshowModule
   ],
   providers: [AuthGuard, UploadService],
   bootstrap: [AppComponent]
