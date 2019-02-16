@@ -13,7 +13,7 @@ export class Recipe {
         {step: number, text: string}
     ];
     publicReviews: Array<string>;
-    privateReviews: Array<string>;
+    privateReview: string;
     type: string;
     tags: Array<string>;
     creator: string;
@@ -30,7 +30,7 @@ export class Recipe {
                         { step: 1, text: ''}
                     ];
                     this.publicReviews = [];
-                    this.privateReviews = [];
+                    this.privateReview = '';
                     this.type = '';
                     this.tags = [];
                     this.creator = '';

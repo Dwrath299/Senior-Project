@@ -1,0 +1,2 @@
+dark blue: #085f73
+light blue: #2eb4d8

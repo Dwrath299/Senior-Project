@@ -1,14 +1,15 @@
-import {User} from './user';
+
 export class Review {
+    recipeId: number;
     stars: number;
     description: string;
     isPublic: boolean;
-    author: User;
-    constructor(stars: number, description: string, isPublic: boolean, author: User ) {
-        this.stars = stars;
-        this.description = description;
-        this.isPublic = isPublic;
-        this.author = author;
+    author: string;
+    constructor() {
+        this.stars = 1;
+        this.description = '';
+        this.isPublic = true;
+        this.author = '';
     }
 
 

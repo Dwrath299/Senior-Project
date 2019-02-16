@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: #ffff;
   padding: 20px 10px;
 }
 
@@ -17,6 +17,7 @@
   font-size: 18px; 
   line-height: 25px;
   border-radius: 4px;
+  color: #085f73;
 }
 
 /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */

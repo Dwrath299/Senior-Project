@@ -5,13 +5,13 @@
     <h2> Ingredients </h2>
     <hr>
     <div class="ingredients" *ngFor="let ingredient of recipe.ingredients">
-       {{ingredient.amount}} {{ingredient.name}} <br>
+       {{ingredient.amount}} {{ingredient.name}} <br> <br>
     </div>
     
     <h2> Instructions </h2>
     <hr>
     <div class="instructions" *ngFor="let instruction of recipe.instructions">
-        {{instruction.step}}. {{instruction.text}}
+        {{instruction.step}}. {{instruction.text}} <br> <br>
     </div>
     <div class="reviews" *ngFor="let review of recipe.publicReviews">
         <p *ngIf="recipe.publicReviews.length < 1"> There are no reviews yet. Be the first!</p>

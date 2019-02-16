@@ -1,11 +1,20 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Good Eatin'
-  </h1>
+<div style="text-align:center" class="landing">
+  <!--
+<img class="logo" src="https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/sitePics%2Flogo.png?alt=media&token=b16f3fc8-919b-4e2e-bfc8-c7806decea78" alt="logo">
+  -->
+<slideshow [imageUrls]="imageUrls"
+           [height]="height"
+           [minHeight]="'525px'"
+           [autoPlay]="true"
+           [showArrows]="false"
+           ></slideshow>
   <img width="300" alt="" src="">
 </div>
+<div class="description">
 <h2>Meal plan generator of your deams: </h2>
+<img src="" alt="">
+</div>
 
-<slideshow [imageUrls]="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwi03ammxLvgAhWLv1QKHWOKDEcQjRx6BAgBEAU&url=http%3A%2F%2Fnechc.com%2Fprograms-services%2Fhealth-promotion%2Fgood-food-box%2F&psig=AOvVaw0xiMrBouiVgETgEkeKeCH-&ust=1550244321668647"></slideshow>
+
 <router-outlet></router-outlet>

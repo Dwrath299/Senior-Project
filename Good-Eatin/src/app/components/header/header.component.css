@@ -1,3 +1,8 @@
+@font-face {
+    font-family: bebasNeue;
+    src: url(https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/fonts%2FBebasNeue%20Regular.otf?alt=media&token=7cd0995f-da9c-4c86-958f-ae97714ba7e0);
+}
+
 /* Style the header with a grey background and some padding */
 .header {
   display: flex;
@@ -6,8 +11,8 @@
   padding-block-end: 10px;
   align-items: flex-center;
   overflow: hidden;
-  background-color: #f1f1f1;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffff;
+  font-family: bebasNeue;
 }
 
 /* Style the header links */
@@ -20,7 +25,12 @@
   padding-left: 12px;
   text-decoration: none;
   font-size: 18px; 
+  color: #085f73;
   border-radius: 4px;
+}
+
+.logo img {
+    width: 200px;
 }
 
 /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */

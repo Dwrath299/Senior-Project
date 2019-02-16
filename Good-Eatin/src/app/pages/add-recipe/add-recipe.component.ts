@@ -26,27 +26,27 @@ export class AddRecipeComponent implements OnInit {
   private recipeCountRef: AngularFirestoreCollection<any>;
 
   constructor(private upload: UploadService, private db: AngularFirestore, private router: Router) {
-      this.recipe = new Recipe();
       this.recipeRef = db.collection('recipes');
       // Check if we are editing an item.
       if (localStorage.getItem('recipeId') != null) {
         const recipeId = localStorage.getItem('recipeId');
-        console.log(recipeId);
         // We are editing an item, we need to get the recipe.
         this.recipeRef.doc(recipeId).ref.get().then(doc2 => {
-                const item = new Recipe();
-                item.id = doc2.data().id;
-                item.picture = doc2.data().picture;
-                item.title = doc2.data().title;
-                item.ingredients = doc2.data().ingredients;
-                item.instructions = doc2.data().instructions;
-                item.isPublic = doc2.data().isPublic;
-                item.type = doc2.data().type;
-                item.tags = doc2.data().tags;
-                this.recipe = item;
+                this.recipe = new Recipe();
+                this.recipe.id = doc2.data().id;
+                this.recipe.picture = doc2.data().picture;
+                this.recipe.title = doc2.data().title;
+                this.recipe.ingredients = doc2.data().ingredients;
+                this.recipe.instructions = doc2.data().instructions;
+                this.recipe.isPublic = doc2.data().isPublic;
+                this.recipe.type = doc2.data().type;
+                this.recipe.tags = doc2.data().tags;
+                console.log(this.recipe);
             });
         // Remove the recipeId from storage
         localStorage.removeItem('recipeId');
+      } else {
+          this.recipe = new Recipe();
       }
       this.file = new FileUpload(null);
       this.userRef = db.collection('users');
@@ -58,6 +58,7 @@ export class AddRecipeComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
   addFile(e) {
       e.preventDefault();

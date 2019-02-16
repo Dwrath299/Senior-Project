@@ -2,7 +2,7 @@
 
 <div class="add-recipe">
     <form name="recipe-form" method="post" #recipeForm="ngForm" (ngSubmit)="createRecipe()">
-        <h3>Recipe</h3>
+        <h3>{{recipe.title}} Recipe</h3>
         <div class="title">
             <label for="recipe-title">Name</label>
             <input type="text" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
@@ -14,20 +14,20 @@
         </div>
         
         <div class="ingredient-amount-container">
-            <h5>Ingredients</h5>
+            <h4>Ingredients</h4>
             <button (click)="addIngredient($event)" id="add-ingredient">Add Ingredient</button> 
             <br> <br>
-            <div class="ingredients" id="ingredient-container" *ngFor="let ingredient of recipe.ingredients; let i = index">
-                <input type="text" [(ngModel)]="ingredient.name" name="name" placeholder="Sugar" value="ingredient.name"  required>
-                <input type="text" [(ngModel)]="ingredient.amount" name="amount" placeholder="1 Cup" value="ingredient.amount" required>
+            <div class="ingredients" id="ingredient-container"  *ngFor="let ingredient of recipe.ingredients; let i = index">
+                <input type="text" [(ngModel)]="ingredient.name"  name="name-{{i}}" placeholder="Sugar"   required>
+                <input type="text" [(ngModel)]="ingredient.amount" name="amount-{{i}}"  placeholder="1 Cup" required>
                 <br>
             </div>
         </div>
-        <h5>Instructions</h5>
+        <h4>Instructions</h4>
             <button (click)="addInstruction($event)" id="add-instruction">Add Instruction</button> 
             <br> <br>
         <div class="instructions" id ="instruction-container"  *ngFor="let instruction of recipe.instructions; let i = index">
-            <input type="text" [(ngModel)]="instruction.text" name="instruction" value="instruction.text" placeholder="Preheat oven to ..."  required>
+            <input type="text" [(ngModel)]="instruction.text" name="instruction-{{i}}"  placeholder="Preheat oven to ..."  required>
             <br>
         </div>
         <div class="type" id="recipe-type">

@@ -33,7 +33,7 @@ export class CalendarComponent implements OnInit {
                 tempRecipe.picture = recipeDoc.data().picture;
                 tempRecipe.title = recipeDoc.data().title;
                 this.week[key] = tempRecipe;
-            })
+            });
         });
       });
 
