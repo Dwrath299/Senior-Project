@@ -1,3 +1,8 @@
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 <div class="main__body">
   <div class="container">
 
@@ -8,7 +13,7 @@
               <div class="card-block">
 
                   <form name="userform" method="post" #formCtrl="ngForm">
-                    <h3 align="center">Login Form</h3>
+                    <h3>Login</h3>
                     <div class="form-group">
                       <label for="Email1">Email address</label>
                       <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Email" required>
@@ -23,17 +28,21 @@
                           Login with Email
                         </button>
                     </div>
+                    <div class="btn white darken-4 col s10 m4">
+                      <a (click)="signInWithGoogle()" style="text-transform:none">
+                          <div class="left">
+                              <img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                          </div>
+                          Login with Google
+                      </a>
+                    </div>  
+                    <br> <br>
                     <div class="form-group">
-                        <a href="/register" class="logo">Register</a>                         
+                        <a [routerLink]="['/register']" routerLinkActive="router-link-active" class="logo">Not Registered? Sign Up</a>                         
                     </div>
                     
 
-                    <div class="form-group">
-                        <button type="button" class="btn btn-block" (click)="signInWithGoogle()">
-                          <i class="fa fa-google" aria-hidden="true"></i>
-                          Login with Google
-                        </button>
-                    </div>                  
+                                  
                   </form>
                   
               </div>

@@ -1,10 +1,20 @@
 .add-recipe {
-    width: 95%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 .picture {
     width: 95%;
 }
 
+.instructions input {
+    height: 40px;
+}
+
 .picture img {
     width: 30%;
+}
+
+.time input {
+    width: 50px;
 }

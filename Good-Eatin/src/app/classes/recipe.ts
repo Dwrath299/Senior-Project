@@ -15,8 +15,10 @@ export class Recipe {
     publicReviews: Array<string>;
     privateReview: string;
     type: string;
+    meal: string;
     tags: Array<string>;
     creator: string;
+    time: number;
     isPublic: boolean;
 
     constructor() {
@@ -29,11 +31,13 @@ export class Recipe {
                     this.instructions = [
                         { step: 1, text: ''}
                     ];
+                    this.meal = 'dinner'
                     this.publicReviews = [];
                     this.privateReview = '';
                     this.type = '';
                     this.tags = [];
                     this.creator = '';
+                    this.time = 30;
                     this.isPublic = true;
 
                 }

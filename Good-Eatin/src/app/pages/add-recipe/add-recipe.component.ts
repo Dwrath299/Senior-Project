@@ -41,12 +41,15 @@ export class AddRecipeComponent implements OnInit {
                 this.recipe.isPublic = doc2.data().isPublic;
                 this.recipe.type = doc2.data().type;
                 this.recipe.tags = doc2.data().tags;
+                this.recipe.meal = doc2.data().meal;
+                this.recipe.time = doc2.data().time;
                 console.log(this.recipe);
             });
         // Remove the recipeId from storage
         localStorage.removeItem('recipeId');
       } else {
           this.recipe = new Recipe();
+          console.log(this.recipe);
       }
       this.file = new FileUpload(null);
       this.userRef = db.collection('users');
