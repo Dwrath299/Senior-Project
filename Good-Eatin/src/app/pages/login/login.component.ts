@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
+  error: string;
+
   constructor(private authService: AuthService, private router: Router) {
   }
 
@@ -30,9 +32,13 @@ export class LoginComponent implements OnInit {
         this.authService.signInRegular(this.user.email, this.user.password)
         .then((res) => {
             console.log(res);
+            this.error = '';
             this.router.navigate(['calendar']);
         })
-        .catch((err) => console.log('error: ' + err));
+        .catch((err) => {
+          console.log('error: ' + err);
+          this.error = err.message;
+        });
     }
 
 

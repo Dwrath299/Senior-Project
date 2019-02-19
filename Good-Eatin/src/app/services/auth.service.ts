@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../classes/user';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFireAuth} from 'angularfire2/auth';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 
@@ -43,8 +43,20 @@ export class AuthService {
        return this.success;
    }
 
-   register(email, password) {
+   register(email, password, name: string) {
        this.success = this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
+       this.userFirebase.subscribe(
+        (user) => {
+                if (user) {
+                    this.userDetails = user;
+                    this.userDetails.displayName = name;
+                    this._firebaseAuth.auth.updateCurrentUser(this.userDetails);
+                    this.isNewUser();
+                } else {
+                    this.userDetails = null;
+                    localStorage.removeItem('userId');
+                }
+        });
        return this.success;
    }
    signInRegular(email, password) {
@@ -81,6 +93,12 @@ export class AuthService {
                                     this.currentUser.friends = friends;
                                     this.currentUser.recipes = recipes;
                                     this.currentUser.weeks = weeks;
+                                    this.currentUser.picture =
+                                        'https://firebasestorage.googleapis.com' +
+                                        '/v0/b/meal-plan-generator-745c7.appspo' +
+                                        't.com/o/blank-profile-picture-973460_9' +
+                                        '60_720.png?alt=media&token=89872bec-94' +
+                                        '1b-415d-8fd6-1b1ffa9b34f8';
                                     // Store it in cloud firestore
                                     this.userRef.doc(this.currentUser.id).set(Object.assign({}, this.currentUser));
                                     localStorage.setItem('userId', this.userDetails.uid);

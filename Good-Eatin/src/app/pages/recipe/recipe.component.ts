@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Recipe } from '../../classes/recipe';
+import { User } from '../../classes/user';
 import { Router } from '@angular/router';
 import { Review} from '../../classes/review';
 
@@ -14,18 +15,35 @@ export class RecipeComponent implements OnInit {
     recipe: Recipe;
     private recipeRef: AngularFirestoreCollection<Recipe>;
 
+    private userRef: AngularFirestoreCollection<User>;
+
     private reviewRef: AngularFirestoreCollection<Review>;
+
+    userHasRecipe: boolean;
 
     publicReviews: Array<Review>;
     privateReview: Review;
 
     isCreator: boolean;
+
+    starList: boolean[] = [true,true,true,true,true];
+    rating: number;
     ngOnInit() {
   }
 
   constructor(private db: AngularFirestore, private router: Router) {
-      this.publicReviews = new Array<Review>();
-      this.privateReview = new Review();
+      // Check to see if this user has this recipe already
+      this.userHasRecipe = true;
+      this.userRef = db.collection('users');
+      this.userRef.doc(localStorage.getItem('userId')).ref.get().then(doc => {
+           let listOfRecipes = doc.data().recipes;
+           if(listOfRecipes.indexOf(localStorage.getItem('recipeId')) > -1) {
+               this.userHasRecipe = true;
+           } else {
+               this.userHasRecipe = false;
+           }
+      });
+      
       this.recipe = new Recipe();
       this.reviewRef = db.collection('reviews');
       this.recipeRef = db.collection('recipes');
@@ -46,17 +64,13 @@ export class RecipeComponent implements OnInit {
                 item.isPublic = doc2.data().isPublic;
                 item.privateReview = doc2.data().privateReview;
                 item.publicReviews = doc2.data().publicReviews;
+                item.averageReview = doc2.data().averageReview;
+                this.setStar(item.averageReview.average - 1);
                 item.type = doc2.data().type;
                 item.tags = doc2.data().tags;
                 this.recipe = item;
-                if (this.recipe.privateReview !== '') {
-                    this.reviewRef.doc(this.recipe.privateReview).ref.get().then(doc => {
-                        this.privateReview.author = doc.data().author;
-                        this.privateReview.stars = doc.data().stars;
-                    });
-                }
                 for (let i = 0; i < this.recipe.publicReviews.length; i++) {
-                    this.reviewRef.doc(this.recipe.publicReviews[i]).ref.get().then(doc => {
+                    this.reviewRef.doc(this.recipe.publicReviews[i].userId).ref.get().then(doc => {
                         const tempReview = new Review();
                         tempReview.author = doc.data().author;
                         tempReview.stars = doc.data().stars;
@@ -69,8 +83,18 @@ export class RecipeComponent implements OnInit {
                     this.isCreator = true;
                 }
             });
-            localStorage.removeItem('recipeId');
      }
+  }
+  setStar(data:any) {
+      this.rating = data+1;
+      console.log(data);
+      for (let i = 0; i <= 4; i ++){
+        if(i <= data) {
+            this.starList[i] = false;
+        } else {
+            this.starList[i] = true;
+        }
+      }
   }
 
   editButton() {

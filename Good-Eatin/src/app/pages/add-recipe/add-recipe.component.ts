@@ -45,8 +45,6 @@ export class AddRecipeComponent implements OnInit {
                 this.recipe.time = doc2.data().time;
                 console.log(this.recipe);
             });
-        // Remove the recipeId from storage
-        localStorage.removeItem('recipeId');
       } else {
           this.recipe = new Recipe();
           console.log(this.recipe);

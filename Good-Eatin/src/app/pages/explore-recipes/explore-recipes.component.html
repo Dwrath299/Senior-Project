@@ -1,8 +1,9 @@
-<div class="recipes-container" *ngFor="let recipe of recipeList">
-    <div class="recipe-container" (click)="recipeClick(recipe.id)">
+<div class="recipes-container" >
+    <div class="recipe-container" *ngFor="let recipe of recipeList" (click)="recipeClick(recipe.id)">
         {{recipe.title}} <br>
         <img src="{{recipe.picture}}" alt="recipe pic">
         <br>
+        <i class="far fa-clock"></i>{{recipe.time}} min
         <!--
         <div class="tags" *ngFor="let tag of recipe.tags">
             <div class="tag">{{tag.display}}</div>

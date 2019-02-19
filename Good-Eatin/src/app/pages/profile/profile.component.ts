@@ -35,14 +35,6 @@ export class ProfileComponent implements OnInit {
       this.userRef.doc(this.targetUser.id).ref.get().then( doc => {
         this.targetUser.name = doc.data().name;
         this.targetUser.picture = doc.data().picture;
-        if (this.targetUser.picture === null || this.targetUser.picture === '') {
-            this.targetUser.picture =
-            'https://firebasestorage.googleapis.com' +
-            '/v0/b/meal-plan-generator-745c7.appspo' +
-            't.com/o/blank-profile-picture-973460_9' +
-            '60_720.png?alt=media&token=89872bec-94' +
-            '1b-415d-8fd6-1b1ffa9b34f8';
-        }
         this.targetUser.recipes = doc.data().recipes;
         this.targetUser.friends = doc.data().freinds;
         this.targetUser.weeks = doc.data().weeks;

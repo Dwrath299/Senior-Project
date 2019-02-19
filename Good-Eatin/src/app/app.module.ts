@@ -32,11 +32,13 @@ import 'zone.js/dist/long-stack-trace-zone.js';
 // SLidehsow
 import {SlideshowModule} from 'ng-simple-slideshow';
 
+
 // Tags
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeComponent } from './pages/recipe/recipe.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 
 
@@ -58,7 +60,8 @@ import { RecipeComponent } from './pages/recipe/recipe.component';
     PageNotFoundComponent,
     LandingComponent,
     RegisterComponent,
-    RecipeComponent
+    RecipeComponent,
+    ReviewsComponent
   ],
   imports: [
     BrowserModule,

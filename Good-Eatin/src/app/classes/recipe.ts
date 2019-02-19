@@ -12,8 +12,9 @@ export class Recipe {
     instructions: [
         {step: number, text: string}
     ];
-    publicReviews: Array<string>;
-    privateReview: string;
+    publicReviews:[{userId: string, rating: number}];
+    averageReview: {average: number, count: number};
+    privateReview: [{userId: string, rating: number}];
     type: string;
     meal: string;
     tags: Array<string>;
@@ -32,8 +33,9 @@ export class Recipe {
                         { step: 1, text: ''}
                     ];
                     this.meal = 'dinner'
-                    this.publicReviews = [];
-                    this.privateReview = '';
+                    this.publicReviews = [{userId: '', rating: 0}];
+                    this.privateReview = [{userId: '', rating: 0}];
+                    this.averageReview = {average: 0, count: 0};
                     this.type = '';
                     this.tags = [];
                     this.creator = '';

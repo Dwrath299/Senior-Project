@@ -1,6 +1,6 @@
 <body>
-<div class="recipes-container" *ngFor="let recipe of recipeList">
-    <div class="recipe-container" (click)="recipeClick(recipe.id)">
+<div class="recipes-container">
+    <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of recipeList">
         {{recipe.title}} <br>
         <img src="{{recipe.picture}}" alt="recipe pic">
         <br>
