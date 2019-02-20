@@ -36,7 +36,7 @@ export class UploadService {
         const storageRef = firebase.storage().ref();
         if (type === 'user') {
             this.basePath = '/userPics';
-        } else  if (type === 'recipe') {
+        } else  if (type === 'newRecipe' || type == 'updateRecipe') {
             this.basePath = '/recipePics';
         }
         const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
@@ -59,12 +59,27 @@ export class UploadService {
             data.picture = fileUpload.url;
             if (type === 'user') {
                 this.savePicToUser(data);
-            } else if (type === 'recipe') {
+            } else if (type === 'newRecipe') {
                 this.saveRecipe(data);
+            } else if (type === 'updateRecipe') {
+                this.updateRecipe(data);
             }
             });
         }
         );
+  }
+
+  private updateRecipe(data: Recipe) {
+      this.recipeRef.doc(data.id.toString()).ref.update({
+        picture: data.picture,
+        ingredients: data.ingredients,
+        instructions: data.instructions,
+        title: data.title,
+        type: data.type,
+        meal: data.meal,
+        time: data.time,
+        tags: data.tags
+      });
   }
 
   private saveRecipe(data: Recipe) {
@@ -93,7 +108,7 @@ export class UploadService {
                                         });
                                     return true;
                                 } else {
-                                    // This deletes the old recipe and adds it again.
+                                    // This deletes the old recipe and adds it again. It shouldn't reach this point, but if it does it should work
                                     this.recipeRef.doc(id.toString()).delete().then(function() {
                                          this.recipeRef.doc(id.toString()).set(Object.assign({}, data));
                                     }).catch(function(error) {

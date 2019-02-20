@@ -45,18 +45,7 @@ export class AuthService {
 
    register(email, password, name: string) {
        this.success = this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
-       this.userFirebase.subscribe(
-        (user) => {
-                if (user) {
-                    this.userDetails = user;
-                    this.userDetails.displayName = name;
-                    this._firebaseAuth.auth.updateCurrentUser(this.userDetails);
-                    this.isNewUser();
-                } else {
-                    this.userDetails = null;
-                    localStorage.removeItem('userId');
-                }
-        });
+       localStorage.setItem('name', name);
        return this.success;
    }
    signInRegular(email, password) {
@@ -89,7 +78,12 @@ export class AuthService {
                                     const weeks = Array<string>();
                                     // Makes a user
                                     this.currentUser.id = this.userDetails.uid;
-                                    this.currentUser.name = this.userDetails.displayName;
+                                    if (localStorage.getItem('name') != null) {
+                                        this.currentUser.name = localStorage.getItem('name');
+                                        localStorage.removeItem('name');
+                                    } else {
+                                        this.currentUser.name = this.userDetails.displayName;
+                                    }
                                     this.currentUser.friends = friends;
                                     this.currentUser.recipes = recipes;
                                     this.currentUser.weeks = weeks;

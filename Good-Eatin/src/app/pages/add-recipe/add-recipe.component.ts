@@ -92,54 +92,71 @@ export class AddRecipeComponent implements OnInit {
     this.file.name = this.recipe.title;
     this.recipe.creator = localStorage.getItem('userId');
     console.log(this.recipe);
-    // Get the ID for the recipe
-    this.recipeCountRef.doc('count').ref.get().then(doc => {
-    this.recipe.id = doc.data().recipeCount;
-    this.recipeCountRef.doc('count').update({
-        recipeCount: doc.data().recipeCount + 1
-    });
-    if (this.file.file != null) { // There is a picture, need to upload to cloud storage.
-        console.log('Picture detected');
-        this.upload.pushFileToStorage(this.file, this.progress, 'recipe', this.recipe);
-    } else { // No picture, can add it here
-        const userId = localStorage.getItem('userId').toString();
-        this.recipeRef.doc(this.recipe.id.toString()).ref.get()
-                    .then(doc2 => {
-                            // This recipe doesn't exist!
-                            if (!doc2.exists) {
-                                // Need to store the recipe
-                                // Store it in cloud firestore
-                                this.recipeRef.doc(this.recipe.id.toString()).set(Object.assign({}, this.recipe));
-                                 this.userRef.doc(userId).ref.get()
-                                        .then(docSnap => {
-                                            if (docSnap.exists) {
-                                                // tslint:disable-next-line:prefer-const
-                                                let userRecipes = docSnap.data().recipes;
-                                                userRecipes.push(this.recipe.id.toString());
-                                                this.userRef.doc(userId).update({
-                                                    recipes: userRecipes
-                                                });
-                                            } else {
-                                                console.error('Error updating user picture');
-                                            }
-                                        });
-                                return true;
-                            } else {
-                                // This deletes the old recipe and adds it again.
-                                this.recipeRef.doc(this.recipe.id.toString()).delete().then(function() {
-                                        this.recipeRef.doc(this.recipe.id.toString()).set(Object.assign({}, this.recipe));
-                                }).catch(function(error) {
-                                    console.error('Error removing document: ', error);
-                                });
-                                return false;
-                            }
 
-                    });
-    }
-    });
+    // If we are editing a recipe, we will update the document rather then create a new one.
     if (localStorage.getItem('recipeId') != null) {
-        this.recipeRef.doc(localStorage.getItem('recipeId')).ref.delete;
+        if (this.file.file != null) {
+            this.upload.pushFileToStorage(this.file, this.progress, 'updateRecipe', this.recipe);
+        } else {
+            this.recipeRef.doc(localStorage.getItem('recipeId')).ref.update({
+                picture: this.recipe.picture,
+                ingredients: this.recipe.ingredients,
+                instructions: this.recipe.instructions,
+                title: this.recipe.title,
+                type: this.recipe.type,
+                meal: this.recipe.meal,
+                time: this.recipe.time,
+                tags: this.recipe.tags
+            });
+        }
+    } else { // This is creating a recipe
+        // Get the ID for the recipe
+        this.recipeCountRef.doc('count').ref.get().then(doc => {
+        this.recipe.id = doc.data().recipeCount;
+        this.recipeCountRef.doc('count').update({
+            recipeCount: doc.data().recipeCount + 1
+        });
+        if (this.file.file != null) { // There is a picture, need to upload to cloud storage.
+            console.log('Picture detected');
+            this.upload.pushFileToStorage(this.file, this.progress, 'newRecipe', this.recipe);
+        } else { // No picture, can add it here
+            const userId = localStorage.getItem('userId').toString();
+            this.recipeRef.doc(this.recipe.id.toString()).ref.get()
+                        .then(doc2 => {
+                                // This recipe doesn't exist!
+                                if (!doc2.exists) {
+                                    // Need to store the recipe
+                                    // Store it in cloud firestore
+                                    this.recipeRef.doc(this.recipe.id.toString()).set(Object.assign({}, this.recipe));
+                                    this.userRef.doc(userId).ref.get()
+                                            .then(docSnap => {
+                                                if (docSnap.exists) {
+                                                    // tslint:disable-next-line:prefer-const
+                                                    let userRecipes = docSnap.data().recipes;
+                                                    userRecipes.push(this.recipe.id.toString());
+                                                    this.userRef.doc(userId).update({
+                                                        recipes: userRecipes
+                                                    });
+                                                } else {
+                                                    console.error('Error updating user picture');
+                                                }
+                                            });
+                                    return true;
+                                } else {
+                                    // This deletes the old recipe and adds it again.
+                                    this.recipeRef.doc(this.recipe.id.toString()).delete().then(function() {
+                                            this.recipeRef.doc(this.recipe.id.toString()).set(Object.assign({}, this.recipe));
+                                    }).catch(function(error) {
+                                        console.error('Error removing document: ', error);
+                                    });
+                                    return false;
+                                }
+
+                        });
+        }
+        });
     }
+    
 
     this.router.navigate(['/calendar']);
 
