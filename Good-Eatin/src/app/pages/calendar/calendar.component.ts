@@ -20,6 +20,7 @@ export class CalendarComponent implements OnInit {
       this.week = new Map<String, Recipe[]>();
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipe');
+      localStorage.removeItem('recipeId');
       this.user = new User();
       this.user.id = localStorage.getItem('userId');
       this.userRef.doc(this.user.id).ref.get().then( doc => {

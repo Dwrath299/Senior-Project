@@ -137,6 +137,10 @@ export class AddRecipeComponent implements OnInit {
                     });
     }
     });
+    if (localStorage.getItem('recipeId') != null) {
+        this.recipeRef.doc(localStorage.getItem('recipeId')).ref.delete;
+    }
+
     this.router.navigate(['/calendar']);
 
 

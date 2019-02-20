@@ -24,6 +24,8 @@ export class ExploreRecipesComponent implements OnInit {
             item.picture = doc.data().picture;
             item.title = doc.data().title;
             item.tags = doc.data().tags;
+            item.time = doc.data().time;
+            item.averageReview = doc.data().averageReview;
             this.recipeList.push(item);
           });
 

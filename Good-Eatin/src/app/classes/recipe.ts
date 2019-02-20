@@ -32,9 +32,7 @@ export class Recipe {
                     this.instructions = [
                         { step: 1, text: ''}
                     ];
-                    this.meal = 'dinner'
-                    this.publicReviews = [{userId: '', rating: 0}];
-                    this.privateReview = [{userId: '', rating: 0}];
+                    this.meal = 'dinner';
                     this.averageReview = {average: 0, count: 0};
                     this.type = '';
                     this.tags = [];
