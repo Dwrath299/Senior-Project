@@ -1,13 +1,20 @@
 <body>
   <div class="reviews-container">
+      
     <div class="add-review" *ngIf="!hasAReview">
+      <div class="user-info">
         <img src="{{user.picture}}" alt="{{user.name}}-pic"> {{user.name}}
         <a *ngFor="let item of starList; let i=index " (click)="setStars(i)">  
             <i *ngIf="item" class="fa fa-star-o"></i>    
             <i *ngIf="!item" class="fa fa-star"></i>   
         </a> 
+      </div>
+      <textarea [(ngModel)]="newReview.description"></textarea>
     </div>
     <br>
+
+    <p *ngIf="!recipe.publicReviews"> There are no reviews yet. Be the first!</p>
+    
     <div class="review-container" *ngFor="let review of publicReviews">
       <img src="{{review.userData.userPic}}" alt="{{review.userData.username}}-pic"> {{review.userData.username}} 
       <a *ngFor="let item of review.starList; let i=index ">  
@@ -16,4 +23,4 @@
       </a> 
     </div>
   </div>
-</body>>
+</body>

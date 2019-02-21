@@ -27,7 +27,7 @@
             <button (click)="addInstruction($event)" id="add-instruction">Add Instruction</button> 
             <br> <br>
         <div class="instructions" id ="instruction-container"  *ngFor="let instruction of recipe.instructions; let i = index">
-            <textarea [(ngModel)]="instruction.text" name="instruction-{{i}}"  placeholder="Preheat oven to ..." cols="60" required></textarea>
+            {{i}}. <textarea [(ngModel)]="instruction.text" name="instruction-{{i}}"  placeholder="Preheat oven to ..." cols="60" required></textarea>
             <br>
         </div>
         <div class="meal" id="recipe-meal">

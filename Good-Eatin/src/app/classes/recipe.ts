@@ -33,6 +33,8 @@ export class Recipe {
                         { step: 1, text: ''}
                     ];
                     this.meal = 'dinner';
+                    this.publicReviews = null;
+                    this.privateReview = null;
                     this.averageReview = {average: 0, count: 0};
                     this.type = '';
                     this.tags = [];
