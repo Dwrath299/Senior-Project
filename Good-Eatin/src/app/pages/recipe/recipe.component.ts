@@ -22,7 +22,7 @@ export class RecipeComponent implements OnInit {
     userHasRecipe: boolean;
 
     publicReviews: Array<Review>;
-    privateReview: Review;
+    privateReview: [{UserId: String, rating: number}];
 
     isCreator: boolean;
 
