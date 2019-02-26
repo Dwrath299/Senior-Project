@@ -1,0 +1,21 @@
+Name: Dallin Wrathall
+Project Title: Meal Plan Generator
+
+
+Overall Status: SRS Submitted 
+
+Number of hours worked since last update: 15 hours
+Number of hours worked on the project thus far: 80 hours
+Total number of hours anticipated for completion: 55 hours
+
+Accomplishments: Edit form working properly, got a domain for the website and hosting it. SRS Document turned in. Had family add recipes and test out things.
+
+
+Challenges: Fixing bugs found by family, CSS challenges to make thinks look pretty.
+
+
+Plans / Goals for next week: Get the generator working. Start on shopping list.
+
+
+Accountability plan: (What is your plan to keep yourself honest and follow through with the goals that you have outlined?)
+Tell my wife what I need to get done, and she will remind me if I don't get them done.
