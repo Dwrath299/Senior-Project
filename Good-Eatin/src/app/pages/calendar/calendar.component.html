@@ -3,6 +3,7 @@
         <a [routerLink]="['/addRecipe']" routerLinkActive="router-link-active" >Add a Recipe to Generator</a> 
         <a [routerLink]="['/editMeals']" routerLinkActive="router-link-active" >View Recipes in Generator</a> 
         <a [routerLink]="['/editWeek']" routerLinkActive="router-link-active" >Edit Your Week of Meals</a> 
+        <button (click)="runGenerator()">Run Generator</button>
     </div>
     <div class="week-view">
         <div class="day">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Recipe } from '../../classes/recipe';
 import { User } from '../../classes/user';
+import { Week } from '../../classes/week';
 import { Router } from '@angular/router';
 
 
@@ -13,11 +14,17 @@ import { Router } from '@angular/router';
 export class CalendarComponent implements OnInit {
 
     user: User;
-    week: Map<String, Recipe[]>;
+    week1: Week;
+    week2: Week;
     userRef: AngularFirestoreCollection<User>;
     recipeRef: AngularFirestoreCollection<Recipe>;
+    weekRef: AngularFirestoreCollection<Week>;
   constructor(private db: AngularFirestore, private router: Router) {
-      this.week = new Map<String, Recipe[]>();
+      // The Current Week
+      this.week1 = new Week();
+      // Next Week
+      this.week2 = new Week();
+      
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipe');
       localStorage.removeItem('recipeId');
@@ -28,13 +35,8 @@ export class CalendarComponent implements OnInit {
         this.user.picture = doc.data().picture;
         this.user.recipes = doc.data().recipes;
         this.user.weeks = doc.data().weeks;
-        this.user.weeks.forEach(key => {
-            const tempRecipe = new Recipe();
-            this.recipeRef.doc(tempRecipe.id.toString()).ref.get().then(recipeDoc => {
-                tempRecipe.picture = recipeDoc.data().picture;
-                tempRecipe.title = recipeDoc.data().title;
-                this.week[key] = tempRecipe;
-            });
+        this.user.weeks.forEach(weekID => {
+          
         });
       });
 
