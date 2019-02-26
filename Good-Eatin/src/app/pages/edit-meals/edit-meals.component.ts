@@ -52,12 +52,14 @@ export class EditMealsComponent implements OnInit {
   removeRecipeFromGenerator(id, index) {
     // Get the user list of recipes
     this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
-      let recipes = doc.data().recipes;
-      delete recipes[id];
+      let userRecipes = doc.data().recipes;
+      userRecipes.splice(index, 1);
+     
       // Update the list of recipes to include the new one.
+      console.log(userRecipes);
       this.userRef.doc(localStorage.getItem('userId')).ref.update({
-        recipes: recipes
-      }).then(doc2 => {delete this.recipeList[index];});
+        recipes: userRecipes
+      }).then(doc2 =>{this.recipeList.splice(index, 1);});
     });
   }
 

@@ -1,11 +1,13 @@
 <div class="recipes-container" >
-    <div class="recipe-container" *ngFor="let recipe of recipeList; let i = index" (click)="recipeClick(recipe.recipe.id)">
+    <div class="recipe-container" *ngFor="let recipe of recipeList; let i = index" >
+        <a (click)="recipeClick(recipe.recipe.id)">
         {{recipe.recipe.title}} <br>
         <img src="{{recipe.recipe.picture}}" alt="recipe pic">
         <br>
         <i class="fa fa-clock"></i>{{recipe.recipe.time}} min 
-        <button class="addButton" (click)="addRecipeToGenerator(recipe.recipe.id, i)" *ngIf="!recipe.userHas">+</button>
-        <button class="removeButton" (click)="removeRecipeFromGenerator(recipe.recipe.id, i)" *ngIf="recipe.userHas">-</button>
+        </a>
+        <button class="addButton" (click)="addRecipeToGenerator(recipe.recipe.id, i, $event)" *ngIf="!recipe.userHas">+</button>
+        <button class="removeButton" (click)="removeRecipeFromGenerator(recipe.recipe.id, i, $event)" *ngIf="recipe.userHas">-</button>
         <!--
         <div class="tags" *ngFor="let tag of recipe.tags">
             <div class="tag">{{tag.display}}</div>

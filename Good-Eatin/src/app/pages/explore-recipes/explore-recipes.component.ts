@@ -57,7 +57,8 @@ export class ExploreRecipesComponent implements OnInit {
       this.router.navigate(['/recipe']);
   }
 
-  addRecipeToGenerator(id, index) {
+  addRecipeToGenerator(id, index, e) {
+    e.preventDefault();
     // Get the user list of recipes
     this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
       let recipes = doc.data().recipes;
@@ -75,14 +76,15 @@ export class ExploreRecipesComponent implements OnInit {
       });
     });
   }
-  removeRecipeFromGenerator(id, index) {
+  removeRecipeFromGenerator(id, index, e) {
+    e.preventDefault();
     // Get the user list of recipes
     this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
-      let recipes = doc.data().recipes;
-      delete recipes[id];
+      let userRecipes = doc.data().recipes;
+      userRecipes.splice(index, 1);
       // Update the list of recipes to include the new one.
       this.userRef.doc(localStorage.getItem('userId')).ref.update({
-        recipes: recipes
+        recipes: userRecipes
       }).then( doc2 => {
         // Message to user that the recipe was added.
         for(let i = 0; i < this.recipeList.length; i++){
