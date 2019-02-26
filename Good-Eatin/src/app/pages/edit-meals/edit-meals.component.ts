@@ -14,7 +14,7 @@ export class EditMealsComponent implements OnInit {
     userId = localStorage.getItem('userId').toString();
     recipeList: Array<Recipe>;
 
-    recipeReferenceList: Array<String>;
+    recipeReferenceList: Array<number>;
 
     userRef: AngularFirestoreCollection<User>;
     recipeRef: AngularFirestoreCollection<Recipe>;
@@ -30,10 +30,11 @@ export class EditMealsComponent implements OnInit {
         for (let i = 0; i < this.recipeReferenceList.length; i++)  {
             this.recipeRef.doc(this.recipeReferenceList[i].toString()).ref.get().then(doc2 => {
                 const item = new Recipe();
-                item.id = doc2.data().id;
+                item.id = this.recipeReferenceList[i];
                 item.picture = doc2.data().picture;
                 item.title = doc2.data().title;
                 item.tags = doc2.data().tags;
+                item.time = doc2.data().time;
                 this.recipeList.push(item);
             });
         }
@@ -47,6 +48,17 @@ export class EditMealsComponent implements OnInit {
   recipeClick(id: string) {
       localStorage.setItem('recipeId', id);
       this.router.navigate(['/recipe']);
+  }
+  removeRecipeFromGenerator(id, index) {
+    // Get the user list of recipes
+    this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
+      let recipes = doc.data().recipes;
+      delete recipes[id];
+      // Update the list of recipes to include the new one.
+      this.userRef.doc(localStorage.getItem('userId')).ref.update({
+        recipes: recipes
+      }).then(doc2 => {delete this.recipeList[index];});
+    });
   }
 
 }

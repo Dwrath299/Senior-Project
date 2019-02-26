@@ -14,7 +14,7 @@ export class ExploreRecipesComponent implements OnInit {
 
     recipeRef: AngularFirestoreCollection<Recipe>;
     userRef: AngularFirestoreCollection<User>;
-    recipeList: [{recipe: Recipe, userHas: boolean}];
+    recipeList: [{key: number, recipe: Recipe, userHas: boolean}];
   constructor(private db: AngularFirestore, private router: Router) {
       let first = true;
       
@@ -22,6 +22,7 @@ export class ExploreRecipesComponent implements OnInit {
       this.recipeRef = db.collection('recipes', ref => ref.where('isPublic', '==', true));
       this.userRef.doc(localStorage.getItem('userId')).ref.get().then(doc2 => {
         let userRecipeList = doc2.data().recipes;
+        let count = 0;
         this.recipeRef.ref.get().then(snapshot => {
           snapshot.forEach(doc => {
             let has = false;
@@ -34,13 +35,12 @@ export class ExploreRecipesComponent implements OnInit {
             item.averageReview = doc.data().averageReview;
             if (userRecipeList.indexOf(item.id.toString()) > -1) {
               has = true;
-              console.log('Got one');
             }
             if (first) {
-              this.recipeList = [{recipe: item, userHas: has}];
+              this.recipeList = [{key: count++, recipe: item, userHas: has}];
               first = false;
             } else {
-              this.recipeList.push({recipe: item, userHas: has});
+              this.recipeList.push({key: count++, recipe: item, userHas: has});
             }
           });
 
@@ -61,15 +61,36 @@ export class ExploreRecipesComponent implements OnInit {
     // Get the user list of recipes
     this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
       let recipes = doc.data().recipes;
-      recipes.push(id);
+      recipes.push(id.toString());
       // Update the list of recipes to include the new one.
       this.userRef.doc(localStorage.getItem('userId')).ref.update({
         recipes: recipes
-      }).then(
+      }).then( doc2 => {
         // Message to user that the recipe was added.
-        
-      );
-
+        for(let i = 0; i < this.recipeList.length; i++){
+          if(i === index) {
+            this.recipeList[i]['userHas'] = true;
+          }
+        }
+      });
+    });
+  }
+  removeRecipeFromGenerator(id, index) {
+    // Get the user list of recipes
+    this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
+      let recipes = doc.data().recipes;
+      delete recipes[id];
+      // Update the list of recipes to include the new one.
+      this.userRef.doc(localStorage.getItem('userId')).ref.update({
+        recipes: recipes
+      }).then( doc2 => {
+        // Message to user that the recipe was added.
+        for(let i = 0; i < this.recipeList.length; i++){
+          if(i === index) {
+            this.recipeList[i]['userHas'] = false;
+          }
+        }
+      });
     });
   }
 

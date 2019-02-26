@@ -4,6 +4,8 @@
         {{recipe.title}} <br>
         <img src="{{recipe.picture}}" alt="recipe pic">
         <br>
+        <i class="fa fa-clock"></i>{{recipe.time}} min 
+        <button class="removeButton" (click)="removeRecipeFromGenerator(recipe.id, i)">-</button>
         <!--
         <div class="tags" *ngFor="let tag of recipe.tags">
             {{tag.display}} 

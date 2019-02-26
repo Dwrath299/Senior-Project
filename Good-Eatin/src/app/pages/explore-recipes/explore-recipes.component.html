@@ -3,8 +3,9 @@
         {{recipe.recipe.title}} <br>
         <img src="{{recipe.recipe.picture}}" alt="recipe pic">
         <br>
-        <i class="fas fa-clock"></i>{{recipe.recipe.time}} min <button (click)="addRecipeToGenerator(recipe.recipe.id, i)" *ngIf="!recipe.userHas">+</button>
-
+        <i class="fa fa-clock"></i>{{recipe.recipe.time}} min 
+        <button class="addButton" (click)="addRecipeToGenerator(recipe.recipe.id, i)" *ngIf="!recipe.userHas">+</button>
+        <button class="removeButton" (click)="removeRecipeFromGenerator(recipe.recipe.id, i)" *ngIf="recipe.userHas">-</button>
         <!--
         <div class="tags" *ngFor="let tag of recipe.tags">
             <div class="tag">{{tag.display}}</div>
