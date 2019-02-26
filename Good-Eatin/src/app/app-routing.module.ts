@@ -13,6 +13,7 @@ import {ExploreRecipesComponent} from './pages/explore-recipes/explore-recipes.c
 import {ShoppingListComponent} from './pages/shopping-list/shopping-list.component';
 import {RegisterComponent} from './pages/register/register.component';
 import {RecipeComponent} from './pages/recipe/recipe.component';
+import {ReviewsComponent} from './pages/reviews/reviews.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 
@@ -28,6 +29,7 @@ const routes: Routes = [
     { path: 'explore', canActivate: [AuthGuard], component: ExploreRecipesComponent},
     { path: 'shoppingList', canActivate: [AuthGuard], component: ShoppingListComponent},
     { path: 'recipe', canActivate: [AuthGuard], component: RecipeComponent},
+    { path: 'reviews', canActivate: [AuthGuard], component: ReviewsComponent},
     { path: 'register', component: RegisterComponent},
     { path: '**', component: PageNotFoundComponent}
 ];

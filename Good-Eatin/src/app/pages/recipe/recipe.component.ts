@@ -22,7 +22,7 @@ export class RecipeComponent implements OnInit {
     userHasRecipe: boolean;
 
     publicReviews: Array<Review>;
-    privateReview: Review;
+    privateReview: [{UserId: String, rating: number}];
 
     isCreator: boolean;
 
@@ -63,21 +63,11 @@ export class RecipeComponent implements OnInit {
                 item.creator = doc2.data().creator;
                 item.isPublic = doc2.data().isPublic;
                 item.privateReview = doc2.data().privateReview;
-                item.publicReviews = doc2.data().publicReviews;
                 item.averageReview = doc2.data().averageReview;
                 this.setStar(item.averageReview.average - 1);
                 item.type = doc2.data().type;
                 item.tags = doc2.data().tags;
                 this.recipe = item;
-                for (let i = 0; i < this.recipe.publicReviews.length; i++) {
-                    this.reviewRef.doc(this.recipe.publicReviews[i].userId).ref.get().then(doc => {
-                        const tempReview = new Review();
-                        tempReview.author = doc.data().author;
-                        tempReview.stars = doc.data().stars;
-                        tempReview.description = doc.data().description;
-                        this.publicReviews.push(tempReview);
-                    });
-                }
 
                 if (this.recipe.creator === localStorage.getItem('userId')) {
                     this.isCreator = true;

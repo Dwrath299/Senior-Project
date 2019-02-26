@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/sitePics%2Fbackground2.jpg?alt=media&token=85d98119-dffc-468c-bbd2-4c64ccc7e770);
+    background-repeat: no-repeat;
+    background-position: fixed;
+}
+
+.reviews-container {
+    padding: 2em;
+    margin: 0 auto;
+    width: 60%;
+    background-color: white;
+    opacity: .85;
+}
+.add-review {
+    width: 80%;
+    font-size: 150%;
+}
+
+.add-review textarea {
+    width: 80%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.user-info {
+    width: 95%;
+}
+
+.user-info img {
+    width: 5%;
+}

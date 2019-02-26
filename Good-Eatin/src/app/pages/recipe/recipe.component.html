@@ -1,10 +1,12 @@
 <div class="recipe">
     <h2 class="title">{{recipe.title}}</h2> 
     <button *ngIf="isCreator === true" (click)="editButton()">Edit Recipe</button> 
-     <a *ngFor="let item of starList; let i=index ">  
-        <i *ngIf="item" class="fa fa-star-o"></i>    
-        <i *ngIf="!item" class="fa fa-star"></i>   
-    </a>  {{recipe.averageReview.count}}
+    <a [routerLink]="['/reviews']" routerLinkActive="router-link-active">
+        <a *ngFor="let item of starList; let i=index ">  
+            <i *ngIf="item" class="fa fa-star-o"></i>    
+            <i *ngIf="!item" class="fa fa-star"></i>   
+        </a>  {{recipe.averageReview.count}}
+    </a>
 
     <br>
     <img src="{{recipe.picture}}"> <br>
@@ -18,8 +20,5 @@
     <hr>
     <div class="instructions" *ngFor="let instruction of recipe.instructions">
         {{instruction.step}}. {{instruction.text}} <br> <br>
-    </div>
-    <div class="reviews" *ngFor="let review of recipe.publicReviews">
-        <p *ngIf="recipe.publicReviews.length < 1"> There are no reviews yet. Be the first!</p>
     </div>
 </div>

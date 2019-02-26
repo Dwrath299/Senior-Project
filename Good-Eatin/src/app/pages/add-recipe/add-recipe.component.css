@@ -7,7 +7,9 @@
     width: 95%;
 }
 
-.instructions 
+.instructions textarea {
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 .picture img {
     width: 30%;

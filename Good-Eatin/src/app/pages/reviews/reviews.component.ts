@@ -33,8 +33,9 @@ export class ReviewsComponent implements OnInit {
   rating: number;
 
   constructor(private db: AngularFirestore, private router: Router) { 
-    this.rating = 4;
+    this.rating = 0;
     this.user = new User();
+    this.newReview = new Review();
     this.reviewRef = db.collection('reviews');
     this.recipeRef = db.collection('recipes');
     this.userRef = db.collection('users');
@@ -58,31 +59,36 @@ export class ReviewsComponent implements OnInit {
               item.averageReview = doc2.data().averageReview;
               item.type = doc2.data().type;
               item.tags = doc2.data().tags;
+              // Get the user info
+              this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc3 => {
+                this.user.id = doc3.data().id;
+                this.user.picture = doc3.data().picture;
+                this.user.name = doc3.data().name;
+              });
               this.recipe = item;
-              for (let i = 0; i < this.recipe.publicReviews.length; i++) {
-                  this.reviewRef.doc(this.recipe.publicReviews[i].userId).ref.get().then(doc => {
-                      const tempReview = new Review();
-                      tempReview.author = doc.data().author;
-                      if (tempReview.author === localStorage.getItem('userId')) {
-                        this.hasAReview = true;
-                      } else {
-                        this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc3 => {
-                          this.user.picture = doc3.data().picture;
-                          this.user.name = doc3.data().name;
+              // If it is null, there are no reviews.
+              if (this.recipe.publicReviews != null) {
+                for (let i = 0; i < this.recipe.publicReviews.length; i++) {
+                    this.reviewRef.doc(this.recipe.publicReviews[i].userId).ref.get().then(doc => {
+                        const tempReview = new Review();
+                        tempReview.author = doc.data().author;
+                        // Check to see if this user has added a review
+                        if (tempReview.author === this.user.id) {
+                          this.hasAReview = true;
+                        } 
+                        tempReview.stars = doc.data().stars;
+                        tempReview.description = doc.data().description;
+                        this.userRef.doc(tempReview.author).ref.get().then(  doc3 => {
+                          this.publicReviews.push(
+                            {review: tempReview, 
+                            starList: this.getStars(tempReview.stars), 
+                            userData: {userPic: doc3.data().picture, 
+                            username: doc3.data().name}
+                            });
                         });
-                      }
-                      tempReview.stars = doc.data().stars;
-                      tempReview.description = doc.data().description;
-                      this.userRef.doc(tempReview.author).ref.get().then(  doc3 => {
-                        this.publicReviews.push(
-                          {review: tempReview, 
-                           starList: this.getStars(tempReview.stars), 
-                           userData: {userPic: doc3.data().picture, 
-                           username: doc3.data().name}
-                          });
-                      });
-                      
-                  });
+                        
+                    });
+                }
               }
           });
      }
@@ -100,7 +106,7 @@ export class ReviewsComponent implements OnInit {
     return starList;
   }
 
-  setStar(data:any) {
+  setStars(data:any) {
     this.rating = data+1;
     console.log(data);
     for (let i = 0; i <= 4; i ++){
@@ -110,6 +116,7 @@ export class ReviewsComponent implements OnInit {
           this.starList[i] = true;
       }
     }
+    this.newReview.stars = this.rating;
   }
 
   ngOnInit() {

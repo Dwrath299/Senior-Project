@@ -13,12 +13,18 @@ import { Router } from '@angular/router';
 export class ExploreRecipesComponent implements OnInit {
 
     recipeRef: AngularFirestoreCollection<Recipe>;
-    recipeList: Array<Recipe>;
+    userRef: AngularFirestoreCollection<User>;
+    recipeList: [{recipe: Recipe, userHas: boolean}];
   constructor(private db: AngularFirestore, private router: Router) {
-      this.recipeList = [];
+      let first = true;
+      
+      this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes', ref => ref.where('isPublic', '==', true));
-      this.recipeRef.ref.get().then(snapshot => {
+      this.userRef.doc(localStorage.getItem('userId')).ref.get().then(doc2 => {
+        let userRecipeList = doc2.data().recipes;
+        this.recipeRef.ref.get().then(snapshot => {
           snapshot.forEach(doc => {
+            let has = false;
             const item = new Recipe();
             item.id = doc.data().id;
             item.picture = doc.data().picture;
@@ -26,10 +32,21 @@ export class ExploreRecipesComponent implements OnInit {
             item.tags = doc.data().tags;
             item.time = doc.data().time;
             item.averageReview = doc.data().averageReview;
-            this.recipeList.push(item);
+            if (userRecipeList.indexOf(item.id.toString()) > -1) {
+              has = true;
+              console.log('Got one');
+            }
+            if (first) {
+              this.recipeList = [{recipe: item, userHas: has}];
+              first = false;
+            } else {
+              this.recipeList.push({recipe: item, userHas: has});
+            }
           });
 
+        });
       });
+      
   }
 
   ngOnInit() {
@@ -38,6 +55,22 @@ export class ExploreRecipesComponent implements OnInit {
   recipeClick(id: string) {
       localStorage.setItem('recipeId', id);
       this.router.navigate(['/recipe']);
+  }
+
+  addRecipeToGenerator(id, index) {
+    // Get the user list of recipes
+    this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
+      let recipes = doc.data().recipes;
+      recipes.push(id);
+      // Update the list of recipes to include the new one.
+      this.userRef.doc(localStorage.getItem('userId')).ref.update({
+        recipes: recipes
+      }).then(
+        // Message to user that the recipe was added.
+        
+      );
+
+    });
   }
 
 }
