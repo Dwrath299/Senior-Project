@@ -4,6 +4,8 @@ import { Recipe } from '../../classes/recipe';
 import { User } from '../../classes/user';
 import { Week } from '../../classes/week';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
+
 
 
 @Component({
@@ -24,7 +26,7 @@ export class CalendarComponent implements OnInit {
       this.week1 = new Week();
       // Next Week
       this.week2 = new Week();
-      
+
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipe');
       localStorage.removeItem('recipeId');
@@ -35,14 +37,16 @@ export class CalendarComponent implements OnInit {
         this.user.picture = doc.data().picture;
         this.user.recipes = doc.data().recipes;
         this.user.weeks = doc.data().weeks;
-        this.user.weeks.forEach(weekID => {
-          
-        });
       });
 
    }
 
   ngOnInit() {
+  }
+
+  runGenerator() {
+    const generateMeals = firebase.functions().httpsCallable('generateMeals');
+    generateMeals({userId: this.user.id});
   }
 
 }

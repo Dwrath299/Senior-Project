@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-import {Week} from '../src/app/classes/week';
+
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
