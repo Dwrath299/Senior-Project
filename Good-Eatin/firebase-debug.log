@@ -1,8 +1,0 @@
-[debug] [2019-02-28T21:16:29.551Z] ----------------------------------------------------------------------
-[debug] [2019-02-28T21:16:29.565Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dallin's PC\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js login --reauth
-[debug] [2019-02-28T21:16:29.566Z] CLI Version:   6.3.1
-[debug] [2019-02-28T21:16:29.566Z] Platform:      win32
-[debug] [2019-02-28T21:16:29.566Z] Node Version:  v10.15.0
-[debug] [2019-02-28T21:16:29.571Z] Time:          Thu Feb 28 2019 14:16:29 GMT-0700 (Mountain Standard Time)
-[debug] [2019-02-28T21:16:29.571Z] ----------------------------------------------------------------------
-[debug] 
