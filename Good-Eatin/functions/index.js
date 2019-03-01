@@ -1,4 +1,6 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
 
 
 // // Create and Deploy Your First Cloud Functions
@@ -7,30 +9,41 @@ const functions = require('firebase-functions');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
+const cors = require('cors')({
+    origin: true,
+  });
 
 exports.generateMeals = functions.https.onRequest((req, res) => {
-    var db = admin.database();
-    const recipeRef = db.ref("recipes");
-    const userRef = db.ref("users");
-    const weekRef = db.ref("weeks");
+   
+    var db = admin.firestore();
+    const recipeRef = db.collection("recipes");
+    const userRef = db.collection("users");
+    const weekRef = db.collection("weeks");
     // The usable list of recipes with private rating next to each.
     var listOfRecipes;
     // Get the userID from the parameters
     var userId = req.get("userId");
-    userRef.doc(userId).ref.get().then(doc2 => {
+    console.log(userId);
+    userRef.doc(userId).get().then(doc2 => {
         var listOfRecipeRefs = doc2.data().recipes;
-        // Go through each recipe to get the 
-        listOfRecipeRefs.forEach(recipeString => {
-            recipeRef.doc(recipeString).ref.get().then(doc => {
-                var privateReviews = doc.data().privateReviews;
-                // Creating a weighted list from the private review.
-                for (var i = 0; i < privateReviews.get(userId); i++) {
-                    listOfRecipes.add(recipeString);
-                }
-                
-            });
+        return true;
+    }).catch(error => {
+        return error;
+    });
+     // Go through each recipe to get the 
+     listOfRecipeRefs.forEach(recipeString => {
+        recipeRef.doc(recipeString).get().then(doc => {
+            var privateReviews = doc.data().privateReviews;
+            // Creating a weighted list from the private review.
+            for (var i = 0; i < privateReviews.get(userId); i++) {
+                listOfRecipes.add(recipeString);
+            }
+            return true;
             
+        }).catch(error => {
+            return error;
         });
+        
     });
     
     
@@ -88,5 +101,8 @@ exports.generateMeals = functions.https.onRequest((req, res) => {
 
     // Add the refs to the user's weeks
     this.userRef.doc(userId).set({weeks: weekRefs});
+    
+
+    return cors(req, res, () => { let success = true });
 
 });
