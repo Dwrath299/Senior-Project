@@ -19,6 +19,7 @@
     "rewrites": [{
       "source": "/public/**",
       "destination": "/public.html"
+      
     },
     {
       "source": "**",
