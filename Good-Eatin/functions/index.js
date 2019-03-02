@@ -13,7 +13,7 @@ const cors = require('cors')({
     origin: true,
   });
 
-exports.generateMeals = functions.https.onRequest((req, res) => {
+exports.generateMeals = functions.https.onCall((data, context) => {
    
     var db = admin.firestore();
     const recipeRef = db.collection("recipes");
@@ -22,7 +22,7 @@ exports.generateMeals = functions.https.onRequest((req, res) => {
     // The usable list of recipes with private rating next to each.
     var listOfRecipes;
     // Get the userID from the parameters
-    var userId = req.get("userId");
+    const userId = data.userId;
     console.log(userId);
     userRef.doc(userId).get().then(doc2 => {
         var listOfRecipeRefs = doc2.data().recipes;
@@ -47,23 +47,31 @@ exports.generateMeals = functions.https.onRequest((req, res) => {
     });
     
     
-    var week = new Week();
+    var week = {startDate: Date, 
+                    sunday: {dinner: String, lunch: String, breakfast: String}, 
+                    monday: {dinner: String, lunch: String, breakfast: String}, 
+                    tuesday: {dinner: String, lunch: String, breakfast: String}, 
+                    wednesday: {dinner: String, lunch: String, breakfast: String}, 
+                    thursday: {dinner: String, lunch: String, breakfast: String}, 
+                    friday: {dinner: String, lunch: String, breakfast: String}, 
+                    saturday: {dinner: String, lunch: String, breakfast: String}
+                };
     // Now select at random from the weighted list. For each day of the week.
     // Currenlt only supporting dinner, but easily can add other meals.
     var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.sunday["dinner"] = temp;
+    week.sunday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.monday["dinner"] = temp;
+    week.monday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.tuesday["dinner"] = temp;
+    week.tuesday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.wednesday["dinner"] = temp;
+    week.wednesday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.thursday["dinner"] = temp;
+    week.thursday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.friday["dinner"] = temp;
+    week.friday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.saturday = temp;
+    week.saturday.dinner = temp;
 
     var sunday = new Date();
     var day = sunday.getDay(); // Get current day number, converting Sun. to 7
@@ -77,19 +85,19 @@ exports.generateMeals = functions.https.onRequest((req, res) => {
     this.weekRef.doc(userId + week.startDate).set(Object.assign({}, week));
 
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.sunday["dinner"] = temp;
+    week.sunday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.monday["dinner"] = temp;
+    week.monday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.tuesday["dinner"] = temp;
+    week.tuesday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.wednesday["dinner"] = temp;
+    week.wednesday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.thursday["dinner"] = temp;
+    week.thursday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.friday["dinner"] = temp;
+    week.friday.dinner = temp;
     temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.saturday = temp;
+    week.saturday.dinner = temp;
 
     var nextWeek = date.getDate() - (date.getDay() - 1) + 6;
     week.startDate = nextWeek;
@@ -103,6 +111,6 @@ exports.generateMeals = functions.https.onRequest((req, res) => {
     this.userRef.doc(userId).set({weeks: weekRefs});
     
 
-    return cors(req, res, () => { let success = true });
+    return { success: true };
 
 });
