@@ -1,14 +1,14 @@
-import { stringify } from '@angular/compiler/src/util';
+import {Recipe} from './recipe';
 
 export class Week {
     startDate: Date;
-    sunday: {dinner: String[], lunch: String[], breakfast: String[]};
-    monday: {dinner: String[], lunch: String[], breakfast: String[]};
-    tuesday: {dinner: String[], lunch: String[], breakfast: String[]};
-    wednesday: {dinner: String[], lunch: String[], breakfast: String[]};
-    thursday: {dinner: String[], lunch: String[], breakfast: String[]};
-    friday: {dinner: String[], lunch: String[], breakfast: String[]};
-    saturday: {dinner: String[], lunch: String[], breakfast: String[]};
+    sunday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    monday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    tuesday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    wednesday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    thursday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    friday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
+    saturday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
 
     constructor() {
         this.startDate = new Date();

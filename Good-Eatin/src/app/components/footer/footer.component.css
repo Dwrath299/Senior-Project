@@ -1,3 +1,8 @@
+
+@font-face {
+  font-family: bebasNeue;
+  src: url(https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/fonts%2FBebasNeue%20Regular.otf?alt=media&token=7cd0995f-da9c-4c86-958f-ae97714ba7e0);
+}
 /* Style the header with a grey background and some padding */
 .footer {
   display: flex;
@@ -5,6 +10,7 @@
   overflow: hidden;
   background-color: #085f73;
   padding: 20px 10px;
+  font-family: bebasNeue;
 }
 
 /* Style the header links */
