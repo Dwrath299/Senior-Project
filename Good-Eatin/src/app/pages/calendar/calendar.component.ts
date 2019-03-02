@@ -29,6 +29,7 @@ export class CalendarComponent implements OnInit {
 
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipe');
+      this.weekRef = db.collection('weeks');
       localStorage.removeItem('recipeId');
       this.user = new User();
       this.user.id = localStorage.getItem('userId');
@@ -37,8 +38,11 @@ export class CalendarComponent implements OnInit {
         this.user.picture = doc.data().picture;
         this.user.recipes = doc.data().recipes;
         this.user.weeks = doc.data().weeks;
+        this.user.weeks.forEach(weekRef => {
+          
+        });
       });
-
+      
    }
 
   ngOnInit() {
@@ -46,7 +50,7 @@ export class CalendarComponent implements OnInit {
 
   runGenerator() {
     const generateMeals = firebase.functions().httpsCallable('generateMeals');
-    generateMeals({userId: this.user.id});
+    console.log(generateMeals({userId: this.user.id}));
   }
 
 }

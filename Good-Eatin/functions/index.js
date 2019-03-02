@@ -16,101 +16,89 @@ const cors = require('cors')({
 exports.generateMeals = functions.https.onCall((data, context) => {
    
     var db = admin.firestore();
-    const recipeRef = db.collection("recipes");
+    // const recipeRef = db.collection("recipes");
     const userRef = db.collection("users");
     const weekRef = db.collection("weeks");
-    // The usable list of recipes with private rating next to each.
-    var listOfRecipes;
+
     // Get the userID from the parameters
     const userId = data.userId;
     console.log(userId);
-    userRef.doc(userId).get().then(doc2 => {
-        var listOfRecipeRefs = doc2.data().recipes;
-        return true;
-    }).catch(error => {
-        return error;
-    });
-     // Go through each recipe to get the 
-     listOfRecipeRefs.forEach(recipeString => {
-        recipeRef.doc(recipeString).get().then(doc => {
-            var privateReviews = doc.data().privateReviews;
-            // Creating a weighted list from the private review.
-            for (var i = 0; i < privateReviews.get(userId); i++) {
-                listOfRecipes.add(recipeString);
-            }
-            return true;
-            
-        }).catch(error => {
-            return error;
-        });
+    var test = userRef.doc(userId).get().then(doc => {
+        listOfRecipes = doc.data().recipes;
+        weeks = doc.data().weeks;
+
+        console.log(weeks);        
+        var week = {startDate: "", 
+            sunday: {dinner: [], lunch: [], breakfast: []}, 
+            monday: {dinner: [], lunch: [], breakfast: []}, 
+            tuesday: {dinner: [], lunch: [], breakfast: []}, 
+            wednesday: {dinner: [], lunch: [], breakfast: []}, 
+            thursday: {dinner: [], lunch: [], breakfast: []}, 
+            friday: {dinner: [], lunch: [], breakfast: []}, 
+            saturday: {dinner: [], lunch: [], breakfast: []}
+        };
+        console.log(week);
+        // Now select at random from the weighted list. For each day of the week.
+        // Currenlt only supporting dinner, but easily can add other meals.
+        var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length) + 1)]];
+        week.sunday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.monday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.tuesday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.wednesday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.thursday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.friday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.saturday.dinner = temp;
+        console.log(Math.floor((Math.random() * listOfRecipes.length) + 1));
+        var now = new Date();
+        var week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+   
+        week.startDate = week_start.toLocaleDateString();
         
+        var weekRefs = [userId + week.startDate];
+        // Write to database
+        // This will overwrite any existing week data     
+        console.log(week.startDate);      
+        console.log(week);                  
+        weekRef.doc(userId + week.startDate).set(week);
+
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.sunday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.monday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.tuesday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.wednesday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.thursday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.friday.dinner = temp;
+        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+        week.saturday.dinner = temp;
+
+        var next_week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(8 - now.getDay()));
+        week.startDate = next_week_start.toLocaleDateString();
+
+        weekRefs[1] = (userId + week.startDate);
+        // Write to database
+        // This will overwrite any existing week data                           
+        weekRef.doc(userId + week.startDate).set(week);
+
+        // update the weeks in the user document.
+        userRef.doc(userId).update({weeks: weekRefs});
+
+        return listOfRecipes;
+    }).catch(err => {
+        console.log(err);
     });
-    
-    
-    var week = {startDate: Date, 
-                    sunday: {dinner: String, lunch: String, breakfast: String}, 
-                    monday: {dinner: String, lunch: String, breakfast: String}, 
-                    tuesday: {dinner: String, lunch: String, breakfast: String}, 
-                    wednesday: {dinner: String, lunch: String, breakfast: String}, 
-                    thursday: {dinner: String, lunch: String, breakfast: String}, 
-                    friday: {dinner: String, lunch: String, breakfast: String}, 
-                    saturday: {dinner: String, lunch: String, breakfast: String}
-                };
-    // Now select at random from the weighted list. For each day of the week.
-    // Currenlt only supporting dinner, but easily can add other meals.
-    var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.sunday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.monday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.tuesday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.wednesday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.thursday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.friday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.saturday.dinner = temp;
+    return test;
 
-    var sunday = new Date();
-    var day = sunday.getDay(); // Get current day number, converting Sun. to 7
-    if( day !== 0 )                // Only manipulate the date if it isn't Mon.
-        sunday.setHours(-24 * (day - 1));   // Set the hours to day number minus 1
-    week.startDate = sunday;
-     
-    var weekRefs = [userId + week.startDate];
-    // Write to database
-    // This will overwrite any existing week data                           
-    this.weekRef.doc(userId + week.startDate).set(Object.assign({}, week));
-
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.sunday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.monday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.tuesday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.wednesday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.thursday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.friday.dinner = temp;
-    temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length()) + 1)]];
-    week.saturday.dinner = temp;
-
-    var nextWeek = date.getDate() - (date.getDay() - 1) + 6;
-    week.startDate = nextWeek;
-
-    weekRefs.add(userId + week.startDate);
-    // Write to database
-    // This will overwrite any existing week data                           
-    this.weekRef.doc(userId + week.startDate).set(Object.assign({}, week));
-
-    // Add the refs to the user's weeks
-    this.userRef.doc(userId).set({weeks: weekRefs});
-    
-
-    return { success: true };
 
 });
+
