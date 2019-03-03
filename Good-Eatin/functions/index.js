@@ -22,12 +22,9 @@ exports.generateMeals = functions.https.onCall((data, context) => {
 
     // Get the userID from the parameters
     const userId = data.userId;
-    console.log(userId);
     var test = userRef.doc(userId).get().then(doc => {
         listOfRecipes = doc.data().recipes;
         weeks = doc.data().weeks;
-
-        console.log(weeks);        
         var week = {startDate: "", 
             sunday: {dinner: [], lunch: [], breakfast: []}, 
             monday: {dinner: [], lunch: [], breakfast: []}, 
@@ -37,7 +34,7 @@ exports.generateMeals = functions.https.onCall((data, context) => {
             friday: {dinner: [], lunch: [], breakfast: []}, 
             saturday: {dinner: [], lunch: [], breakfast: []}
         };
-        console.log(week);
+
         // Now select at random from the weighted list. For each day of the week.
         // Currenlt only supporting dinner, but easily can add other meals.
         var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length) + 1)]];
@@ -58,12 +55,12 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         var now = new Date();
         var week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
    
-        week.startDate = week_start.toLocaleDateString();
         
+        week.startDate = week_start.toISOString();
+
         var weekRefs = [userId + week.startDate];
         // Write to database
-        // This will overwrite any existing week data     
-        console.log(week.startDate);      
+        // This will overwrite any existing week data        
         console.log(week);                  
         weekRef.doc(userId + week.startDate).set(week);
 
@@ -83,7 +80,8 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         week.saturday.dinner = temp;
 
         var next_week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(8 - now.getDay()));
-        week.startDate = next_week_start.toLocaleDateString();
+
+        week.startDate = next_week_start.toISOString();
 
         weekRefs[1] = (userId + week.startDate);
         // Write to database

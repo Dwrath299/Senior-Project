@@ -12,12 +12,12 @@ export class Week {
 
     constructor() {
         this.startDate = new Date();
-        this.sunday = null;
-        this.monday = null;
-        this.tuesday = null;
-        this.wednesday = null;
-        this.thursday = null;
-        this.friday = null;
-        this.saturday = null;
+        this.sunday = {dinner: [], lunch: [], breakfast: []};
+        this.monday = {dinner: [], lunch: [], breakfast: []};
+        this.tuesday = {dinner: [], lunch: [], breakfast: []};
+        this.wednesday = {dinner: [], lunch: [], breakfast: []};
+        this.thursday = {dinner: [], lunch: [], breakfast: []};
+        this.friday = {dinner: [], lunch: [], breakfast: []};
+        this.saturday = {dinner: [], lunch: [], breakfast: []};
     }
 }

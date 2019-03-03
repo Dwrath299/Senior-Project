@@ -6,6 +6,7 @@ import { Week } from '../../classes/week';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { async } from '@angular/core/testing';
+import { resolve } from 'url';
 
 
 
@@ -23,14 +24,14 @@ export class CalendarComponent implements OnInit {
     weekRef: AngularFirestoreCollection<Week>;
   constructor(private db: AngularFirestore, private router: Router) {
       // The Current Week
-      this.weeks.push(new Week());
+      this.weeks = [new Week()];
       // Next Week
       this.weeks.push(new Week());
       let dayHolder;
 
 
       this.userRef = db.collection('users');
-      this.recipeRef = db.collection('recipe');
+      this.recipeRef = db.collection('recipes');
       this.weekRef = db.collection('weeks');
       localStorage.removeItem('recipeId');
       this.user = new User();
@@ -41,48 +42,52 @@ export class CalendarComponent implements OnInit {
         this.user.recipes = doc.data().recipes;
         this.user.weeks = doc.data().weeks;
         let i = 0;
-        this.user.weeks.forEach(weekID=> {
+        console.log(this.user.weeks);
+        for (let i = 0; i < this.user.weeks.length; i++) {
+          let weekID = this.user.weeks[i];
           this.weekRef.doc(weekID).ref.get().then( weekDoc => {
+            console.log(weekID);
             this.weeks[i].startDate = weekDoc.data().startDate;
-
             // Get Sunday
             dayHolder = weekDoc.data().sunday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].sunday = value;
             });
             // Get Monday
             dayHolder = weekDoc.data().monday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].monday = value;
             });
             // Get Tuesday
             dayHolder = weekDoc.data().tuesday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+              console.log(i);
+              console.log(this.weeks[i]);
               this.weeks[i].tuesday = value;
             });
             // Get Wednesday
             dayHolder = weekDoc.data().wednesday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].wednesday = value;
             });
             // Get Thursday
             dayHolder = weekDoc.data().thursday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].thursday = value;
             });
             // Get Friday
             dayHolder = weekDoc.data().friday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].friday = value;
             });
             // Get Saturday
             dayHolder = weekDoc.data().saturday;
-            this.dayRecipes(dayHolder).then(value => {
+            this.dayRecipes(dayHolder, this.recipeRef).then(value => {
               this.weeks[i].saturday = value;
             });
-            i++;
+            console.log(this.weeks[i]);
           });
-        });
+        };
       });
       
    }
@@ -90,11 +95,17 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
   }
 
-dayRecipes = async(day): Promise<{breakfast: any, lunch: any, dinner: any}> => {
+recipeClick(id: string) {
+    localStorage.setItem('recipeId', id);
+    this.router.navigate(['/recipe']);
+}
+
+dayRecipes = function(day, recipeRef) {
+  return new Promise<{breakfast: any[], lunch: any[], dinner: any[]}>(async function(resolve, reject) {
     let recipe;
     let output = {breakfast: [], lunch: [], dinner: []};
-    for(let i = 0; i < day.breakfast.length(); i++) {
-      recipe = this.recipeRef.doc(day.breakfast[i]).ref.get().then( doc => {
+    for(let i = 0; i < day.breakfast.length; i++) {
+      recipe = recipeRef.doc(day.breakfast[i]).ref.get().then( doc => {
         let r = new Recipe();
         r.id = day.breakfast[i];
         r.picture = doc.data().picture;
@@ -103,10 +114,10 @@ dayRecipes = async(day): Promise<{breakfast: any, lunch: any, dinner: any}> => {
         return r;
       });
       let result = await recipe;
-      output.breakfast.push(recipe);
+      output.breakfast.push(result);
     }
-    for(let i = 0; i < day.lunch.length(); i++) {
-      recipe = this.recipeRef.doc(day.lunch[i]).ref.get().then( doc => {
+    for(let i = 0; i < day.lunch.length; i++) {
+      recipe = recipeRef.doc(day.lunch[i]).ref.get().then( doc => {
         let r = new Recipe();
         r.id = day.breakfast[i];
         r.picture = doc.data().picture;
@@ -115,10 +126,11 @@ dayRecipes = async(day): Promise<{breakfast: any, lunch: any, dinner: any}> => {
         return r;
       });
       let result = await recipe;
-      output.lunch.push(recipe);
+      output.lunch.push(result);
     }
-    for(let i = 0; i < day.dinner.length(); i++) {
-      recipe = this.recipeRef.doc(day.dinner[i]).ref.get().then( doc => {
+    for(let i = 0; i < day.dinner.length; i++) {
+      console.log(day.dinner[i]);
+      recipe = recipeRef.doc(day.dinner[i]).ref.get().then( doc => {
         let r = new Recipe();
         r.id = day.dinner[i];
         r.picture = doc.data().picture;
@@ -127,14 +139,17 @@ dayRecipes = async(day): Promise<{breakfast: any, lunch: any, dinner: any}> => {
         return r;
       });
       let result = await recipe;
-      output.dinner.push(recipe);
+      output.dinner.push(result);
     }
-    
-    return output;
+    console.log(output);
+    if ( output != null) {
+      resolve(output);
+    } else {
+      reject(Error("It broke"));
+    }
+  });
+}
 
-    
-
-  }
   
 
   runGenerator() {

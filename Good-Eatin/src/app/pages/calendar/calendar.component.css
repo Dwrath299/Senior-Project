@@ -1,3 +1,9 @@
+
+@font-face {
+  font-family: bebasNeue;
+  src: url(https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/fonts%2FBebasNeue%20Regular.otf?alt=media&token=7cd0995f-da9c-4c86-958f-ae97714ba7e0);
+}
+
 .calendar {
     font-family: Helvetica, sans-serif;
     width: 95%;
@@ -32,10 +38,25 @@
 }
 .day {
     width: 25%;
+    font-size: 150%;
+    font-family: bebasNeue;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
+.day img {
+  width: 75%;
+}
+
+.meal {
+  font-size: 75%;
+  font-family: Helvetica, sans-serif;
+}
+
+.recipe-container {
+  font-size: 55%;
+}
+
 
 .calendar a:hover {
   background-color: #ddd;
