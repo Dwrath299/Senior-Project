@@ -2,9 +2,8 @@
 <div class="recipes-container">
     <div class="recipe-container"  *ngFor="let recipe of recipeList; let i = index">
         <a (click)="recipeClick(recipe.id)">
-        {{recipe.title}} <br>
         <img src="{{recipe.picture}}" alt="recipe pic">
-        <br>
+        <h4>{{recipe.title}} </h4>
         <i class="fa fa-clock"></i>{{recipe.time}} min 
         </a>
         <button class="removeButton" (click)="removeRecipeFromGenerator(recipe.id, i)">-</button>

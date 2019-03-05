@@ -155,6 +155,60 @@ dayRecipes = function(day, recipeRef) {
   runGenerator() {
     const generateMeals = firebase.functions().httpsCallable('generateMeals');
     console.log(generateMeals({userId: this.user.id}));
+    let dayHolder;
+    this.userRef.doc(this.user.id).ref.get().then( doc => {
+      this.user.friends = doc.data().friends;
+      this.user.picture = doc.data().picture;
+      this.user.recipes = doc.data().recipes;
+      this.user.weeks = doc.data().weeks;
+      let i = 0;
+      console.log(this.user.weeks);
+      for (let i = 0; i < this.user.weeks.length; i++) {
+        let weekID = this.user.weeks[i];
+        this.weekRef.doc(weekID).ref.get().then( weekDoc => {
+          console.log(weekID);
+          this.weeks[i].startDate = weekDoc.data().startDate;
+          // Get Sunday
+          dayHolder = weekDoc.data().sunday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].sunday = value;
+          });
+          // Get Monday
+          dayHolder = weekDoc.data().monday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].monday = value;
+          });
+          // Get Tuesday
+          dayHolder = weekDoc.data().tuesday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            console.log(i);
+            console.log(this.weeks[i]);
+            this.weeks[i].tuesday = value;
+          });
+          // Get Wednesday
+          dayHolder = weekDoc.data().wednesday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].wednesday = value;
+          });
+          // Get Thursday
+          dayHolder = weekDoc.data().thursday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].thursday = value;
+          });
+          // Get Friday
+          dayHolder = weekDoc.data().friday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].friday = value;
+          });
+          // Get Saturday
+          dayHolder = weekDoc.data().saturday;
+          this.dayRecipes(dayHolder, this.recipeRef).then(value => {
+            this.weeks[i].saturday = value;
+          });
+          console.log(this.weeks[i]);
+        });
+      };
+    });
   }
 
 }
