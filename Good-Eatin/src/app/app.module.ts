@@ -40,6 +40,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeComponent } from './pages/recipe/recipe.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 
+// Toasts
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
+
 
 
 
@@ -76,7 +80,8 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    SlideshowModule
+    SlideshowModule,  
+    NotificationModule
   ],
   providers: [AuthGuard, UploadService],
   bootstrap: [AppComponent]

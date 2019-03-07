@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Recipe } from '../../classes/recipe';
 import { User } from '../../classes/user';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { async } from '@angular/core/testing';
 import { resolve } from 'url';
+import { NotificationService } from '@progress/kendo-angular-notification';
 
 @Component({
   selector: 'app-calendar',
@@ -20,11 +21,12 @@ export class CalendarComponent implements OnInit {
     userRef: AngularFirestoreCollection<User>;
     recipeRef: AngularFirestoreCollection<Recipe>;
     weekRef: AngularFirestoreCollection<Week>;
-  constructor(private db: AngularFirestore, private router: Router) {
+  constructor(private notification: NotificationService, private db: AngularFirestore, private router: Router) {
       // The Current Week
       this.weeks = [new Week()];
       // Next Week
       this.weeks.push(new Week());
+  
       
 
 
@@ -160,6 +162,13 @@ dayRecipes = function(day, recipeRef) {
   runGenerator() {
     const generateMeals = firebase.functions().httpsCallable('generateMeals');
     console.log(generateMeals({userId: this.user.id}));
+    this.notification.show({
+      content: 'Currently Generating Meals!',
+      hideAfter: 800,
+      position: { horizontal: 'center', vertical: 'top' },
+      animation: { type: 'fade', duration: 400 },
+      type: { style: 'success', icon: true }
+    });
     //this.snackBar.open("Currently generating your meals!");
     this.getCalendar();
   }
