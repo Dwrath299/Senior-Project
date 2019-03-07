@@ -5,27 +5,28 @@
         <a [routerLink]="['/editWeek']" routerLinkActive="router-link-active" >Edit Your Week of Meals</a> 
         <button (click)="runGenerator()">Run Generator</button>
     </div>
+    
     <div class="week-view" *ngFor="let week of weeks; let i = index">
         <div class="day">
             SUNDAY
             <div class="meal" *ngIf="week.sunday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.sunday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.sunday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -35,21 +36,21 @@
             <div class="meal" *ngIf="week.monday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.monday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.monday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -59,21 +60,21 @@
             <div class="meal" *ngIf="week.tuesday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.tuesday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.tuesday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -83,21 +84,21 @@
             <div class="meal" *ngIf="week.wednesday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.wednesday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.wednesday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -107,21 +108,21 @@
             <div class="meal" *ngIf="week.thursday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.thursday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.thursday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -131,21 +132,21 @@
             <div class="meal" *ngIf="week.friday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.friday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.friday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
@@ -155,21 +156,21 @@
             <div class="meal" *ngIf="week.saturday.breakfast.length > 0">
                 Breakfast
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.breakfast">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.saturday.lunch.length > 0">
                 Lunch
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.lunch">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
             <div class="meal" *ngIf="week.saturday.dinner.length > 0">
                 Dinner
                 <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.dinner">
-                    {{recipe.title}}
+                    {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>

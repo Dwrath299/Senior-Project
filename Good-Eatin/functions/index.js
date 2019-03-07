@@ -92,10 +92,12 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         userRef.doc(userId).update({weeks: weekRefs});
 
         return listOfRecipes;
+    
     }).catch(err => {
         console.log(err);
     });
-    return test;
+    var result = test;
+    return result;
 
 
 });

@@ -1,9 +1,9 @@
 <div class="recipes-container" >
     <div class="recipe-container" *ngFor="let recipe of recipeList; let i = index" >
         <a (click)="recipeClick(recipe.recipe.id)">
-        {{recipe.recipe.title}} <br>
+        
         <img src="{{recipe.recipe.picture}}" alt="recipe pic">
-        <br>
+        <h4>{{recipe.recipe.title}}</h4>
         <i class="fa fa-clock"></i>{{recipe.recipe.time}} min 
         </a>
         <button class="addButton" (click)="addRecipeToGenerator(recipe.recipe.id, i, $event)" *ngIf="!recipe.userHas">+</button>

@@ -8,7 +8,6 @@
 }
 
 .recipe-container{
-    border: 1px solid #ccc;
     max-width: 180px;
     height: auto;
     text-align: center;
@@ -23,15 +22,17 @@
     background-color: #82c8a0;
     padding: 4px 12px;  
     font-size: 12px;
-    border: #168b7e;
+    border: #7c8584;
+    border-radius: 5px;
 
 }
 
 .removeButton {
-    background-color: #fa5a5a;
+    background-color: rgb(224, 216, 216);
     padding: 4px 12px;  
     font-size: 12px;
-    border: #a54417;
+    border: #c9c7c7;
+    border-radius: 5px;
 }
 .recipes-container img {
     width: 90%;
