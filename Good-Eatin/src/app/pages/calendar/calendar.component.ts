@@ -52,11 +52,10 @@ getCalendar() {
     this.user.recipes = doc.data().recipes;
     this.user.weeks = doc.data().weeks;
     let i = 0;
-    console.log(this.user.weeks);
     for (let i = 0; i < this.user.weeks.length; i++) {
       let weekID = this.user.weeks[i];
       this.weekRef.doc(weekID).ref.get().then( weekDoc => {
-        console.log(weekID);
+        
         this.weeks[i].startDate = weekDoc.data().startDate;
         // Get Sunday
         dayHolder = weekDoc.data().sunday;
@@ -71,8 +70,7 @@ getCalendar() {
         // Get Tuesday
         dayHolder = weekDoc.data().tuesday;
         this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          console.log(i);
-          console.log(this.weeks[i]);
+          
           this.weeks[i].tuesday = value;
         });
         // Get Wednesday
@@ -95,7 +93,7 @@ getCalendar() {
         this.dayRecipes(dayHolder, this.recipeRef).then(value => {
           this.weeks[i].saturday = value;
         });
-        console.log(this.weeks[i]);
+        
       });
     };
   });
@@ -136,7 +134,7 @@ dayRecipes = function(day, recipeRef) {
       output.lunch.push(result);
     }
     for(let i = 0; i < day.dinner.length; i++) {
-      console.log(day.dinner[i]);
+      
       recipe = recipeRef.doc(day.dinner[i]).ref.get().then( doc => {
         let r = new Recipe();
         r.id = day.dinner[i];
@@ -148,7 +146,7 @@ dayRecipes = function(day, recipeRef) {
       let result = await recipe;
       output.dinner.push(result);
     }
-    console.log(output);
+  
     if ( output != null) {
       resolve(output);
     } else {
@@ -161,7 +159,9 @@ dayRecipes = function(day, recipeRef) {
 
   runGenerator() {
     const generateMeals = firebase.functions().httpsCallable('generateMeals');
-    console.log(generateMeals({userId: this.user.id}));
+    const generateShoppingList = firebase.functions().httpsCallable('generateShoppingList');
+    generateMeals({userId: this.user.id});
+    // Makes a message to the user.
     this.notification.show({
       content: 'Currently Generating Meals!',
       hideAfter: 800,
@@ -169,8 +169,9 @@ dayRecipes = function(day, recipeRef) {
       animation: { type: 'fade', duration: 400 },
       type: { style: 'success', icon: true }
     });
-    //this.snackBar.open("Currently generating your meals!");
     this.getCalendar();
+    // Generate the shopping list.
+    generateShoppingList({userId: this.user.id});
   }
 
 }

@@ -102,116 +102,109 @@ exports.generateMeals = functions.https.onCall((data, context) => {
 
 });
 
-exports.generateShoppingList = functions.https.onCall((data, context) => {
+
+
+exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     var db = admin.firestore();
     var weeks = [{startDate: "", ingredients:[]}, {startDate: "", ingredients:[]}];
 
     // const recipeRef = db.collection("recipes");
     const userRef = db.collection("users");
     const weekRef = db.collection("weeks");
-    const shoopingListRef = db.collection("shoppingLists");
-    var dayHolder;
+    const shoppingListRef = db.collection("shoppingLists");
     // Get the userID from the parameters
     const userId = data.userId;
-    var test = userRef.doc(userId).get().then(doc => {
-        listOfRecipes = doc.data().recipes;
-        weeksIDs = doc.data().weeks;
-        for (let i = 0; i < weeksIDs.length; i++) {
-            let weekID = weeksIDs[i];
-            weekRef.doc(weekID).ref.get().then( weekDoc => {
-              console.log(weekID);
-              weeks[i].startDate = weekDoc.data().startDate;
-              // Get Sunday
-              dayHolder = weekDoc.data().sunday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Monday
-              dayHolder = weekDoc.data().monday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Tuesday
-              dayHolder = weekDoc.data().tuesday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Wednesday
-              dayHolder = weekDoc.data().wednesday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Thursday
-              dayHolder = weekDoc.data().thursday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Friday
-              dayHolder = weekDoc.data().friday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              // Get Saturday
-              dayHolder = weekDoc.data().saturday;
-              dayRecipes(dayHolder, recipeRef).then(value => {
-                weeks[i].ingredients.push(...value);
-              });
-              console.log(weeks[i]);
-            });
-          };
-        var shoppingListsRefs = [userId + weeks[0].startDate, userId + weeks[1].startDate]
-        // Then upload this list of recipes to a shopping list collection
-        shoppingListRef.doc(userId + weeks[0].startDate).set(weeks[0]);
-        shoppingListRef.doc(userId + weeks[1].startDate).set(weeks[1]);
-        // Update the user's references to the lists.
-        userRef.doc(userId).update({shoppingLists: shoppingListsRefs});
-        return listOfRecipes;
+    var weeksIDs = await userRef.doc(userId).get().then(async (doc) => {
+         return doc.data().weeks;
     
     }).catch(err => {
         console.log(err);
     });
-    var result = test;
-    return result;
+    
+    var tempWeek = await weekRef.doc(weeksIDs[0]).get().then(async (weekDoc) => {
+      return weekDoc.data();
+    }).catch(err => {
+      console.log(err);
+    });
+    weeks[0].startDate = tempWeek.startDate;
+    weeks[0].ingredients = await dayRecipes(tempWeek.sunday);
+    console.log(weeks[0].ingredients);
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.monday));
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.tuesday));
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.wednesday));
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.thursday));
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.friday));
+    weeks[0].ingredients.concat( await dayRecipes(tempWeek.saturday));
+    tempWeek = await weekRef.doc(weeksIDs[1]).get().then(async (weekDoc) => {
+      return weekDoc.data();
+    }).catch(err => {
+      console.log(err);
+    });
+    weeks[1].startDate = tempWeek.startDate;
+    weeks[1].ingredients = await dayRecipes(tempWeek.sunday);
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.monday));
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.tuesday));
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.wednesday));
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.thursday));
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.friday));
+    weeks[1].ingredients.concat( await dayRecipes(tempWeek.saturday));
+      
+  
+  var shoppingListsRefs = [userId + weeks[0].startDate, userId + weeks[1].startDate]
+  // Then upload this list of recipes to a shopping list collection
+  console.log(weeks);
+  shoppingListRef.doc(userId + weeks[0].startDate).set(weeks[0]);
+  shoppingListRef.doc(userId + weeks[1].startDate).set(weeks[1]);
+  // Update the user's references to the lists.
+  userRef.doc(userId).update({shoppingLists: shoppingListsRefs});
+  return shoppingListsRefs;
+
 });
 
-var dayRecipes = async function(day, recipeRef) {
-  return new Promise(function(resolve, reject) {
-      let recipe;
-      let output = [];
-      for(let i = 0; i < day.breakfast.length; i++) {
-        recipe = recipeRef.doc(day.breakfast[i]).ref.get().then( doc => {
-          let r = [];
-          r = doc.data().ingredients;
-          return r;
-        });
-        let result = await recipe;
-        output.push(...result);
+async function dayRecipes(day) {
+      var output = [];
+      var db = admin.firestore();
+      var recipeRef = db.collection("recipes");
+      var i;
+      var result
+      var results = [];
+      for(i = 0; i < day.breakfast.length; i++) {
+        results.push(recipeRef.doc(day.breakfast[i]).get().then( doc => {
+          return doc.data().ingredients;
+        }).catch(err => {
+          console.log(err);
+        }));
       }
-      for(let i = 0; i < day.lunch.length; i++) {
-        recipe = recipeRef.doc(day.lunch[i]).ref.get().then( doc => {
-          let r = [];
-          r = doc.data().ingredients;
-          return r;
-        });
-        let result = await recipe;
-        output.push(...result);
+     
+      for(i = 0; i < day.lunch.length; i++) {
+        results.push(recipeRef.doc(day.lunch[i]).get().then( doc => {
+          return doc.data().ingredients;
+        }).catch(err => {
+          console.log(err);
+        }));
       }
-      for(let i = 0; i < day.dinner.length; i++) {
-        console.log(day.dinner[i]);
-        recipe = recipeRef.doc(day.dinner[i]).ref.get().then( doc => {
-          let r = [];
-          r = doc.data().ingredients;
-          return r;
-        });
-        let result = await recipe;
-        output.push(...result);
+      
+      for(i = 0; i < day.dinner.length; i++) {
+        results.push(recipeRef.doc(day.dinner[i]).get().then( doc => {
+          return doc.data().ingredients;
+        }).catch(err => {
+          console.log(err);
+        }));
       }
+      const response = await Promise.all(results);
+      response.forEach(array => {
+        if(output.length < 1) {
+          output = array;
+        } else {
+          output.concat(array);
+        }
+      });
+
+      
+      
       console.log(output);
-      if ( output != null) {
-        resolve(output);
-      } else {
-        reject(Error("It broke"));
-      }
-    });
-  };
+      return output;
+
+  }
+
   
