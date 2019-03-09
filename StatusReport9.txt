@@ -1,0 +1,22 @@
+Name: Dallin Wrathall
+Project Title: Meal Plan Generator
+
+
+Overall Status: SRS Submitted 
+
+Number of hours worked since last update: 15 hours
+Number of hours worked on the project thus far: 112 hours
+Total number of hours anticipated for completion: 23 hours
+
+Accomplishments: Got the shopping list generator to display some desired outputs... But not completely. 
+		Meal Plan generator works more efficiently and the user get's told when it is working and doesn't need to refresh the page anymore.
+
+
+Challenges: Asyncrounous functions are difficult. Shopping list generator is a lot more difficult than expected.
+
+
+Plans / Goals for next week: Get the shopping list function working properly. And make a display for the shopping list.
+
+
+Accountability plan: (What is your plan to keep yourself honest and follow through with the goals that you have outlined?)
+Tell my wife what I need to get done, and she will remind me if I don't get them done.
