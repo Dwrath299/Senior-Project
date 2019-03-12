@@ -79,7 +79,8 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
         week.saturday.dinner = temp;
 
-        var next_week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(8 - now.getDay()));
+        var next_week_start = new Date();
+        week_start.setDate(next_week_start.getDate() + (0 + 7 - next_week_start.getDay()) % 7);
 
         week.startDate = next_week_start.toISOString();
 
@@ -106,7 +107,8 @@ exports.generateMeals = functions.https.onCall((data, context) => {
 
 exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     var db = admin.firestore();
-    var weeks = [{startDate: "", ingredients:[]}, {startDate: "", ingredients:[]}];
+    var weeks = [{startDate: "", ingredients: [{name: "", amount: ""}]}, 
+                {startDate: "", ingredients: [{name: "", amount: ""}]}];
 
     // const recipeRef = db.collection("recipes");
     const userRef = db.collection("users");
@@ -126,33 +128,76 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     }).catch(err => {
       console.log(err);
     });
+    var list;
     weeks[0].startDate = tempWeek.startDate;
-    weeks[0].ingredients = await dayRecipes(tempWeek.sunday);
-    console.log(weeks[0].ingredients);
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.monday));
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.tuesday));
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.wednesday));
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.thursday));
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.friday));
-    weeks[0].ingredients.concat( await dayRecipes(tempWeek.saturday));
+    list = await dayRecipes(tempWeek.sunday);
+    for (var i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.monday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.tuesday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.wednesday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.thursday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.friday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.saturday);
+    for (i = 0; i < list.length; i++){
+      weeks[0].ingredients.push(list[i]);
+    }
+    console.log("weeks[0].ingredients" + weeks[0].ingredients);
     tempWeek = await weekRef.doc(weeksIDs[1]).get().then(async (weekDoc) => {
       return weekDoc.data();
     }).catch(err => {
       console.log(err);
     });
     weeks[1].startDate = tempWeek.startDate;
-    weeks[1].ingredients = await dayRecipes(tempWeek.sunday);
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.monday));
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.tuesday));
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.wednesday));
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.thursday));
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.friday));
-    weeks[1].ingredients.concat( await dayRecipes(tempWeek.saturday));
-      
+    list = await dayRecipes(tempWeek.sunday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.monday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.tuesday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.wednesday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.thursday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.friday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    list = await dayRecipes(tempWeek.saturday);
+    for (i = 0; i < list.length; i++){
+      weeks[1].ingredients.push(list[i]);
+    }
+    console.log("weeks[1].ingredients" + weeks[1].ingredients);  
   
   var shoppingListsRefs = [userId + weeks[0].startDate, userId + weeks[1].startDate]
   // Then upload this list of recipes to a shopping list collection
-  console.log(weeks);
+  console.log("weeks: " + weeks);
   shoppingListRef.doc(userId + weeks[0].startDate).set(weeks[0]);
   shoppingListRef.doc(userId + weeks[1].startDate).set(weeks[1]);
   // Update the user's references to the lists.
@@ -193,16 +238,13 @@ async function dayRecipes(day) {
       }
       const response = await Promise.all(results);
       response.forEach(array => {
-        if(output.length < 1) {
-          output = array;
-        } else {
-          output.concat(array);
-        }
+        array.forEach(object => {
+          output.push(object);
+        });
       });
 
       
       
-      console.log(output);
       return output;
 
   }
