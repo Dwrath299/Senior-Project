@@ -239,6 +239,7 @@ async function dayRecipes(day) {
       const response = await Promise.all(results);
       response.forEach(array => {
         array.forEach(object => {
+          object.checked = false;
           output.push(object);
         });
       });
