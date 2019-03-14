@@ -9,14 +9,12 @@
     width: 95%;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
+    align-content: center;
 }
 
 .calendar a {
@@ -30,11 +28,17 @@
 
 .week-view {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
     background-color: lightgrey;
+}
+.week-view h2 {
+  align-items: center;
+  font-family: bebasNeue;
+  width: 100%;
 }
 .day {
     width: 25%;

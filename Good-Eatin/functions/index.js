@@ -51,17 +51,16 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         week.friday.dinner = temp;
         temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
         week.saturday.dinner = temp;
-        console.log(Math.floor((Math.random() * listOfRecipes.length)));
         var now = new Date();
         var week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
    
-        
+         
         week.startDate = week_start.toISOString();
-
+        console.log(userId + week.startDate);
         var weekRefs = [userId + week.startDate];
         // Write to database
         // This will overwrite any existing week data        
-        console.log(week);                  
+                         
         weekRef.doc(userId + week.startDate).set(week);
 
         temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
@@ -79,11 +78,9 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
         week.saturday.dinner = temp;
 
-        var next_week_start = new Date();
-        week_start.setDate(next_week_start.getDate() + (0 + 7 - next_week_start.getDay()) % 7);
-
+        next_week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (7 - (now.getDay() % 7)));
         week.startDate = next_week_start.toISOString();
-
+        console.log(userId + week.startDate); 
         weekRefs[1] = (userId + week.startDate);
         // Write to database
         // This will overwrite any existing week data                           
@@ -107,8 +104,7 @@ exports.generateMeals = functions.https.onCall((data, context) => {
 
 exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     var db = admin.firestore();
-    var weeks = [{startDate: "", ingredients: [{name: "", amount: ""}]}, 
-                {startDate: "", ingredients: [{name: "", amount: ""}]}];
+    var weeks = [{startDate: "", ingredients: []}, {startDate: "", ingredients: []}];
 
     // const recipeRef = db.collection("recipes");
     const userRef = db.collection("users");
@@ -129,7 +125,7 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
       console.log(err);
     });
     var list;
-    weeks[0].startDate = tempWeek.startDate;
+    
     list = await dayRecipes(tempWeek.sunday);
     for (var i = 0; i < list.length; i++){
       weeks[0].ingredients.push(list[i]);
@@ -158,13 +154,14 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     for (i = 0; i < list.length; i++){
       weeks[0].ingredients.push(list[i]);
     }
+    weeks[0].startDate = tempWeek.startDate;
     console.log("weeks[0].ingredients" + weeks[0].ingredients);
     tempWeek = await weekRef.doc(weeksIDs[1]).get().then(async (weekDoc) => {
       return weekDoc.data();
     }).catch(err => {
       console.log(err);
     });
-    weeks[1].startDate = tempWeek.startDate;
+    
     list = await dayRecipes(tempWeek.sunday);
     for (i = 0; i < list.length; i++){
       weeks[1].ingredients.push(list[i]);
@@ -193,6 +190,7 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     for (i = 0; i < list.length; i++){
       weeks[1].ingredients.push(list[i]);
     }
+    weeks[1].startDate = tempWeek.startDate;
     console.log("weeks[1].ingredients" + weeks[1].ingredients);  
   
   var shoppingListsRefs = [userId + weeks[0].startDate, userId + weeks[1].startDate]

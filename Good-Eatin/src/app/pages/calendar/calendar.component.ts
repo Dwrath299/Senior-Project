@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import { Recipe } from '../../classes/recipe';
 import { User } from '../../classes/user';
 import { Week } from '../../classes/week';
@@ -8,6 +8,7 @@ import * as firebase from 'firebase';
 import { async } from '@angular/core/testing';
 import { resolve } from 'url';
 import { NotificationService } from '@progress/kendo-angular-notification';
+import { formatDate } from 'tough-cookie';
 
 @Component({
   selector: 'app-calendar',
@@ -172,6 +173,11 @@ dayRecipes = function(day, recipeRef) {
     this.getCalendar();
     // Generate the shopping list.
     generateShoppingList({userId: this.user.id});
+  }
+
+  format(date): String {
+    const tempDate = new Date(date);
+    return tempDate.toLocaleDateString();
   }
 
 }

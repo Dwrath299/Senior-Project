@@ -5,9 +5,11 @@
         <a [routerLink]="['/editWeek']" routerLinkActive="router-link-active" >Edit Your Week of Meals</a> 
         <br>
         <button (click)="runGenerator()">Run Generator</button>
+        <a [routerLink]="['/shoppingList']" routerLinkActive="router-link-active" >View Shopping List</a> 
     </div>
     
     <div class="week-view" *ngFor="let week of weeks; let i = index">
+        <h2>{{format(week.startDate)}}</h2> <br>
         <div class="day">
             SUNDAY
             <div class="meal" *ngIf="week.sunday.breakfast.length > 0">
@@ -176,6 +178,7 @@
                 </div>
             </div>
         </div>
+        <hr>
     </div>
 </div>
 <router-outlet></router-outlet>
