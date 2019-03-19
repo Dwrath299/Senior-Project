@@ -5,6 +5,7 @@ import { FileUpload, UploadService } from '../../services/upload.service';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { User } from '../../classes/user';
+import { validateConfig } from '@angular/router/src/config';
 
 
 @Component({
@@ -21,6 +22,9 @@ export class AddRecipeComponent implements OnInit {
 
   ingredientCount: number;
   instructionCount: number;
+  imgURL: any;
+  public message: string;
+  public validationMessage: string;
 
   private recipeRef: AngularFirestoreCollection<Recipe>;
   private recipeCountRef: AngularFirestoreCollection<any>;
@@ -35,6 +39,9 @@ export class AddRecipeComponent implements OnInit {
                 this.recipe = new Recipe();
                 this.recipe.id = doc2.data().id;
                 this.recipe.picture = doc2.data().picture;
+                if (this.recipe.picture !== "") {
+                    this.imgURL = this.recipe.picture;
+                }
                 this.recipe.title = doc2.data().title;
                 this.recipe.ingredients = doc2.data().ingredients;
                 this.recipe.instructions = doc2.data().instructions;
@@ -47,6 +54,8 @@ export class AddRecipeComponent implements OnInit {
             });
       } else {
           this.recipe = new Recipe();
+          this.recipe.type = "Entree";
+          this.recipe.meal = "Dinner";
           console.log(this.recipe);
       }
       this.file = new FileUpload(null);
@@ -65,6 +74,20 @@ export class AddRecipeComponent implements OnInit {
       e.preventDefault();
       const file = e.srcElement.files[0];
       this.file.file = file;
+      this.preview(file);
+  }
+
+  preview(file) {
+    var mimeType = file.type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
+    }
   }
 
   addIngredient(e) {
@@ -88,8 +111,39 @@ export class AddRecipeComponent implements OnInit {
 
   }
 
+  validate(): boolean {
+
+    if (this.recipe.title === "") {
+        this.validationMessage = "Needs title";
+        return false;
+    }
+    if (this.recipe.ingredients.length < 1) {
+        this.validationMessage = "Needs ingredients";
+        return false;
+    }
+    if (this.recipe.instructions.length < 1) {
+        this.validationMessage = "Needs at least one instruction";
+        return false;
+    }
+      return true;
+  }
+
   createRecipe() {
     this.file.name = this.recipe.title;
+    // Get rid of blanks
+    for (var i = 0; i < this.recipe.ingredients.length; i++) {
+        if (this.recipe.ingredients[i].name === "") {
+            this.recipe.ingredients.splice(i, 1);
+        }
+    }
+    for (var i = 0; i < this.recipe.instructions.length; i++) {
+        if (this.recipe.instructions[i].text === "") {
+            this.recipe.instructions.splice(i, 1);
+        }
+    }
+    if (!this.validate()){
+        return false;
+    }
     this.recipe.creator = localStorage.getItem('userId');
     console.log(this.recipe);
 

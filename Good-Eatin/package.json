@@ -35,6 +35,7 @@
     "ng-tags-input": "^3.2.0",
     "ng-toast": "^2.0.0",
     "ngx-chips": "^2.0.0-beta.0",
+    "pretty-checkbox": "^3.0.3",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.0.0",
     "tslib": "^1.9.0",

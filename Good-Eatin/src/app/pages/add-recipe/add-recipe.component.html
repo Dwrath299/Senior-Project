@@ -1,63 +1,89 @@
 
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 
-<div class="add-recipe">
-    <form name="recipe-form" method="post" #recipeForm="ngForm" (ngSubmit)="createRecipe()">
-        <h3>{{recipe.title}} Recipe</h3>
-        <div class="title">
-            <label for="recipe-title">Name:  </label>
-            <input type="text" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
-        </div>
-        <div class="picture">
-            <h4>Add a picture</h4>
-            <input type="file" (change)="addFile($event)">
-            <img src="{{recipe.picture}}" alt="Recipe Picture">
-        </div>
-        
-        <div class="ingredient-amount-container">
-            <h4>Ingredients</h4>
-            <button (click)="addIngredient($event)" id="add-ingredient">Add Ingredient</button> 
-            <br> <br>
-            <div class="ingredients" id="ingredient-container"  *ngFor="let ingredient of recipe.ingredients; let i = index">
-                <input type="text" [(ngModel)]="ingredient.name"  name="name-{{i}}" placeholder="Sugar"   required>  
-                <input type="text" [(ngModel)]="ingredient.amount" name="amount-{{i}}"  placeholder="1 Cup" required>
-                <br>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<div class="main__body">
+  <div class="container">
+
+      <div class="row">
+          <div class="card col-md-4 col-md-offset-4">
+              <div class="card-block">
+                <div class="add-recipe">
+                    <form name="recipe-form" method="post" #recipeForm="ngForm" (ngSubmit)="createRecipe()">
+                        <h3>{{recipe.title}} Recipe</h3>
+                        <div class="title">
+                            <label for="recipe-title">Name:  </label>
+                            <input type="text" [(ngModel)]="recipe.title" name="title" placeholder="Title" required>
+                        </div>
+                        <div class="picture">
+                            <h5>Add a picture</h5>
+                            <span style="color:red;" *ngIf="message">{{message}}</span>
+                            <img [src]="imgURL" *ngIf="imgURL"> <br>
+                            <input #file type="file" accept='image/*' (change)="addFile($event)">
+                            
+                        </div> <br>
+                        
+                        <div class="ingredient-amount-container">
+                            <h5>Ingredients</h5>
+                            <button (click)="addIngredient($event)" id="add-ingredient">Add Ingredient</button> 
+                            <br> <br>
+                            <div class="ingredients" id="ingredient-container"  *ngFor="let ingredient of recipe.ingredients; let i = index">
+                                <input type="text" [(ngModel)]="ingredient.name"  name="name-{{i}}" placeholder="Sugar"   required>  
+                                <input type="text" [(ngModel)]="ingredient.amount" name="amount-{{i}}"  placeholder="1 Cup" required>
+                                <br>
+                            </div>
+                        </div>
+                        <h5>Instructions</h5>
+                            <button (click)="addInstruction($event)" id="add-instruction">Add Instruction</button> 
+                            <br> <br>
+                        <div class="instructions" id ="instruction-container"  *ngFor="let instruction of recipe.instructions; let i = index">
+                            {{i + 1}}. <textarea [(ngModel)]="instruction.text" name="instruction-{{i}}"  placeholder="Preheat oven to ..." cols="60" required></textarea>
+                            <br>
+                        </div> <br>
+                        <div class="meal" id="recipe-meal">
+                            <b>Meal:</b>
+                            <select  name="meal" class="browser-default" [(ngModel)]="recipe.meal">
+                                <option value="Dinner">Dinner</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Breakfast">Breakfast</option>
+                            </select>
+                        </div> <br>
+                        <div class="type" id="recipe-type">
+                            <b>Type:</b>
+                            <select  name="type" class="browser-default" [(ngModel)]="recipe.type">
+                                    <option value="Entree">Entree</option>
+                                    <option value="Side">Side</option>
+                                    <option value="Dessert">Dessert</option>
+                            </select>
+                        </div>
+                        <div class="time" id="recipe-time">
+                            <br> <br>
+                            Estimated amount of Minutes: <input type="number" [(ngModel)]="recipe.time" name="time"  required> <br>
+                        </div>
+                        <div class="tags" id="recipe-tags"> 
+                            <br> <br>
+                            <tag-input [(ngModel)]="recipe.tags" name="tags" [editable]="true"></tag-input>
+                        </div> <br>
+                        <div class="private" id="recipe-private">
+                            <b>Privacy:</b>
+                            <select  name="isPublic" class="browser-default" [(ngModel)]="recipe.isPublic">
+                                    <option value="true">Public</option>
+                                    <option value="false">Private</option>
+                            </select>
+                        </div>
+                        <div class="submit">
+                            <br> <br>
+                        <span style="color:red;" *ngIf="validationMessage">{{validationMessage}}</span>
+                        <button >Submit</button> <br> <br>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <h4>Instructions</h4>
-            <button (click)="addInstruction($event)" id="add-instruction">Add Instruction</button> 
-            <br> <br>
-        <div class="instructions" id ="instruction-container"  *ngFor="let instruction of recipe.instructions; let i = index">
-            {{i}}. <textarea [(ngModel)]="instruction.text" name="instruction-{{i}}"  placeholder="Preheat oven to ..." cols="60" required></textarea>
-            <br>
-        </div>
-        <div class="meal" id="recipe-meal">
-            <h4>Meal:</h4>
-            <input type="radio" name="meal" [(ngModel)]="recipe.meal" value="Dinner" checked="checked"> Dinner <br>
-            <input type="radio" name="meal" [(ngModel)]="recipe.meal" value="Lunch"> Lunch <br>
-            <input type="radio" name="meal" [(ngModel)]="recipe.meal" value="Breakfast"> Breakfast <br>
-        </div>
-        <div class="type" id="recipe-type">
-            <h4>Type:</h4>
-            <input type="radio" name="type" [(ngModel)]="recipe.type" value="Entree" checked="checked"> Entree <br>
-            <input type="radio" name="type" [(ngModel)]="recipe.type" value="Side"> Side <br>
-            <input type="radio" name="type" [(ngModel)]="recipe.type" value="Dessert"> Dessert <br>
-        </div>
-        <div class="time" id="recipe-time">
-            <br> <br>
-            Estimated amount of Minutes: <input type="number" [(ngModel)]="recipe.time" name="time"  required> <br>
-        </div>
-        <div class="tags" id="recipe-tags"> 
-            <br> <br>
-            <tag-input [(ngModel)]="recipe.tags" name="tags" [editable]="true"></tag-input>
-        </div>
-        <div class="private" id="recipe-private">
-            <h4>Privacy:</h4>
-            <input type="radio" name="isPublic" [(ngModel)]="recipe.isPublic" value="true" checked="checked"> Public <br>
-            <input type="radio" name="isPublic"[(ngModel)]="recipe.isPublic" value="false"> Private <br>
-        </div>
-        <div class="submit">
-            <br> <br>
-        <button >Submit</button>
-        </div>
-    </form>
+
 </div>
+</div> <!-- end card -->
+
+</div> 

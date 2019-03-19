@@ -1,10 +1,36 @@
+
+@font-face {
+    font-family: bebasNeue;
+    src: url(https://firebasestorage.googleapis.com/v0/b/meal-plan-generator-745c7.appspot.com/o/fonts%2FBebasNeue%20Regular.otf?alt=media&token=7cd0995f-da9c-4c86-958f-ae97714ba7e0);
+}
 .add-recipe {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    align-content: center;
+}
+.add-recipe h3 {
+    font-family: bebasNeue;
+}
+.add-recipe h5 {
+    font-family: bebasNeue;
+}
+.add-recipe b {
+    font-family: bebasNeue;
+    font-size: 120%;
+}
+.title {
+    align-items: center;
 }
 .picture {
     width: 95%;
+}
+.ingredients input {
+    width: 40%;
+
+}
+.add-recipe select {
+    visibility: visible;
 }
 
 .instructions textarea {
