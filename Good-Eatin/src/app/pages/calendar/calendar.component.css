@@ -15,9 +15,13 @@
 
 .header {
     align-content: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
 }
 
-.calendar a {
+.header a {
   color: black;
   padding-right: 12px;
   padding-left: 12px;
@@ -41,7 +45,7 @@
   width: 100%;
 }
 .day {
-    width: 25%;
+    width: 10%;
     font-size: 150%;
     font-family: bebasNeue;
     margin-left: auto;
