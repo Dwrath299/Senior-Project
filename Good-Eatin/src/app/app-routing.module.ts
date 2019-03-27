@@ -14,6 +14,8 @@ import {ShoppingListComponent} from './pages/shopping-list/shopping-list.compone
 import {RegisterComponent} from './pages/register/register.component';
 import {RecipeComponent} from './pages/recipe/recipe.component';
 import {ReviewsComponent} from './pages/reviews/reviews.component';
+import {ContactComponent} from './pages/contact/contact.component';
+import {AboutComponent} from './pages/about/about.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 
@@ -31,6 +33,8 @@ const routes: Routes = [
     { path: 'recipe', canActivate: [AuthGuard], component: RecipeComponent},
     { path: 'reviews', canActivate: [AuthGuard], component: ReviewsComponent},
     { path: 'register', component: RegisterComponent},
+    { path: 'contact', component: ContactComponent},
+    { path: 'about', component: AboutComponent},
     { path: '**', component: PageNotFoundComponent}
 ];
 

@@ -42,6 +42,8 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 // Toasts
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { ContactComponent } from './pages/contact/contact.component';
+import { AboutComponent } from './pages/about/about.component';
 
 
 
@@ -66,7 +68,9 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     LandingComponent,
     RegisterComponent,
     RecipeComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    ContactComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
