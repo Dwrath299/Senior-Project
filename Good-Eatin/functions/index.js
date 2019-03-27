@@ -154,6 +154,7 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     for (i = 0; i < list.length; i++){
       weeks[0].ingredients.push(list[i]);
     }
+    weeks[0].ingredients.sort();
     weeks[0].startDate = tempWeek.startDate;
     console.log("weeks[0].ingredients" + weeks[0].ingredients);
     tempWeek = await weekRef.doc(weeksIDs[1]).get().then(async (weekDoc) => {
@@ -191,6 +192,7 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
       weeks[1].ingredients.push(list[i]);
     }
     weeks[1].startDate = tempWeek.startDate;
+    weeks[1].ingredients.sort();
     console.log("weeks[1].ingredients" + weeks[1].ingredients);  
   
   var shoppingListsRefs = [userId + weeks[0].startDate, userId + weeks[1].startDate]

@@ -168,11 +168,14 @@ dayRecipes = function(day, recipeRef) {
       hideAfter: 800,
       position: { horizontal: 'center', vertical: 'top' },
       animation: { type: 'fade', duration: 400 },
-      type: { style: 'success', icon: true }
+      type: { style: 'success', icon: true },
     });
-    this.getCalendar();
+    setTimeout(() => {
+      this.getCalendar();
+    },1000);
     // Generate the shopping list.
     generateShoppingList({userId: this.user.id});
+    
   }
 
   format(date): String {

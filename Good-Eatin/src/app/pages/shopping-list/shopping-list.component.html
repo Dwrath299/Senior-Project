@@ -1,25 +1,25 @@
-<h2>Shopping List</h2>
+<h1>Shopping List</h1>
 
 <div class="shoppingList">
     
     <select name="singleSelect" (change)="switch()">
-        <option value="{{ingredientList[0].startDate}}">{{format(ingredientList[0].startDate)}}</option>
-        <option value="{{ingredientList[1].startDate}}">{{format(ingredientList[1].startDate)}}</option>
+        <option value="{{ingredientList[0].startDate}}">Week - {{format(ingredientList[0].startDate)}}</option>
+        <option value="{{ingredientList[1].startDate}}">Week - {{format(ingredientList[1].startDate)}}</option>
     </select><br>
     <div class="week" *ngIf="week1">
       <div class="unchecked" *ngFor="let ingredient of ingredientList[0].ingredients; let i = index">
-        <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" ng-model="ingredient.checked" value="true" (change)="checkBox(0,i)" *ngIf="ingredient.checked === false"> {{ingredient.checked ? "" : ingredient.name}}
+        <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" ng-model="ingredient.checked" value="true" (change)="checkBox(0,i)" *ngIf="ingredient.checked === false"> {{ingredient.checked ? "" : ingredient.name + " " + ingredient.amount }}
       </div>
       <div class="checked" *ngFor="let ingredient of ingredientList[0].ingredients; let i = index">
-          <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(0,i)" *ngIf="ingredient.checked === true" checked> {{ingredient.checked ? ingredient.name : ""}}
+          <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(0,i)" *ngIf="ingredient.checked === true" checked> {{ingredient.checked ? ingredient.name + " " + ingredient.amount : ""}}
       </div>
     </div>
-    <div class="Week" *ngIf="!week1">
+    <div class="week" *ngIf="!week1">
         <div class="unchecked" *ngFor="let ingredient of ingredientList[1].ingredients; let i = index">
-          <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(1,i)" *ngIf="ingredient.checked === false"> {{ingredient.checked ? "" : ingredient.name}}
+          <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(1,i)" *ngIf="ingredient.checked === false"> {{ingredient.checked ? "" : ingredient.name + " " + ingredient.amount }}
         </div>
         <div class="checked" *ngFor="let ingredient of ingredientList[1].ingredients; let i = index">
-            <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(1,i)" *ngIf="ingredient.checked === true" checked>{{ingredient.checked ? ingredient.name : ""}}
+            <input type="checkbox"  class="pretty p-icon p-rotate" name="ingredient.name: ingredient.amount" (change)="checkBox(1,i)" *ngIf="ingredient.checked === true" checked>{{ingredient.checked ? ingredient.name + " " + ingredient.amount: ""}}
         </div>
     </div>
 

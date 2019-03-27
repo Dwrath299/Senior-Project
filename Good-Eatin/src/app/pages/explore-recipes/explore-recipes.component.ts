@@ -68,32 +68,33 @@ export class ExploreRecipesComponent implements OnInit {
         recipes: recipes
       }).then( doc2 => {
         // Message to user that the recipe was added.
-        for(let i = 0; i < this.recipeList.length; i++){
-          if(i === index) {
-            this.recipeList[i]['userHas'] = true;
-          }
-        }
+        
+          
+            this.recipeList[index]['userHas'] = true;
+          
+        
       });
     });
   }
   removeRecipeFromGenerator(id, index, e) {
+    console.log(id);
     e.preventDefault();
-    // Get the user list of recipes
-    this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
-      let userRecipes = doc.data().recipes;
-      userRecipes.splice(index, 1);
-      // Update the list of recipes to include the new one.
-      this.userRef.doc(localStorage.getItem('userId')).ref.update({
-        recipes: userRecipes
-      }).then( doc2 => {
-        // Message to user that the recipe was added.
-        for(let i = 0; i < this.recipeList.length; i++){
-          if(i === index) {
-            this.recipeList[i]['userHas'] = false;
+      // Get the user list of recipes
+      this.userRef.doc(localStorage.getItem('userId')).ref.get().then( doc => {
+        let userRecipes = doc.data().recipes;
+        for (var i = 0; i < userRecipes.length; i++) {
+          if (userRecipes[i] === id.toString()) {
+            userRecipes.splice(i, 1);
           }
         }
-      });
+       
+        // Update the list of recipes to include the new one.
+        console.log(userRecipes);
+        this.userRef.doc(localStorage.getItem('userId')).ref.update({
+          recipes: userRecipes
+        }).then(doc2 =>{this.recipeList[index]['userHas'] = false;});
     });
+    
   }
 
 }

@@ -8,7 +8,7 @@
 <div class="calendar">
 
     <div class="week-view" *ngFor="let week of weeks; let i = index">
-        <h2>{{format(week.startDate)}}</h2> <br>
+        <h2>Week - {{format(week.startDate)}}</h2> <br>
         <div class="day">
             SUNDAY
             <div class="meal" *ngIf="week.sunday.breakfast.length > 0">
