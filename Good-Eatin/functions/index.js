@@ -250,4 +250,53 @@ async function dayRecipes(day) {
 
   }
 
+
+  const functions = require('firebase-functions');
+  const nodemailer = require('nodemailer');
+  // Configure the email transport using the default SMTP transport and a GMail account.
+  // For Gmail, enable these:
+  // 1. https://www.google.com/settings/security/lesssecureapps
+  // 2. https://accounts.google.com/DisplayUnlockCaptcha
+  // For other types of transports such as Sendgrid see https://nodemailer.com/transports/
+  // TODO: Configure the `gmail.email` and `gmail.password` Google Cloud environment variables.
+  const gmailEmail = functions.config().gmail.email;
+  const gmailPassword = functions.config().gmail.password;
+  const mailTransport = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: gmailEmail,
+      pass: gmailPassword,
+    },
+  });
+  const APP_NAME = 'Good Eatin Meal Planner';
+
+  exports.sendContactEmail = functions.auth.user().onCreate((message) => {
+    // [END onCreateTrigger]
+      // [START eventAttributes]
+      const text = message.text; // The email of the user.
+      const name = message.firstName + ' ' + message.lastName;
+      const userID = message.userID; // The display name of the user.
+      const email = message.email;
+      // [END eventAttributes]
+    
+      return sendContactEmail(userID, name, text, email);
+  });
+
+  async function sendContactEmail(userID, name, text, email) {
+    const mailOptions = {
+      from: `${APP_NAME} <noreply@firebase.com>`,
+      to: 'Dwrath299@gmail.com',
+    };
+  
+    // The user subscribed to the newsletter.
+    mailOptions.subject = `Message from a user!`;
+    mailOptions.text = 'From UserID: ' + userID + ': ' + 
+                      name + '/n' + text + '/n' + ' Return email: ' + email;
+    await mailTransport.sendMail(mailOptions);
+    console.log('New contact message sent.');
+    return null;
+  }
+    
+
+
   

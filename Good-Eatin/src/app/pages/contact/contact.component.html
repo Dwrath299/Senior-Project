@@ -1,3 +1,9 @@
+
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 <div class="container">
   <div class="row">
       <div class="col m10 offset-m1 s12">
@@ -7,31 +13,30 @@
               <form class="col s12">
                   <div class="row">
                       <div class="input-field col m6 s12">
-                          <input id="first_name" type="text" class="validate">
-                          <label for="first_name">First Name</label>
+                          <input id="first_name" [(ngModel)]="message.firstName" type="text" class="validate">
+                          <label class="active" for="first_name">First Name</label>
                       </div>
                       <div class="input-field col m6 s12">
-                          <input id="last_name" type="text" class="validate">
-                          <label for="last_name">Last Name</label>
+                          <input id="last_name" [(ngModel)]="message.lastName" type="text" class="validate">
+                          <label class="active" for="last_name">Last Name</label>
                       </div>
                   </div>
                   <div class="row">
                       <div class="input-field col m6 s12">
-                          <i class="mdi-content-mail prefix"></i>
-                          <input id="email" type="email" class="validate" required>
-                          <label for="email">Email</label>
+                          <input id="email" [(ngModel)]="message.email" type="email" class="validate" required>
+                          <label class="active" for="email">Email</label>
                       </div>
                   </div>
                   <div class="row">
                       <div class="input-field col s12">
-                        <textarea id="message" class="materialize-textarea"></textarea>
-                        <label for="message">Message</label>
+                        <textarea id="message" [(ngModel)]="message.text" class="materialize-textarea"></textarea>
+                        <label class="active" for="message">Message</label>
                       </div>
                   </div>
                   <div class="divider"></div>
                     <div class="row">
                         <div class="col m12">
-                         <p class="right-align"><button class="btn btn-large waves-effect waves-light" type="button" name="action">Send Message</button></p>
+                         <p class="right-align"><button class="btn btn-large waves-effect waves-light" type="button" name="action" (click)="sendMessage()">Send Message</button></p>
                         </div>
                     </div>
               </form>
