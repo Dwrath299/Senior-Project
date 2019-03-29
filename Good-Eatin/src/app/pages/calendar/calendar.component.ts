@@ -35,6 +35,8 @@ export class CalendarComponent implements OnInit {
       this.recipeRef = db.collection('recipes');
       this.weekRef = db.collection('weeks');
       localStorage.removeItem('recipeId');
+      localStorage.removeItem('weekID',);
+      localStorage.removeItem('day');
       this.user = new User();
       this.user.id = localStorage.getItem('userId');
       this.getCalendar();
@@ -56,8 +58,9 @@ getCalendar() {
     for (let i = 0; i < this.user.weeks.length; i++) {
       let weekID = this.user.weeks[i];
       this.weekRef.doc(weekID).ref.get().then( weekDoc => {
-        
+        this.weeks[i].ID = weekID;
         this.weeks[i].startDate = weekDoc.data().startDate;
+        // Jared, if you are looking at this... Yes I know this was a terrible decision. I'm sorry.
         // Get Sunday
         dayHolder = weekDoc.data().sunday;
         this.dayRecipes(dayHolder, this.recipeRef).then(value => {
@@ -181,6 +184,12 @@ dayRecipes = function(day, recipeRef) {
   format(date): String {
     const tempDate = new Date(date);
     return tempDate.toLocaleDateString();
+  }
+
+  sendToEditWeekPage(weekID, day){
+    localStorage.setItem('weekID', weekID);
+    localStorage.setItem('day', day);
+
   }
 
 }

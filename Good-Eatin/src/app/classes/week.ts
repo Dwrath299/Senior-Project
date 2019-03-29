@@ -2,6 +2,7 @@ import {Recipe} from './recipe';
 
 export class Week {
     startDate: Date;
+    ID: String;
     sunday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
     monday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
     tuesday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
@@ -11,6 +12,7 @@ export class Week {
     saturday: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
 
     constructor() {
+        this.ID = "";
         this.startDate = new Date();
         this.sunday = {dinner: [], lunch: [], breakfast: []};
         this.monday = {dinner: [], lunch: [], breakfast: []};
