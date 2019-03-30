@@ -22,6 +22,8 @@ export class CalendarComponent implements OnInit {
     userRef: AngularFirestoreCollection<User>;
     recipeRef: AngularFirestoreCollection<Recipe>;
     weekRef: AngularFirestoreCollection<Week>;
+    daysOfWeekDisplay = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
   constructor(private notification: NotificationService, private db: AngularFirestore, private router: Router) {
       // The Current Week
       this.weeks = [new Week()];
@@ -48,7 +50,6 @@ export class CalendarComponent implements OnInit {
   }
 
 getCalendar() {
-  let dayHolder;
   this.userRef.doc(this.user.id).ref.get().then( doc => {
     this.user.friends = doc.data().friends;
     this.user.picture = doc.data().picture;
@@ -60,43 +61,12 @@ getCalendar() {
       this.weekRef.doc(weekID).ref.get().then( weekDoc => {
         this.weeks[i].ID = weekID;
         this.weeks[i].startDate = weekDoc.data().startDate;
-        // Jared, if you are looking at this... Yes I know this was a terrible decision. I'm sorry.
-        // Get Sunday
-        dayHolder = weekDoc.data().sunday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].sunday = value;
-        });
-        // Get Monday
-        dayHolder = weekDoc.data().monday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].monday = value;
-        });
-        // Get Tuesday
-        dayHolder = weekDoc.data().tuesday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          
-          this.weeks[i].tuesday = value;
-        });
-        // Get Wednesday
-        dayHolder = weekDoc.data().wednesday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].wednesday = value;
-        });
-        // Get Thursday
-        dayHolder = weekDoc.data().thursday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].thursday = value;
-        });
-        // Get Friday
-        dayHolder = weekDoc.data().friday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].friday = value;
-        });
-        // Get Saturday
-        dayHolder = weekDoc.data().saturday;
-        this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-          this.weeks[i].saturday = value;
-        });
+        let weekRecipeIDs = weekDoc.data().daysOfWeek;
+        for (let j = 0; j < weekRecipeIDs.length; j++){
+          this.dayRecipes(weekRecipeIDs[j], this.recipeRef).then(value => {
+            this.weeks[i].daysOfWeek[j] = value;
+          });
+        }
         
       });
     };

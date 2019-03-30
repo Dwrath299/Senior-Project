@@ -26,31 +26,21 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         listOfRecipes = doc.data().recipes;
         weeks = doc.data().weeks;
         var week = {startDate: "", 
-            sunday: {dinner: [], lunch: [], breakfast: []}, 
-            monday: {dinner: [], lunch: [], breakfast: []}, 
-            tuesday: {dinner: [], lunch: [], breakfast: []}, 
-            wednesday: {dinner: [], lunch: [], breakfast: []}, 
-            thursday: {dinner: [], lunch: [], breakfast: []}, 
-            friday: {dinner: [], lunch: [], breakfast: []}, 
-            saturday: {dinner: [], lunch: [], breakfast: []}
+            daysOfWeek: [{dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}, 
+             {dinner: [], lunch: [], breakfast: []}]
         };
 
         // Now select at random from the weighted list. For each day of the week.
         // Currenlt only supporting dinner, but easily can add other meals.
-        var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.sunday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.monday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.tuesday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.wednesday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.thursday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.friday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.saturday.dinner = temp;
+        for(var i = 0; i < 7; i++) {
+          var temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+          week.daysOfWeek[i].dinner = temp;
+        }
         var now = new Date();
         var week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
    
@@ -62,21 +52,12 @@ exports.generateMeals = functions.https.onCall((data, context) => {
         // This will overwrite any existing week data        
                          
         weekRef.doc(userId + week.startDate).set(week);
+        // Do it again for the next week
+        for(i = 0; i < 7; i++) {
+          temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
+          week.daysOfWeek[i].dinner = temp;
+        }
 
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.sunday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.monday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.tuesday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.wednesday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.thursday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.friday.dinner = temp;
-        temp = [listOfRecipes[Math.floor((Math.random() * listOfRecipes.length))]];
-        week.saturday.dinner = temp;
 
         next_week_start = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (7 - (now.getDay() % 7)));
         week.startDate = next_week_start.toISOString();
@@ -124,72 +105,37 @@ exports.generateShoppingList = functions.https.onCall(async (data, context) => {
     }).catch(err => {
       console.log(err);
     });
-    var list;
-    
-    list = await dayRecipes(tempWeek.sunday);
-    for (var i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
+    var result = [];
+    console.log(tempWeek);
+    for (var i = 0; i < 7; i++) {
+      result.push(dayRecipes(tempWeek.daysOfWeek[i]));
     }
-    list = await dayRecipes(tempWeek.monday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
+    var list = await Promise.all(result);
+    console.log("list: " + list);
+    console.log("list1: " + list[1]);
+    for (i = 0; i < list.length; i++) {
+      for (var j = 0; j < list[i].length; j++){
+        weeks[0].ingredients.push(list[i][j]);
+        console.log("weeks[0].ingredients: " + list[i][j]);
+      }
     }
-    list = await dayRecipes(tempWeek.tuesday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.wednesday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.thursday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.friday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.saturday);
-    for (i = 0; i < list.length; i++){
-      weeks[0].ingredients.push(list[i]);
-    }
+
     weeks[0].ingredients.sort();
     weeks[0].startDate = tempWeek.startDate;
-    console.log("weeks[0].ingredients" + weeks[0].ingredients);
     tempWeek = await weekRef.doc(weeksIDs[1]).get().then(async (weekDoc) => {
       return weekDoc.data();
     }).catch(err => {
       console.log(err);
     });
-    
-    list = await dayRecipes(tempWeek.sunday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
+    result = [];
+    for (i = 0; i < 7; i++) {
+      result.push(dayRecipes(tempWeek.daysOfWeek[i]));
     }
-    list = await dayRecipes(tempWeek.monday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.tuesday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.wednesday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.thursday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.friday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
-    }
-    list = await dayRecipes(tempWeek.saturday);
-    for (i = 0; i < list.length; i++){
-      weeks[1].ingredients.push(list[i]);
+    list = await Promise.all(result);
+    for (i = 0; i < list.length; i++) {
+      for (j = 0; j < list[i].length; j++){
+        weeks[1].ingredients.push(list[i][j]);
+      }
     }
     weeks[1].startDate = tempWeek.startDate;
     weeks[1].ingredients.sort();
@@ -211,7 +157,6 @@ async function dayRecipes(day) {
       var db = admin.firestore();
       var recipeRef = db.collection("recipes");
       var i;
-      var result
       var results = [];
       for(i = 0; i < day.breakfast.length; i++) {
         results.push(recipeRef.doc(day.breakfast[i]).get().then( doc => {
@@ -251,8 +196,7 @@ async function dayRecipes(day) {
   }
 
 
-  const functions = require('firebase-functions');
-  const nodemailer = require('nodemailer');
+  /*const nodemailer = require('nodemailer');
   // Configure the email transport using the default SMTP transport and a GMail account.
   // For Gmail, enable these:
   // 1. https://www.google.com/settings/security/lesssecureapps
@@ -295,7 +239,7 @@ async function dayRecipes(day) {
     await mailTransport.sendMail(mailOptions);
     console.log('New contact message sent.');
     return null;
-  }
+  }*/
     
 
 

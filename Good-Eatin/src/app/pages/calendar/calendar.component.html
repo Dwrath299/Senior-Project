@@ -9,180 +9,30 @@
 
     <div class="week-view" *ngFor="let week of weeks; let i = index">
         <h2>Week - {{format(week.startDate)}}</h2> <br>
-        <div class="day">
-            SUNDAY
-            <div class="meal" *ngIf="week.sunday.breakfast.length > 0">
+        <div class="day" *ngFor="let day of week.daysOfWeek; let j = index">
+            {{daysOfWeekDisplay[j]}}
+            <div class="meal" *ngIf="day.breakfast.length > 0">
                 Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.breakfast">
+                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of day.breakfast">
                     {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
-            <div class="meal" *ngIf="week.sunday.lunch.length > 0">
+            <div class="meal" *ngIf="day.lunch.length > 0">
                 Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.lunch">
+                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of day.lunch">
                     {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
-            <div class="meal" *ngIf="week.sunday.dinner.length > 0">
+            <div class="meal" *ngIf="day.dinner.length > 0">
                 Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.sunday.dinner">
+                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of day.dinner">
                     {{recipe.title}} <br>
                     <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
                 </div>
             </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'sunday')">Edit Day</button>
-        </div>
-        <div class="day">
-            MONDAY
-            <div class="meal" *ngIf="week.monday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.monday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.monday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.monday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'monday')">Edit Day</button>
-        </div>
-        <div class="day">
-            TUESDAY
-            <div class="meal" *ngIf="week.tuesday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.tuesday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.tuesday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.tuesday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'tuesday')">Edit Day</button>
-        </div>
-        <div class="day">
-            WEDNESDAY
-            <div class="meal" *ngIf="week.wednesday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.wednesday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.wednesday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.wednesday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'wednesday')">Edit Day</button>
-        </div>
-        <div class="day">
-            THURSDAY
-            <div class="meal" *ngIf="week.thursday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.thursday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.thursday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.thursday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'thursday')">Edit Day</button>
-        </div>
-        <div class="day">
-            FRIDAY
-            <div class="meal" *ngIf="week.friday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.friday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.friday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.friday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'friday')">Edit Day</button>
-        </div>
-        <div class="day">
-            SATURDAY
-            <div class="meal" *ngIf="week.saturday.breakfast.length > 0">
-                Breakfast
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.breakfast">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.saturday.lunch.length > 0">
-                Lunch
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.lunch">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <div class="meal" *ngIf="week.saturday.dinner.length > 0">
-                Dinner
-                <div class="recipe-container" (click)="recipeClick(recipe.id)" *ngFor="let recipe of week.saturday.dinner">
-                    {{recipe.title}} <br>
-                    <img src="{{recipe.picture}}" alt="{{recipe.title}} Pic">
-                </div>
-            </div>
-            <button (click)="sendToEditWeekPage(week.ID, 'saturday')">Edit Day</button>
+            <button (click)="sendToEditWeekPage(week.ID, j)">Edit Day</button>
         </div>
         <hr>
     </div>

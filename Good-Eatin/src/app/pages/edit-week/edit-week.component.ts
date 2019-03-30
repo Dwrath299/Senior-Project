@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import { Recipe } from '../../classes/recipe';
+import { User } from '../../classes/user';
 import { Week } from '../../classes/week';
 
 @Component({
@@ -10,55 +11,90 @@ import { Week } from '../../classes/week';
 })
 export class EditWeekComponent implements OnInit {
 
+  user: User;
+  recipeList: Array<Recipe>;
   weekRef: AngularFirestoreCollection<Week>;
   recipeRef: AngularFirestoreCollection<Recipe>;
   week: Week;
   weekID: string;
+  userRef: AngularFirestoreCollection<User>;
   daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   currentDay: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
-  day: string;
+  day: number;
   constructor(private db: AngularFirestore) { 
     this.recipeRef = db.collection('recipes');
     this.weekRef = db.collection('weeks');
     this.week = new Week();
     this.weekID = localStorage.getItem('weekID');
-    this.day = localStorage.getItem('day');
+    this.day = +localStorage.getItem('day');
     this.getWeek(this.weekID);
+    this.user = new User();
+    this.user.id = localStorage.getItem('userId');
+    this.userRef.doc(this.user.id).ref.get().then(doc => {
+      let recipeReferenceList: Array<number>;
+      recipeReferenceList = doc.data().recipes;
+      for (let i = 0; i < recipeReferenceList.length; i++)  {
+          this.recipeRef.doc(recipeReferenceList[i].toString()).ref.get().then(doc2 => {
+              const item = new Recipe();
+              item.id = recipeReferenceList[i];
+              item.picture = doc2.data().picture;
+              item.title = doc2.data().title;
+              item.tags = doc2.data().tags;
+              item.time = doc2.data().time;
+              this.recipeList.push(item);
+          });
+      }
+    });
   }
 
   ngOnInit() {
   }
 
+  // remove recipe
+  removeRecipe(day, meal,index) {
+    this.weekRef.doc(this.weekID).ref.get().then( weekDoc => {
+      let weekRecipeIDs = weekDoc.data().daysOfWeek;
+      if(meal === 'breakfast') {
+        weekRecipeIDs[day].breakfast.splice(index);
+        this.week.daysOfWeek[day].breakfast.splice(index);
+      } else if (meal === 'lunch') {
+        weekRecipeIDs[day].lunch.splice(index);
+        this.week.daysOfWeek[day].lunch.splice(index);
+      } else {
+        weekRecipeIDs[day].dinner.splice(index);
+        this.week.daysOfWeek[day].dinner.splice(index);
+      }
+      this.weekRef.doc(this.weekID).update({daysOfWeek: weekRecipeIDs});
+    });
+    
+  }
+
+  addRecipe(day, meal, index) {
+    this.weekRef.doc(this.weekID).ref.get().then( weekDoc => {
+      let weekRecipeIDs = weekDoc.data().daysOfWeek;
+      if(meal === 'breakfast') {
+        weekRecipeIDs[day].breakfast.push(this.recipeList[index].id);
+        this.week.daysOfWeek[day].breakfast.push(this.recipeList[index]);
+      } else if (meal === 'lunch') {
+        weekRecipeIDs[day].lunch.push(this.recipeList[index].id);
+        this.week.daysOfWeek[day].lunch.push(this.recipeList[index]);
+      } else {
+        weekRecipeIDs[day].dinner.push(this.recipeList[index].id);
+        this.week.daysOfWeek[day].dinner.push(this.recipeList[index]);
+      }
+      this.weekRef.doc(this.weekID).update({daysOfWeek: weekRecipeIDs});
+    });
+  }
+
+
+
   getCurrentDay(day){
-    // Once again, I don't know why I thought making each a different variable was a good idea.
-    switch(day){
-      case 'sunday': {
-        this.currentDay = this.week.sunday;
-      }
-      case 'monday': {
-        this.currentDay = this.week.monday;
-      }
-      case 'tuesday': {
-        this.currentDay = this.week.tuesday;
-      }
-      case 'wednesday': {
-        this.currentDay = this.week.wednesday;
-      }
-      case 'thursday': {
-        this.currentDay = this.week.thursday;
-      }
-      case 'friday': {
-        this.currentDay = this.week.friday;
-      }
-      case 'saturday': {
-        this.currentDay = this.week.saturday;
-      }
-    }
+    this.currentDay = this.week.daysOfWeek[day];
   }
 
   changeDays(left) {
-    let i = this.daysOfWeek.indexOf(this.day);
+    let i = this.day;
     if (left) {
       i -= 1;
     } else {
@@ -69,54 +105,22 @@ export class EditWeekComponent implements OnInit {
     } else if (i < 0) {
       i = 6;
     }
-    this.day = this.daysOfWeek[i];
+    this.day = i;
     this.getCurrentDay(this.day);
   }
 
 
   getWeek(weekID) {
-    let dayHolder;
     this.weekRef.doc(weekID).ref.get().then( weekDoc => {
       this.week.ID = weekID;
       this.week.startDate = weekDoc.data().startDate;
-      // Get Sunday
-      dayHolder = weekDoc.data().sunday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.sunday = value;
-      });
-      // Get Monday
-      dayHolder = weekDoc.data().monday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.monday = value;
-      });
-      // Get Tuesday
-      dayHolder = weekDoc.data().tuesday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        
-        this.week.tuesday = value;
-      });
-      // Get Wednesday
-      dayHolder = weekDoc.data().wednesday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.wednesday = value;
-      });
-      // Get Thursday
-      dayHolder = weekDoc.data().thursday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.thursday = value;
-      });
-      // Get Friday
-      dayHolder = weekDoc.data().friday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.friday = value;
-      });
-      // Get Saturday
-      dayHolder = weekDoc.data().saturday;
-      this.dayRecipes(dayHolder, this.recipeRef).then(value => {
-        this.week.saturday = value;
-      });
+      let weekRecipeIDs = weekDoc.data().daysOfWeek;
+        for (let j = 0; j < weekRecipeIDs.length; j++){
+          this.dayRecipes(weekRecipeIDs[j], this.recipeRef).then(value => {
+            this.week.daysOfWeek[j] = value;
+          });
+        }
   });
-
 }
 dayRecipes = function(day, recipeRef) {
   return new Promise<{breakfast: any[], lunch: any[], dinner: any[]}>(async function(resolve, reject) {
