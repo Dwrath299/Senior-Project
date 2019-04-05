@@ -15,9 +15,10 @@ export class ExploreRecipesComponent implements OnInit {
     recipeRef: AngularFirestoreCollection<Recipe>;
     userRef: AngularFirestoreCollection<User>;
     recipeList: [{key: number, recipe: Recipe, userHas: boolean}];
+    fullRecipeList: [{key: number, recipe: Recipe, userHas: boolean}];
   constructor(private db: AngularFirestore, private router: Router) {
       let first = true;
-      
+
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes', ref => ref.where('isPublic', '==', true));
       this.userRef.doc(localStorage.getItem('userId')).ref.get().then(doc2 => {
@@ -30,6 +31,8 @@ export class ExploreRecipesComponent implements OnInit {
             item.id = doc.data().id;
             item.picture = doc.data().picture;
             item.title = doc.data().title;
+            item.type = doc.data().type;
+            item.meal = doc.data().meal;
             item.tags = doc.data().tags;
             item.time = doc.data().time;
             item.averageReview = doc.data().averageReview;
@@ -37,10 +40,12 @@ export class ExploreRecipesComponent implements OnInit {
               has = true;
             }
             if (first) {
+              this.fullRecipeList = [{key: count++, recipe: item, userHas: has}];
               this.recipeList = [{key: count++, recipe: item, userHas: has}];
               first = false;
             } else {
               this.recipeList.push({key: count++, recipe: item, userHas: has});
+              this.fullRecipeList.push({key: count++, recipe: item, userHas: has});
             }
           });
 
@@ -50,6 +55,67 @@ export class ExploreRecipesComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  updateFilter(){
+    let tempList = JSON.parse(JSON.stringify( this.fullRecipeList ));;
+    const mealFilter = document.getElementById("mealFilter") as HTMLSelectElement;
+    const typeFilter = document.getElementById("typeFilter") as HTMLSelectElement;
+    const timeFilter = document.getElementById("timeFilter") as HTMLSelectElement;
+    const hasFilter = document.getElementById("hasFilter") as HTMLInputElement;
+    const has = hasFilter.checked;
+    const meal = mealFilter.value;
+    const type = typeFilter.value;
+    const time = timeFilter.value;
+    if(!(meal === "-1")) {
+      for(let i = 0; i < tempList.length; i++) {
+        if(!(tempList[i].recipe.meal === meal)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    if(!(type === "-1")) {
+      for(let i = 0; i < tempList.length; i++) {
+        console.log(tempList[i].recipe.type);
+        if(!(tempList[i].recipe.type === type)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    if(!(time === "-1")) {
+      console.log("time:" + time);
+      for(let i = 0; i < tempList.length; i++) {
+        if(tempList[i].recipe.time > parseInt(time)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    if(has) {
+      for(let i = 0; i < tempList.length; i++) {
+        if(tempList[i].userHas) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    this.recipeList = JSON.parse(JSON.stringify( tempList ));;
+    console.log(this.fullRecipeList);
+  }
+
+  clearFilters(){
+    this.recipeList = JSON.parse(JSON.stringify( this.fullRecipeList));;
+    const mealFilter = document.getElementById("mealFilter") as HTMLSelectElement;
+    const typeFilter = document.getElementById("typeFilter") as HTMLSelectElement;
+    const timeFilter = document.getElementById("timeFilter") as HTMLSelectElement;
+    const hasFilter = document.getElementById("hasFilter") as HTMLInputElement;
+    hasFilter.checked = false;
+    mealFilter.selectedIndex = 0;
+    typeFilter.selectedIndex = 0;
+    timeFilter.selectedIndex = 0;
+    this.updateFilter();
   }
 
   recipeClick(id: string) {

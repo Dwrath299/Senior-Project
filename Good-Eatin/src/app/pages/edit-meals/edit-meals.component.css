@@ -7,15 +7,36 @@
     flex-wrap: wrap;
 }
 
+.filters {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.filter {
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.filters button {
+    margin-left: 10px;
+}
+
 .recipe-container{
-    max-width: 180px;
+    max-width: 20%;
     height: auto;
     text-align: center;
     align-self: center;
+    border-radius: 25px;
+}
+
+.recipe-container img {
+    margin-top: 10px;
 }
 
 .recipe-container:hover {
-    border: 1px solid #777;
+    background-color: lightgray;
+    
 }
 
 .addButton {
@@ -24,6 +45,7 @@
     font-size: 12px;
     border: #7c8584;
     border-radius: 5px;
+    margin-bottom: 10px;
 
 }
 
@@ -33,6 +55,7 @@
     font-size: 12px;
     border: #c9c7c7;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 .recipes-container img {
     width: 90%;

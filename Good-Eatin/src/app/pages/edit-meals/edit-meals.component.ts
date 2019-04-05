@@ -13,13 +13,14 @@ export class EditMealsComponent implements OnInit {
 
     userId = localStorage.getItem('userId').toString();
     recipeList: Array<Recipe>;
-
+    fullRecipeList: Array<Recipe>;
     recipeReferenceList: Array<number>;
 
     userRef: AngularFirestoreCollection<User>;
     recipeRef: AngularFirestoreCollection<Recipe>;
   constructor(private db: AngularFirestore, private router: Router) {
       this.recipeList = [];
+      this.fullRecipeList = [];
       this.userRef = db.collection('users');
       this.recipeRef = db.collection('recipes');
       console.log(this.userId);
@@ -35,11 +36,64 @@ export class EditMealsComponent implements OnInit {
                 item.title = doc2.data().title;
                 item.tags = doc2.data().tags;
                 item.time = doc2.data().time;
+                item.type = doc2.data().type;
+                item.meal = doc2.data().meal;
                 this.recipeList.push(item);
+                this.fullRecipeList.push(item);
             });
         }
+        console.log(this.fullRecipeList);
       });
 
+  }
+
+  updateFilter(){
+    let tempList = this.fullRecipeList.slice(0);
+    const mealFilter = document.getElementById("mealFilter") as HTMLSelectElement;
+    const typeFilter = document.getElementById("typeFilter") as HTMLSelectElement;
+    const timeFilter = document.getElementById("timeFilter") as HTMLSelectElement;
+    const meal = mealFilter.value;
+    const type = typeFilter.value;
+    const time = timeFilter.value;
+    if(!(meal === "-1")) {
+      for(let i = 0; i < tempList.length; i++) {
+        if(!(tempList[i].meal === meal)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    if(!(type === "-1")) {
+      for(let i = 0; i < tempList.length; i++) {
+        console.log(tempList[i].type);
+        if(!(tempList[i].type === type)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    if(!(time === "-1")) {
+      console.log("time:" + time);
+      for(let i = 0; i < tempList.length; i++) {
+        if(tempList[i].time > parseInt(time)) {
+          tempList.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    this.recipeList = tempList.slice(0);
+    console.log(this.fullRecipeList);
+  }
+
+  clearFilters(){
+    this.recipeList = this.fullRecipeList.slice(0);
+    const mealFilter = document.getElementById("mealFilter") as HTMLSelectElement;
+    const typeFilter = document.getElementById("typeFilter") as HTMLSelectElement;
+    const timeFilter = document.getElementById("timeFilter") as HTMLSelectElement;
+    mealFilter.selectedIndex = 0;
+    typeFilter.selectedIndex = 0;
+    timeFilter.selectedIndex = 0;
+    this.updateFilter();
   }
 
   ngOnInit() {
