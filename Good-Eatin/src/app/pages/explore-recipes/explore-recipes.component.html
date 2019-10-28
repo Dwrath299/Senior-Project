@@ -1,3 +1,28 @@
+<div class="filters">
+        
+        <select class="filter" id="mealFilter" (change)="updateFilter()">
+            <option value="-1">Filter by Meal</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+        </select>
+        <select class="filter" id="typeFilter" (change)="updateFilter()">
+            <option value="-1">Filter by Type</option>
+            <option value="Entree">Entree</option>
+            <option value="Side">Side</option>
+            <option value="Dessert">Dessert</option>
+        </select>
+        <select class="filter" id="timeFilter" (change)="updateFilter()">
+            <option value="-1">Filter by Time</option>
+            <option value="15">15 Min or Less</option>
+            <option value="30">30 Min or Less</option>
+            <option value="60">1 Hour or less</option>
+        </select>
+        <input type="checkbox" class="filter" id="hasFilter" (change)="updateFilter()">Hide recipes you have
+        <button (click)="clearFilters()">Clear Filters</button>
+            
+        
+</div>
 <div class="recipes-container" >
     <div class="recipe-container" *ngFor="let recipe of recipeList; let i = index" >
         <a (click)="recipeClick(recipe.recipe.id)">

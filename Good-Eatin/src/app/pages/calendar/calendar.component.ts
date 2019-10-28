@@ -159,6 +159,7 @@ dayRecipes = function(day, recipeRef) {
   sendToEditWeekPage(weekID, day){
     localStorage.setItem('weekID', weekID);
     localStorage.setItem('day', day);
+    this.router.navigate(['/editWeek']);
 
   }
 

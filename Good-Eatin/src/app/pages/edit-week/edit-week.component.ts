@@ -12,7 +12,9 @@ import { Week } from '../../classes/week';
 export class EditWeekComponent implements OnInit {
 
   user: User;
-  recipeList: Array<Recipe>;
+  breakfastRecipeList: Array<Recipe>;
+  lunchRecipeList: Array<Recipe>;
+  dinnerRecipeList: Array<Recipe>;
   weekRef: AngularFirestoreCollection<Week>;
   recipeRef: AngularFirestoreCollection<Recipe>;
   week: Week;
@@ -23,11 +25,16 @@ export class EditWeekComponent implements OnInit {
   currentDay: {dinner: Recipe[], lunch: Recipe[], breakfast: Recipe[]};
   day: number;
   constructor(private db: AngularFirestore) { 
+    this.breakfastRecipeList = [];
+    this.lunchRecipeList = [];
+    this.dinnerRecipeList = [];
     this.recipeRef = db.collection('recipes');
     this.weekRef = db.collection('weeks');
+    this.userRef = db.collection('users');
     this.week = new Week();
     this.weekID = localStorage.getItem('weekID');
     this.day = +localStorage.getItem('day');
+    console.log(this.day + ':' + this.weekID);
     this.getWeek(this.weekID);
     this.user = new User();
     this.user.id = localStorage.getItem('userId');
@@ -42,28 +49,37 @@ export class EditWeekComponent implements OnInit {
               item.title = doc2.data().title;
               item.tags = doc2.data().tags;
               item.time = doc2.data().time;
-              this.recipeList.push(item);
+              item.meal = doc2.data().meal;
+              if(item.meal === "Breakfast") {
+                this.breakfastRecipeList.push(item);
+              } else if (item.meal === "Lunch") {
+                this.lunchRecipeList.push(item);
+              } else {
+                this.dinnerRecipeList.push(item);
+              }
+              
           });
       }
     });
+    console.log(this.week);
   }
 
   ngOnInit() {
   }
 
   // remove recipe
-  removeRecipe(day, meal,index) {
+  removeRecipe(day, meal, index) {
     this.weekRef.doc(this.weekID).ref.get().then( weekDoc => {
       let weekRecipeIDs = weekDoc.data().daysOfWeek;
       if(meal === 'breakfast') {
-        weekRecipeIDs[day].breakfast.splice(index);
-        this.week.daysOfWeek[day].breakfast.splice(index);
+        weekRecipeIDs[day].breakfast.splice(index, 1);
+        this.week.daysOfWeek[day].breakfast.splice(index, 1);
       } else if (meal === 'lunch') {
-        weekRecipeIDs[day].lunch.splice(index);
-        this.week.daysOfWeek[day].lunch.splice(index);
+        weekRecipeIDs[day].lunch.splice(index, 1);
+        this.week.daysOfWeek[day].lunch.splice(index, 1);
       } else {
-        weekRecipeIDs[day].dinner.splice(index);
-        this.week.daysOfWeek[day].dinner.splice(index);
+        weekRecipeIDs[day].dinner.splice(index, 1);
+        this.week.daysOfWeek[day].dinner.splice(index, 1);
       }
       this.weekRef.doc(this.weekID).update({daysOfWeek: weekRecipeIDs});
     });
@@ -71,17 +87,18 @@ export class EditWeekComponent implements OnInit {
   }
 
   addRecipe(day, meal, index) {
+    console.log(index);
     this.weekRef.doc(this.weekID).ref.get().then( weekDoc => {
       let weekRecipeIDs = weekDoc.data().daysOfWeek;
       if(meal === 'breakfast') {
-        weekRecipeIDs[day].breakfast.push(this.recipeList[index].id);
-        this.week.daysOfWeek[day].breakfast.push(this.recipeList[index]);
+        weekRecipeIDs[day].breakfast.push(this.breakfastRecipeList[index].id);
+        this.week.daysOfWeek[day].breakfast.push(this.breakfastRecipeList[index]);
       } else if (meal === 'lunch') {
-        weekRecipeIDs[day].lunch.push(this.recipeList[index].id);
-        this.week.daysOfWeek[day].lunch.push(this.recipeList[index]);
+        weekRecipeIDs[day].lunch.push(this.lunchRecipeList[index].id);
+        this.week.daysOfWeek[day].lunch.push(this.lunchRecipeList[index]);
       } else {
-        weekRecipeIDs[day].dinner.push(this.recipeList[index].id);
-        this.week.daysOfWeek[day].dinner.push(this.recipeList[index]);
+        weekRecipeIDs[day].dinner.push(this.dinnerRecipeList[index].id);
+        this.week.daysOfWeek[day].dinner.push(this.dinnerRecipeList[index]);
       }
       this.weekRef.doc(this.weekID).update({daysOfWeek: weekRecipeIDs});
     });
